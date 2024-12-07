@@ -7,6 +7,8 @@ internal static class ServiceCollectionExtensions
 {
     internal static IServiceCollection AddSwaggerGenWithAuth(this IServiceCollection services)
     {
+        services.AddEndpointsApiExplorer();
+
         services.AddSwaggerGen(o =>
         {
             o.CustomSchemaIds(id => id.FullName!.Replace('+', '-'));

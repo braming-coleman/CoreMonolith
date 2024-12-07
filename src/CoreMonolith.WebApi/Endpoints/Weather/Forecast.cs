@@ -4,7 +4,16 @@ internal sealed class Forecast : IEndpoint
 {
     readonly string[] summaries =
     [
-        "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
+        "Freezing",
+        "Bracing",
+        "Chilly",
+        "Cool",
+        "Mild",
+        "Warm",
+        "Balmy",
+        "Hot",
+        "Sweltering",
+        "Scorching"
     ];
 
     internal record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)

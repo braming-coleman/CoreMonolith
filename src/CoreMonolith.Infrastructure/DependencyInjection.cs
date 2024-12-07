@@ -37,12 +37,11 @@ public static class DependencyInjection
 
     private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {
-        string? connectionString = configuration.GetConnectionString("Database");
+        string? connectionString = configuration.GetConnectionString("core-monolith-db");
 
         services.AddDbContext<ApplicationDbContext>(
             options => options
-                .UseNpgsql(connectionString, npgsqlOptions =>
-                    npgsqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Default))
+                .UseNpgsql(connectionString, npgsqlOptions => npgsqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Default))
                 .UseSnakeCaseNamingConvention());
 
         services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
@@ -54,7 +53,7 @@ public static class DependencyInjection
     {
         services
             .AddHealthChecks()
-            .AddNpgSql(configuration.GetConnectionString("Database")!);
+            .AddNpgSql(configuration.GetConnectionString("core-monolith-db")!);
 
         return services;
     }

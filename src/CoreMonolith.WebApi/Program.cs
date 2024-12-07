@@ -1,5 +1,6 @@
 using CoreMonolith.Application;
 using CoreMonolith.Infrastructure;
+using CoreMonolith.Infrastructure.Database;
 using CoreMonolith.WebApi;
 using CoreMonolith.WebApi.Extensions;
 using HealthChecks.UI.Client;
@@ -8,6 +9,8 @@ using Serilog;
 using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddServiceDefaults();
 
 builder.Host.UseSerilog((context, loggerConfig) => loggerConfig.ReadFrom.Configuration(context.Configuration));
 
@@ -18,9 +21,21 @@ builder.Services
     .AddPresentation()
     .AddInfrastructure(builder.Configuration);
 
+builder.EnrichNpgsqlDbContext<ApplicationDbContext>(
+    configureSettings: settings =>
+    {
+        settings.DisableRetry = false;
+        settings.DisableMetrics = false;
+        settings.DisableTracing = false;
+        settings.DisableHealthChecks = false;
+        settings.CommandTimeout = 30;
+    });
+
 builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
 
-WebApplication app = builder.Build();
+var app = builder.Build();
+
+app.MapDefaultEndpoints();
 
 app.MapEndpoints();
 
@@ -28,7 +43,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwaggerWithUi();
 
-    //app.ApplyMigrations();
+    app.ApplyMigrations();
 }
 
 app.MapHealthChecks("health", new HealthCheckOptions

@@ -43,6 +43,8 @@ internal static class ServiceCollectionExtensions
             o.AddSecurityRequirement(securityRequirement);
         });
 
+        //services.AddOpenApi();
+
         return services;
     }
 }

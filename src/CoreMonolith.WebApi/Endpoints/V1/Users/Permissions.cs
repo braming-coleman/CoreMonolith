@@ -1,4 +1,4 @@
-﻿namespace CoreMonolith.WebApi.Endpoints.Users;
+﻿namespace CoreMonolith.WebApi.Endpoints.V1.Users;
 
 internal static class Permissions
 {

@@ -22,4 +22,12 @@ public static class ApplicationBuilderExtensions
 
         return app;
     }
+
+    public static IApplicationBuilder UseOpenApiWithScalar(this WebApplication app)
+    {
+        app.MapOpenApi();
+        app.MapScalarApiReference();
+
+        return app;
+    }
 }

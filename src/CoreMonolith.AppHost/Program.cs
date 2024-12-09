@@ -1,5 +1,6 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
+var coreWebApiEnv = builder.AddParameter("core-monolith-webapi-env");
 var postgresUser = builder.AddParameter("core-monolith-db-username");
 var postgresPassword = builder.AddParameter("core-monolith-db-password");
 
@@ -21,7 +22,7 @@ var rabbitMq = builder.AddRabbitMQ($"{coreMqName}")
     .WithLifetime(ContainerLifetime.Persistent);
 
 builder.AddProject<Projects.CoreMonolith_WebApi>($"{coreWebApiName}")
-    .WithEnvironment("ASPNETCORE_ENVIRONMENT", builder.Environment.EnvironmentName)
+    .WithEnvironment("ASPNETCORE_ENVIRONMENT", coreWebApiEnv)
     .WithReference(postgres)
     .WithReference(rabbitMq)
     .WaitFor(postgres);

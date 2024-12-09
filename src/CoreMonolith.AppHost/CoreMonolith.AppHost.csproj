@@ -18,7 +18,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\CoreMonolith.ServiceDefaults\CoreMonolith.ServiceDefaults.csproj" />
 		<ProjectReference Include="..\CoreMonolith.WebApi\CoreMonolith.WebApi.csproj" />
 	</ItemGroup>
 

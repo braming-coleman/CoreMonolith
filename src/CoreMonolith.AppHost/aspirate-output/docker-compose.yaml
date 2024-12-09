@@ -5,7 +5,7 @@ services:
     environment:
       POSTGRES_HOST_AUTH_METHOD: "scram-sha-256"
       POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
-      POSTGRES_USER: "core-monolith-db-user"
+      POSTGRES_USER: "core-monolith-user"
       POSTGRES_PASSWORD: "7!4vuQRQ2ec9bMQX0h5cKj"
     ports:
     - target: 5432

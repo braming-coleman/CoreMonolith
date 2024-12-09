@@ -19,13 +19,13 @@
         }
       }
     },
-    "core-monolith-db": {
+    "core-monolith-postgres": {
       "type": "container.v0",
-      "connectionString": "Host={core-monolith-db.bindings.tcp.host};Port={core-monolith-db.bindings.tcp.port};Username={core-monolith-db-username.value};Password={core-monolith-db-password.value}",
+      "connectionString": "Host={core-monolith-postgres.bindings.tcp.host};Port={core-monolith-postgres.bindings.tcp.port};Username={core-monolith-db-username.value};Password={core-monolith-db-password.value}",
       "image": "docker.io/library/postgres:17.0",
       "bindMounts": [
         {
-          "source": "../../../../Containers/core-monolith-db",
+          "source": "../../../../Containers/core-monolith-postgres",
           "target": "/var/lib/postgresql/data",
           "readOnly": false
         }
@@ -44,6 +44,10 @@
           "targetPort": 5432
         }
       }
+    },
+    "core-monolith-db": {
+      "type": "value.v0",
+      "connectionString": "{core-monolith-postgres.connectionString};Database=core-monolith-db"
     },
     "core-monolith-mq": {
       "type": "container.v0",

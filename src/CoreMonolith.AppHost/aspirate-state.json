@@ -1,17 +1,14 @@
 {
   "projectPath": ".",
-  "inputPath": "aspirate-output",
   "outputPath": "aspirate-output",
   "containerRegistry": "localhost:5001",
   "containerImageTags": [
     "latest"
   ],
   "containerBuilder": "docker",
-  "kubeContext": "docker-desktop",
   "outputFormat": "compose",
-  "skipFinalKustomizeGeneration": false,
   "privateRegistryEmail": "aspir8@aka.ms",
-  "useCustomNamespace": false,
+  "includeDashboard": true,
   "secrets": {
     "salt": "tIoTPKxsfW55X/md",
     "hash": "3t1xe0hkVGeG/p3X8zzEDhPfkANwiZu8yx0Xeh9ALJo=",
@@ -27,11 +24,14 @@
       },
       "core-monolith-mq": {},
       "core-monolith-webapi": {
-        "ConnectionStrings__core-monolith-db": "tIoTPKxsfW55X/md/T\u002BL4tejHpbU3pZBjKJrJj6g9KqPxbgl6QilYxbQ/8296UMTZ\u002BqRaqmv2pGqR/fCvYGywG/gemJtZDhZJSoV5wo2eC03LDtnpF07QhzFrmB9lUhEeDmiKEXDMG4YH5KKKM0FqGlnxEmscFsz7ZY=",
+        "ConnectionStrings__core-monolith-db": "tIoTPKxsfW55X/mdpOXaMVKgW12A6Olvazs\u002Baj6g9KqPxbgl6QilYxbQ/8296UMHaqK1Yqm\u002BlJ/OG7eN1cfjgTO6QnQ1dTlKLWJF6wsrcWkuK3hsqhk6WVTT9x1plV5BLBunZgGVa2oJc/f6Lt4TwFl7p3T/IQwd96SIi05dtiarHcmbGJev6QyzvdlmmNUPbR/88IYre/etTg==",
         "ConnectionStrings__core-monolith-mq": "tIoTPKxsfW55X/mdgFGAXKfuGa0MiE\u002BDRtMKmBei9q6Iifgw\u002BUC7eEL4352P6yoDQpaFZJn6qP7nTP2Lj5Gh8mLuZWJ9ajhFL2sR/Ax0eTV5cSA09A=="
       },
       "core-monolith-db-username": {
         "value": "tIoTPKxsfW55X/md16G7DH8iTYGZ4ilWWKaR7xWg9bufy7g540mheBCS98bk9B0Sdw=="
+      },
+      "core-monolith-postgres": {
+        "POSTGRES_PASSWORD": "tIoTPKxsfW55X/mdIkRUmKLGLiAv81XIY8AcS0Hus6jH94UGvkCrNRrywvz56VsUTrs="
       }
     }
   },

@@ -1,12 +1,23 @@
 services:
-  core-monolith-db:
-    container_name: "core-monolith-db"
+  aspire-dashboard:
+    container_name: "aspire-dashboard"
+    image: "mcr.microsoft.com/dotnet/aspire-dashboard:8.0"
+    environment:
+      DOTNET_DASHBOARD_UNSECURED_ALLOW_ANONYMOUS: "true"
+    ports:
+    - target: 18888
+      published: 18888
+    restart: unless-stopped
+  core-monolith-postgres:
+    container_name: "core-monolith-postgres"
     image: "docker.io/library/postgres:17.0"
     environment:
       POSTGRES_HOST_AUTH_METHOD: "scram-sha-256"
       POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
-      POSTGRES_USER: "core-monolith-user"
+      POSTGRES_USER: "core-monolith-db-user"
       POSTGRES_PASSWORD: "7!4vuQRQ2ec9bMQX0h5cKj"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://aspire-dashboard:18889"
+      OTEL_SERVICE_NAME: "core-monolith-postgres"
     ports:
     - target: 5432
       published: 5432
@@ -17,6 +28,8 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: "guest"
       RABBITMQ_DEFAULT_PASS: "GL9FjDtGGDaB!OZy88rgcv"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://aspire-dashboard:18889"
+      OTEL_SERVICE_NAME: "core-monolith-mq"
     ports:
     - target: 5672
       published: 5672
@@ -33,8 +46,10 @@ services:
       ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
       HTTP_PORTS: "8080"
       ASPNETCORE_ENVIRONMENT: "Development"
-      ConnectionStrings__core-monolith-db: "Host=core-monolith-db;Port=5432;Username=core-monolith-db-user;Password=7!4vuQRQ2ec9bMQX0h5cKj"
+      ConnectionStrings__core-monolith-db: "Host=core-monolith-postgres;Port=5432;Username=core-monolith-db-user;Password=7!4vuQRQ2ec9bMQX0h5cKj;Database=core-monolith-db"
       ConnectionStrings__core-monolith-mq: "amqp://guest:GL9FjDtGGDaB!OZy88rgcv@core-monolith-mq:5672"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://aspire-dashboard:18889"
+      OTEL_SERVICE_NAME: "core-monolith-webapi"
     ports:
     - target: 8080
       published: 10000

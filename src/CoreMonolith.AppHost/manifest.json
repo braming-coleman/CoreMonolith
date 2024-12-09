@@ -1,9 +1,27 @@
 {
   "$schema": "https://json.schemastore.org/aspire-8.0.json",
   "resources": {
+    "core-monolith-db-username": {
+      "type": "parameter.v0",
+      "value": "{core-monolith-db-username.inputs.value}",
+      "inputs": {
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "core-monolith-db-password": {
+      "type": "parameter.v0",
+      "value": "{core-monolith-db-password.inputs.value}",
+      "inputs": {
+        "value": {
+          "type": "string"
+        }
+      }
+    },
     "core-monolith-db": {
       "type": "container.v0",
-      "connectionString": "Host={core-monolith-db.bindings.tcp.host};Port={core-monolith-db.bindings.tcp.port};Username=postgres;Password={core-monolith-db-password.value}",
+      "connectionString": "Host={core-monolith-db.bindings.tcp.host};Port={core-monolith-db.bindings.tcp.port};Username={core-monolith-db-username.value};Password={core-monolith-db-password.value}",
       "image": "docker.io/library/postgres:17.0",
       "bindMounts": [
         {
@@ -15,7 +33,7 @@
       "env": {
         "POSTGRES_HOST_AUTH_METHOD": "scram-sha-256",
         "POSTGRES_INITDB_ARGS": "--auth-host=scram-sha-256 --auth-local=scram-sha-256",
-        "POSTGRES_USER": "postgres",
+        "POSTGRES_USER": "{core-monolith-db-username.value}",
         "POSTGRES_PASSWORD": "{core-monolith-db-password.value}"
       },
       "bindings": {
@@ -66,6 +84,7 @@
         "OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY": "in_memory",
         "ASPNETCORE_FORWARDEDHEADERS_ENABLED": "true",
         "HTTP_PORTS": "{core-monolith-webapi.bindings.http.targetPort}",
+        "ASPNETCORE_ENVIRONMENT": "Development",
         "ConnectionStrings__core-monolith-db": "{core-monolith-db.connectionString}",
         "ConnectionStrings__core-monolith-mq": "{core-monolith-mq.connectionString}"
       },
@@ -79,21 +98,6 @@
           "scheme": "https",
           "protocol": "tcp",
           "transport": "http"
-        }
-      }
-    },
-    "core-monolith-db-password": {
-      "type": "parameter.v0",
-      "value": "{core-monolith-db-password.inputs.value}",
-      "inputs": {
-        "value": {
-          "type": "string",
-          "secret": true,
-          "default": {
-            "generate": {
-              "minLength": 22
-            }
-          }
         }
       }
     },

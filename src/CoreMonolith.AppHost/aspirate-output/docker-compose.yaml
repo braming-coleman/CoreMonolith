@@ -1,0 +1,44 @@
+services:
+  core-monolith-db:
+    container_name: "core-monolith-db"
+    image: "docker.io/library/postgres:17.0"
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: "scram-sha-256"
+      POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "7!4vuQRQ2ec9bMQX0h5cKj"
+    ports:
+    - target: 5432
+      published: 5432
+    restart: unless-stopped
+  core-monolith-mq:
+    container_name: "core-monolith-mq"
+    image: "docker.io/library/rabbitmq:4.0-management"
+    environment:
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "GL9FjDtGGDaB!OZy88rgcv"
+    ports:
+    - target: 5672
+      published: 5672
+    - target: 15672
+      published: 15672
+    restart: unless-stopped
+  core-monolith-webapi:
+    container_name: "core-monolith-webapi"
+    image: "localhost:5001/core-monolith-webapi:latest"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Production"
+      DOTNET_ENVIRONMENT: "Production"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY: "in_memory"
+      ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
+      HTTP_PORTS: "8080"
+      ConnectionStrings__core-monolith-db: "Host=core-monolith-db;Port=5432;Username=postgres;Password=7!4vuQRQ2ec9bMQX0h5cKj"
+      ConnectionStrings__core-monolith-mq: "amqp://guest:GL9FjDtGGDaB!OZy88rgcv@core-monolith-mq:5672"
+    ports:
+    - target: 8080
+      published: 10000
+    - target: 8443
+      published: 10001
+    restart: unless-stopped

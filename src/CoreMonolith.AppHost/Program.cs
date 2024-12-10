@@ -10,6 +10,8 @@ var corePgAdminName = builder.Configuration["AppConfig:corePgAdminName"];
 var coreMqName = builder.Configuration["AppConfig:CoreRabbitMqName"];
 var coreWebApiName = builder.Configuration["AppConfig:CoreWebApiName"];
 
+var pgadminHostPort = int.TryParse(builder.Configuration["AppConfig:PgAdminHostPort"], out int value) ? value : 80;
+
 var postgres = builder.AddPostgres($"{corePostgresName}", postgresUser, postgresPassword)
     .WithVolume($"{corePostgresName}-volume", @"/var/lib/postgresql/data")
     .WithEnvironment("POSTGRES_DB", corePostgresDbName)
@@ -20,6 +22,7 @@ var postgres = builder.AddPostgres($"{corePostgresName}", postgresUser, postgres
         .PublishAsContainer()
         .WithContainerName($"{corePgAdminName}")
         .WithVolume($"{corePgAdminName}-volume", @"/var/lib/pgadmin")
+        .WithHostPort(pgadminHostPort)
         .WithLifetime(ContainerLifetime.Persistent);
     });
 

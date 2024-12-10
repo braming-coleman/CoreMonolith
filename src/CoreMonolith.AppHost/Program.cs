@@ -12,6 +12,7 @@ var baseDataVolumePath = builder.Configuration["Containers:DataVolumePath"];
 
 var postgres = builder.AddPostgres($"{corePostgresName}", postgresUser, postgresPassword)
     .WithDataBindMount(@$"{baseDataVolumePath}\{corePostgresName}")
+    .WithEnvironment("POSTGRES_DB", corePostgresDbName)
     .WithPgAdmin()
     .WithLifetime(ContainerLifetime.Persistent)
     .AddDatabase($"{corePostgresDbName}");

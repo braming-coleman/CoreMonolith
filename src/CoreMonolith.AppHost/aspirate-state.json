@@ -1,37 +1,39 @@
 {
   "projectPath": ".",
-  "outputPath": "aspirate-output",
+  "outputPath": "./core-monolith",
   "containerRegistry": "localhost:5001",
   "containerImageTags": [
     "latest"
   ],
+  "imagePullPolicy": "Always",
   "containerBuilder": "docker",
   "outputFormat": "compose",
   "privateRegistryEmail": "aspir8@aka.ms",
   "includeDashboard": true,
   "secrets": {
-    "salt": "tIoTPKxsfW55X/md",
-    "hash": "3t1xe0hkVGeG/p3X8zzEDhPfkANwiZu8yx0Xeh9ALJo=",
+    "salt": "CtZXxipTw51U1uv3",
+    "hash": "ig2xvPQSvIyVsJwQNu5ilbkdroYQaxM/oPbxOPGPdo4=",
     "secrets": {
-      "core-monolith-db-password": {
-        "value": "tIoTPKxsfW55X/mdIkRUmKLGLiAv81XIY8AcS0Hus6jH94UGvkCrNRrywvz56VsUTrs="
-      },
       "core-monolith-mq-password": {
-        "value": "tIoTPKxsfW55X/mdWc1x/KbZ9MhSjhc6HmqK1DGDvpjY4qMQy2GpTlnwyd3xuRwQZqc="
+        "value": "CtZXxipTw51U1uv3VAuVu/CjQkAAdoalB3sHsGZ7lsddNhYhIO/F94lc6E2lxnnTygs="
       },
-      "core-monolith-db": {
-        "POSTGRES_PASSWORD": "tIoTPKxsfW55X/mdIkRUmKLGLiAv81XIY8AcS0Hus6jH94UGvkCrNRrywvz56VsUTrs="
-      },
-      "core-monolith-mq": {},
-      "core-monolith-webapi": {
-        "ConnectionStrings__core-monolith-db": "tIoTPKxsfW55X/mdpOXaMVKgW12A6Olvazs\u002Baj6g9KqPxbgl6QilYxbQ/8296UMHaqK1Yqm\u002BlJ/OG7eN1cfjgTO6QnQ1dTlKLWJF6wsrcWkuK3hsqhk6WVTT9x1plV5BLBunZgGVa2oJc/f6Lt4TwFl7p3T/IQwd96SIi05dtiarHcmbGJev6QyzvdlmmNUPbR/88IYre/etTg==",
-        "ConnectionStrings__core-monolith-mq": "tIoTPKxsfW55X/mdgFGAXKfuGa0MiE\u002BDRtMKmBei9q6Iifgw\u002BUC7eEL4352P6yoDQpaFZJn6qP7nTP2Lj5Gh8mLuZWJ9ajhFL2sR/Ax0eTV5cSA09A=="
+      "core-monolith-webapi-env": {
+        "value": "CtZXxipTw51U1uv3I4hwW9i0DitaUrdUhnCzvlYvgc1BISAAKuXG"
       },
       "core-monolith-db-username": {
-        "value": "tIoTPKxsfW55X/md16G7DH8iTYGZ4ilWWKaR7xWg9bufy7g540mheBCS98bk9B0Sdw=="
+        "value": "CtZXxipTw51U1uv3gQohikMHLaHZbozvF0I36nElhc0AIz8DIOfb\u002BakQ2Xr0hQ=="
+      },
+      "core-monolith-db-password": {
+        "value": "CtZXxipTw51U1uv3jg0gkJLxedqlFChuBiD15FQMwc1Iemde"
       },
       "core-monolith-postgres": {
-        "POSTGRES_PASSWORD": "tIoTPKxsfW55X/mdIkRUmKLGLiAv81XIY8AcS0Hus6jH94UGvkCrNRrywvz56VsUTrs="
+        "POSTGRES_PASSWORD": "CtZXxipTw51U1uv3jg0gkJLxedqlFChuBiD15FQMwc1Iemde"
+      },
+      "core-monolith-db": {},
+      "core-monolith-mq": {},
+      "core-monolith-webapi": {
+        "ConnectionStrings__core-monolith-db": "CtZXxipTw51U1uv3ijaG3h1Ns2Y7OdtQdM9jGFolhNwQLT8fKqbf4q9SwGDlnwPRwBw8LFYKrWBlzFbOHtSbf58MX/HUS6AB9Vfli/VfMXFuNxFPnB\u002BCOnK4NPvMKBEFqvmMcubIYDcK7io2QynNgIADPZKW6q2gING5Orxuh0JFOQp2bNL\u002Bc0Y=",
+        "ConnectionStrings__core-monolith-mq": "CtZXxipTw51U1uv3iMXuQIOs5TkvhPWsEgnFZ3MnhtgXYX8KOu7B\u002BftJnWj\u002Bh1bn4wAsPF4nvx9xlxXtUYTLDM5YeOecVKEO916xnPIAOS05bUkXwg=="
       }
     }
   },

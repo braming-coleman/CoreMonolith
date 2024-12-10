@@ -24,7 +24,8 @@
       "value": "{core-monolith-db-password.inputs.value}",
       "inputs": {
         "value": {
-          "type": "string"
+          "type": "string",
+          "secret": true
         }
       }
     },
@@ -52,6 +53,39 @@
           "protocol": "tcp",
           "transport": "tcp",
           "targetPort": 5432
+        }
+      }
+    },
+    "core-monolith-postgres-pgadmin": {
+      "type": "container.v0",
+      "image": "docker.io/dpage/pgadmin4:8.12",
+      "bindMounts": [
+        {
+          "source": "C:/Users/faatus/AppData/Local/Temp/tmpj5udbs.tmp",
+          "target": "/pgadmin4/servers.json",
+          "readOnly": false
+        }
+      ],
+      "volumes": [
+        {
+          "name": "core-monolith-pgadmin-volume",
+          "target": "/var/lib/pgadmin",
+          "readOnly": false
+        }
+      ],
+      "env": {
+        "PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED": "False",
+        "PGADMIN_CONFIG_SERVER_MODE": "False",
+        "PGADMIN_DEFAULT_EMAIL": "admin@domain.com",
+        "PGADMIN_DEFAULT_PASSWORD": "admin"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http",
+          "port": 62153,
+          "targetPort": 80
         }
       }
     },

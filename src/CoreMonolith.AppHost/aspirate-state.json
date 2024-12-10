@@ -34,7 +34,8 @@
       "core-monolith-webapi": {
         "ConnectionStrings__core-monolith-db": "CtZXxipTw51U1uv3ijaG3h1Ns2Y7OdtQdM9jGFolhNwQLT8fKqbf4q9SwGDlnwPRwBw8LFYKrWBlzFbOHtSbf58MX/HUS6AB9Vfli/VfMXFuNxFPnB\u002BCOnK4NPvMKBEFqvmMcubIYDcK7io2QynNgIADPZKW6q2gING5Orxuh0JFOQp2bNL\u002Bc0Y=",
         "ConnectionStrings__core-monolith-mq": "CtZXxipTw51U1uv3iMXuQIOs5TkvhPWsEgnFZ3MnhtgXYX8KOu7B\u002BftJnWj\u002Bh1bn4wAsPF4nvx9xlxXtUYTLDM5YeOecVKEO916xnPIAOS05bUkXwg=="
-      }
+      },
+      "core-monolith-postgres-pgadmin": {}
     }
   },
   "processAllComponents": true

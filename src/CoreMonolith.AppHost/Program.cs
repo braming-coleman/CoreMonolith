@@ -6,11 +6,12 @@ var postgresPassword = builder.AddParameter("core-monolith-db-password", secret:
 
 var corePostgresName = builder.Configuration["AppConfig:CorePostgresName"];
 var corePostgresDbName = builder.Configuration["AppConfig:CorePostgresDbName"];
-var corePgAdminName = builder.Configuration["AppConfig:corePgAdminName"];
+var corePgAdminName = builder.Configuration["AppConfig:CorePgAdminName"];
+var coreRedisName = builder.Configuration["AppConfig:CoreRedisName"];
 var coreMqName = builder.Configuration["AppConfig:CoreRabbitMqName"];
 var coreWebApiName = builder.Configuration["AppConfig:CoreWebApiName"];
 
-var pgadminHostPort = int.TryParse(builder.Configuration["AppConfig:PgAdminHostPort"], out int value) ? value : 80;
+var pgadminHostPort = int.TryParse(builder.Configuration["AppConfig:CorePgAdminHostPort"], out int value) ? value : 80;
 
 var postgres = builder.AddPostgres($"{corePostgresName}", postgresUser, postgresPassword)
     .WithVolume($"{corePostgresName}-volume", @"/var/lib/postgresql/data")
@@ -33,11 +34,15 @@ var rabbitMq = builder.AddRabbitMQ($"{coreMqName}")
     .WithManagementPlugin()
     .WithLifetime(ContainerLifetime.Persistent);
 
+var redis = builder.AddRedis($"{coreRedisName}");
+
 builder.AddProject<Projects.CoreMonolith_WebApi>($"{coreWebApiName}")
     .WithEnvironment("ASPNETCORE_ENVIRONMENT", coreWebApiEnv)
     .WithReference(postgressDb)
+    .WithReference(redis)
     .WithReference(rabbitMq)
     .WaitFor(postgres)
-    .WaitFor(postgressDb);
+    .WaitFor(postgressDb)
+    .WaitFor(redis);
 
 await builder.Build().RunAsync();

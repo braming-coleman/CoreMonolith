@@ -8,17 +8,16 @@ var corePostgresName = builder.Configuration["AppConfig:CorePostgresName"];
 var corePostgresDbName = builder.Configuration["AppConfig:CorePostgresDbName"];
 var coreMqName = builder.Configuration["AppConfig:CoreRabbitMqName"];
 var coreWebApiName = builder.Configuration["AppConfig:CoreWebApiName"];
-var baseDataVolumePath = builder.Configuration["Containers:DataVolumePath"];
 
 var postgres = builder.AddPostgres($"{corePostgresName}", postgresUser, postgresPassword)
-    .WithDataBindMount(@$"{baseDataVolumePath}\{corePostgresName}")
+    .WithVolume($"{corePostgresName}-volume", @"/var/lib/postgresql/data")
     .WithEnvironment("POSTGRES_DB", corePostgresDbName)
     .WithPgAdmin()
     .WithLifetime(ContainerLifetime.Persistent)
     .AddDatabase($"{corePostgresDbName}");
 
 var rabbitMq = builder.AddRabbitMQ($"{coreMqName}")
-    .WithDataBindMount(@$"{baseDataVolumePath}\{coreMqName}")
+    .WithVolume($"{coreMqName}-volume", @"/var/lib/rabbitmq")
     .WithManagementPlugin()
     .WithLifetime(ContainerLifetime.Persistent);
 

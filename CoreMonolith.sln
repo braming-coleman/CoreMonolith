@@ -35,7 +35,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", 
 	ProjectSection(SolutionItems) = preProject
 		src\CoreMonolith.AppHost\aspirate-state.json = src\CoreMonolith.AppHost\aspirate-state.json
 		src\CoreMonolith.AppHost\aspirate.json = src\CoreMonolith.AppHost\aspirate.json
-		src\CoreMonolith.AppHost\aspirate-output\docker-compose.yaml = src\CoreMonolith.AppHost\aspirate-output\docker-compose.yaml
+		src\CoreMonolith.AppHost\core-monolith\docker-compose.yaml = src\CoreMonolith.AppHost\core-monolith\docker-compose.yaml
 		src\CoreMonolith.AppHost\manifest.json = src\CoreMonolith.AppHost\manifest.json
 	EndProjectSection
 EndProject

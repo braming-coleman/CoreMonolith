@@ -32,9 +32,9 @@
       "type": "container.v0",
       "connectionString": "Host={core-monolith-postgres.bindings.tcp.host};Port={core-monolith-postgres.bindings.tcp.port};Username={core-monolith-db-username.value};Password={core-monolith-db-password.value}",
       "image": "docker.io/library/postgres:17.0",
-      "bindMounts": [
+      "volumes": [
         {
-          "source": "../../../../Containers/core-monolith-postgres",
+          "name": "core-monolith-postgres-volume",
           "target": "/var/lib/postgresql/data",
           "readOnly": false
         }
@@ -63,9 +63,9 @@
       "type": "container.v0",
       "connectionString": "amqp://guest:{core-monolith-mq-password.value}@{core-monolith-mq.bindings.tcp.host}:{core-monolith-mq.bindings.tcp.port}",
       "image": "docker.io/library/rabbitmq:4.0-management",
-      "bindMounts": [
+      "volumes": [
         {
-          "source": "../../../../Containers/core-monolith-mq",
+          "name": "core-monolith-mq-volume",
           "target": "/var/lib/rabbitmq",
           "readOnly": false
         }

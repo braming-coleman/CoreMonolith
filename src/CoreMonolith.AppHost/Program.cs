@@ -6,15 +6,22 @@ var postgresPassword = builder.AddParameter("core-monolith-db-password", secret:
 
 var corePostgresName = builder.Configuration["AppConfig:CorePostgresName"];
 var corePostgresDbName = builder.Configuration["AppConfig:CorePostgresDbName"];
+var corePgAdminName = builder.Configuration["AppConfig:corePgAdminName"];
 var coreMqName = builder.Configuration["AppConfig:CoreRabbitMqName"];
 var coreWebApiName = builder.Configuration["AppConfig:CoreWebApiName"];
 
 var postgres = builder.AddPostgres($"{corePostgresName}", postgresUser, postgresPassword)
     .WithVolume($"{corePostgresName}-volume", @"/var/lib/postgresql/data")
     .WithEnvironment("POSTGRES_DB", corePostgresDbName)
-    .WithLifetime(ContainerLifetime.Persistent);
-
-postgres.WithPgAdmin();
+    .WithLifetime(ContainerLifetime.Persistent)
+    .WithPgAdmin(config =>
+    {
+        config
+        .PublishAsContainer()
+        .WithContainerName($"{corePgAdminName}")
+        .WithVolume($"{corePgAdminName}-volume", @"/var/lib/pgadmin")
+        .WithLifetime(ContainerLifetime.Persistent);
+    });
 
 var postgressDb = postgres.AddDatabase($"{corePostgresDbName}");
 
@@ -27,6 +34,7 @@ builder.AddProject<Projects.CoreMonolith_WebApi>($"{coreWebApiName}")
     .WithEnvironment("ASPNETCORE_ENVIRONMENT", coreWebApiEnv)
     .WithReference(postgressDb)
     .WithReference(rabbitMq)
+    .WaitFor(postgres)
     .WaitFor(postgressDb);
 
 await builder.Build().RunAsync();

@@ -25,6 +25,22 @@ services:
     - target: 5432
       published: 5432
     restart: unless-stopped
+  core-monolith-postgres-pgadmin:
+    container_name: "core-monolith-postgres-pgadmin"
+    image: "docker.io/dpage/pgadmin4:8.12"
+    environment:
+      PGADMIN_CONFIG_MASTER_PASSWORD_REQUIRED: "False"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+      PGADMIN_DEFAULT_EMAIL: "admin@domain.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://aspire-dashboard:18889"
+      OTEL_SERVICE_NAME: "core-monolith-postgres-pgadmin"
+    volumes:
+    - "core-monolith-pgadmin-volume:/var/lib/pgadmin"
+    ports:
+    - target: 80
+      published: 62153
+    restart: unless-stopped
   core-monolith-mq:
     container_name: "core-monolith-mq"
     image: "docker.io/library/rabbitmq:4.0-management"
@@ -63,4 +79,5 @@ services:
     restart: unless-stopped
 volumes:
   core-monolith-postgres-volume: {}
+  core-monolith-pgadmin-volume: {}
   core-monolith-mq-volume: {}

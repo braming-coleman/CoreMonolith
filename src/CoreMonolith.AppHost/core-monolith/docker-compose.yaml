@@ -19,6 +19,8 @@ services:
       POSTGRES_DB: "core-monolith-db"
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://aspire-dashboard:18889"
       OTEL_SERVICE_NAME: "core-monolith-postgres"
+    volumes:
+    - "core-monolith-postgres-volume:/var/lib/postgresql/data"
     ports:
     - target: 5432
       published: 5432
@@ -31,6 +33,8 @@ services:
       RABBITMQ_DEFAULT_PASS: "t1aopxFLodwzHaDD41Wred"
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://aspire-dashboard:18889"
       OTEL_SERVICE_NAME: "core-monolith-mq"
+    volumes:
+    - "core-monolith-mq-volume:/var/lib/rabbitmq"
     ports:
     - target: 5672
       published: 5672
@@ -57,3 +61,6 @@ services:
     - target: 8443
       published: 10001
     restart: unless-stopped
+volumes:
+  core-monolith-postgres-volume: {}
+  core-monolith-mq-volume: {}

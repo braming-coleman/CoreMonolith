@@ -12,6 +12,21 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(options =>
+{
+    options.AddDefaultPolicy(
+        policy =>
+        {
+            policy
+            .WithOrigins(
+                "http://localhost", "https://localhost",
+                "http://fistoroboto", "https://fistoroboto")
+            .AllowAnyHeader()
+            .AllowAnyMethod()
+            .AllowAnyOrigin();
+        });
+});
+
 builder.AddServiceDefaults();
 
 builder.Host.UseSerilog((context, loggerConfig) => loggerConfig.ReadFrom.Configuration(context.Configuration));
@@ -31,6 +46,10 @@ builder.EnrichNpgsqlDbContext<ApplicationDbContext>(
         settings.CommandTimeout = 30;
     });
 
+builder.AddRedisClient(connectionName: "core-monolith-redis");
+
+builder.AddRabbitMQClient(connectionName: "core-monolith-mq");
+
 builder.Services.AddEndpoints(Assembly.GetExecutingAssembly());
 
 var withApiVersioning = builder.Services.AddApiVersioning(options =>
@@ -43,6 +62,8 @@ var withApiVersioning = builder.Services.AddApiVersioning(options =>
 builder.AddDefaultOpenApi(withApiVersioning);
 
 var app = builder.Build();
+
+app.UseCors();
 
 app.MapDefaultEndpoints();
 

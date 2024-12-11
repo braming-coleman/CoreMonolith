@@ -57,6 +57,16 @@ services:
     - target: 15672
       published: 15672
     restart: unless-stopped
+  core-monolith-redis:
+    container_name: "core-monolith-redis"
+    image: "docker.io/library/redis:7.4"
+    environment:
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://aspire-dashboard:18889"
+      OTEL_SERVICE_NAME: "core-monolith-redis"
+    ports:
+    - target: 6379
+      published: 6379
+    restart: unless-stopped
   core-monolith-webapi:
     container_name: "core-monolith-webapi"
     image: "localhost:5001/core-monolith-webapi:latest"
@@ -68,6 +78,7 @@ services:
       HTTP_PORTS: "8080"
       ASPNETCORE_ENVIRONMENT: "Development"
       ConnectionStrings__core-monolith-db: "Host=core-monolith-postgres;Port=5432;Username=core-monolith-user;Password=FF6ee473;Database=core-monolith-db"
+      ConnectionStrings__core-monolith-redis: "core-monolith-redis:6379"
       ConnectionStrings__core-monolith-mq: "amqp://guest:t1aopxFLodwzHaDD41Wred@core-monolith-mq:5672"
       OTEL_EXPORTER_OTLP_ENDPOINT: "http://aspire-dashboard:18889"
       OTEL_SERVICE_NAME: "core-monolith-webapi"
@@ -76,6 +87,26 @@ services:
       published: 10000
     - target: 8443
       published: 10001
+    restart: unless-stopped
+  download-manager-webapp:
+    container_name: "download-manager-webapp"
+    image: "localhost:5001/download-manager-webapp:latest"
+    environment:
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES: "true"
+      OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY: "in_memory"
+      ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
+      HTTP_PORTS: "8080"
+      ASPNETCORE_ENVIRONMENT: "Development"
+      ConnectionStrings__core-monolith-redis: "core-monolith-redis:6379"
+      services__core-monolith-webapi__http__0: "http://core-monolith-webapi:8080"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "http://aspire-dashboard:18889"
+      OTEL_SERVICE_NAME: "download-manager-webapp"
+    ports:
+    - target: 8080
+      published: 10002
+    - target: 8443
+      published: 10003
     restart: unless-stopped
 volumes:
   core-monolith-postgres-volume: {}

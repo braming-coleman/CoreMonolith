@@ -39,7 +39,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", 
 		src\CoreMonolith.AppHost\manifest.json = src\CoreMonolith.AppHost\manifest.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DownloadManager.WebApp", "src\DownloadManager.WebApp\DownloadManager.WebApp.csproj", "{93C3FEAF-D8FA-4FAE-9787-63E868CEF6E9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DownloadManager.WebApp", "src\DownloadManager.WebApp\DownloadManager.WebApp.csproj", "{769328B2-A835-4082-99E2-F01B4A85EB92}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -79,10 +79,10 @@ Global
 		{75F72B13-6991-4F2B-9643-2CE961F50771}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{75F72B13-6991-4F2B-9643-2CE961F50771}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{75F72B13-6991-4F2B-9643-2CE961F50771}.Release|Any CPU.Build.0 = Release|Any CPU
-		{93C3FEAF-D8FA-4FAE-9787-63E868CEF6E9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{93C3FEAF-D8FA-4FAE-9787-63E868CEF6E9}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{93C3FEAF-D8FA-4FAE-9787-63E868CEF6E9}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{93C3FEAF-D8FA-4FAE-9787-63E868CEF6E9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{769328B2-A835-4082-99E2-F01B4A85EB92}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{769328B2-A835-4082-99E2-F01B4A85EB92}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{769328B2-A835-4082-99E2-F01B4A85EB92}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{769328B2-A835-4082-99E2-F01B4A85EB92}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -101,6 +101,6 @@ Global
 		{75F72B13-6991-4F2B-9643-2CE961F50771} = {CC8AFC95-2CBC-4705-B783-63B9D3C1F747}
 		{CC8AFC95-2CBC-4705-B783-63B9D3C1F747} = {E4D9DA77-68B8-4578-9299-2E0D2D5CE6C5}
 		{3D7AB39B-8B69-4119-A8C9-DBB23553E4C2} = {CC8AFC95-2CBC-4705-B783-63B9D3C1F747}
-		{93C3FEAF-D8FA-4FAE-9787-63E868CEF6E9} = {348C80AA-7CA3-41BE-8995-FB3ADAE65A9D}
+		{769328B2-A835-4082-99E2-F01B4A85EB92} = {348C80AA-7CA3-41BE-8995-FB3ADAE65A9D}
 	EndGlobalSection
 EndGlobal

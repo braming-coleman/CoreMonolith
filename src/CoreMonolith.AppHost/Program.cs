@@ -1,15 +1,13 @@
 var builder = DistributedApplication.CreateBuilder(args);
 
-var coreWebApiEnv = builder.AddParameter("core-monolith-webapi-env", secret: false);
+
+//Core Postgres Db & PgAdmin
 var postgresUser = builder.AddParameter("core-monolith-db-username", secret: false);
 var postgresPassword = builder.AddParameter("core-monolith-db-password", secret: true);
 
+var corePgAdminName = builder.Configuration["AppConfig:CorePgAdminName"];
 var corePostgresName = builder.Configuration["AppConfig:CorePostgresName"];
 var corePostgresDbName = builder.Configuration["AppConfig:CorePostgresDbName"];
-var corePgAdminName = builder.Configuration["AppConfig:CorePgAdminName"];
-var coreRedisName = builder.Configuration["AppConfig:CoreRedisName"];
-var coreMqName = builder.Configuration["AppConfig:CoreRabbitMqName"];
-var coreWebApiName = builder.Configuration["AppConfig:CoreWebApiName"];
 
 var pgadminHostPort = int.TryParse(builder.Configuration["AppConfig:CorePgAdminHostPort"], out int value) ? value : 80;
 
@@ -29,20 +27,49 @@ var postgres = builder.AddPostgres($"{corePostgresName}", postgresUser, postgres
 
 var postgressDb = postgres.AddDatabase($"{corePostgresDbName}");
 
+
+//Core RabbitMQ
+var coreMqName = builder.Configuration["AppConfig:CoreRabbitMqName"];
+
 var rabbitMq = builder.AddRabbitMQ($"{coreMqName}")
     .WithVolume($"{coreMqName}-volume", @"/var/lib/rabbitmq")
     .WithManagementPlugin()
     .WithLifetime(ContainerLifetime.Persistent);
 
+
+//Core Redis
+var coreRedisName = builder.Configuration["AppConfig:CoreRedisName"];
+
 var redis = builder.AddRedis($"{coreRedisName}");
 
-builder.AddProject<Projects.CoreMonolith_WebApi>($"{coreWebApiName}")
+
+//Core WebApi
+var coreWebApiEnv = builder.AddParameter("core-monolith-webapi-env", secret: false);
+
+var coreWebApiName = builder.Configuration["AppConfig:CoreWebApiName"];
+
+var webApi = builder.AddProject<Projects.CoreMonolith_WebApi>($"{coreWebApiName}")
     .WithEnvironment("ASPNETCORE_ENVIRONMENT", coreWebApiEnv)
     .WithReference(postgressDb)
-    .WithReference(redis)
-    .WithReference(rabbitMq)
     .WaitFor(postgres)
     .WaitFor(postgressDb)
-    .WaitFor(redis);
+    .WithReference(redis)
+    .WaitFor(redis)
+    .WithReference(rabbitMq)
+    .WaitFor(rabbitMq);
+
+
+//DownloadManager WebApp
+var downloadManagerEnv = builder.AddParameter("download-manager-webapp-env", secret: false);
+
+var downloadManagerWebAppName = builder.Configuration["AppConfig:DownloadManagerWebAppName"];
+
+builder.AddProject<Projects.DownloadManager_WebApp>($"{downloadManagerWebAppName}")
+    .WithEnvironment("ASPNETCORE_ENVIRONMENT", downloadManagerEnv)
+    .WithExternalHttpEndpoints()
+    .WithReference(redis)
+    .WaitFor(redis)
+    .WithReference(webApi)
+    .WaitFor(webApi);
 
 await builder.Build().RunAsync();

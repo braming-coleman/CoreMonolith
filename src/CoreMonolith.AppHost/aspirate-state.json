@@ -37,7 +37,13 @@
         "ConnectionStrings__core-monolith-redis": "CtZXxipTw51U1uv3WjXHvNCIwdcvrV9R1EcQYXElhc0AIz8DIOfb\u002BakQ3mz1nl2bmVx/cg=="
       },
       "core-monolith-postgres-pgadmin": {},
-      "core-monolith-redis": {}
+      "core-monolith-redis": {},
+      "download-manager-webapp-env": {
+        "value": "CtZXxipTw51U1uv3I4hwW9i0DitaUrdUhnCzvlYvgc1BISAAKuXG"
+      },
+      "download-manager-webapp": {
+        "ConnectionStrings__core-monolith-redis": "CtZXxipTw51U1uv3WjXHvNCIwdcvrV9R1EcQYXElhc0AIz8DIOfb\u002BakQ3mz1nl2bmVx/cg=="
+      }
     }
   },
   "processAllComponents": true

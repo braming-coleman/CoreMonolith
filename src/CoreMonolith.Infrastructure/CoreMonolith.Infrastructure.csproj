@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\CoreMonolith.Application\CoreMonolith.Application.csproj" />
+    <ProjectReference Include="..\CoreMonolith.ServiceDefaults\CoreMonolith.ServiceDefaults.csproj" />
     <ProjectReference Include="..\CoreMonolith.SharedKernel\CoreMonolith.SharedKernel.csproj" />
   </ItemGroup>
 

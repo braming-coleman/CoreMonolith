@@ -4,6 +4,7 @@ using CoreMonolith.Infrastructure.Authentication;
 using CoreMonolith.Infrastructure.Authorization;
 using CoreMonolith.Infrastructure.Database;
 using CoreMonolith.Infrastructure.Time;
+using CoreMonolith.ServiceDefaults.Constants;
 using CoreMonolith.SharedKernel.Abstractions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -32,9 +33,9 @@ public static class DependencyInjection
 
     public static WebApplicationBuilder AddInfrastructureClients(this WebApplicationBuilder builder)
     {
-        builder.AddRedisClient(connectionName: "core-monolith-redis");
+        builder.AddRedisClient(connectionName: ConnectionNameConstants.RedisConnectionName);
 
-        builder.AddRabbitMQClient(connectionName: "core-monolith-mq");
+        builder.AddRabbitMQClient(connectionName: ConnectionNameConstants.RabbitMqConnectionName);
 
         return builder;
     }
@@ -73,7 +74,7 @@ public static class DependencyInjection
 
     private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
     {
-        string? connectionString = configuration.GetConnectionString("core-monolith-db");
+        string? connectionString = configuration.GetConnectionString(ConnectionNameConstants.DbConnStringName);
 
         services.AddDbContext<ApplicationDbContext>(
             options => options
@@ -89,7 +90,7 @@ public static class DependencyInjection
     {
         services
             .AddHealthChecks()
-            .AddNpgSql(configuration.GetConnectionString("core-monolith-db")!);
+            .AddNpgSql(configuration.GetConnectionString(ConnectionNameConstants.DbConnStringName)!);
 
         return services;
     }
@@ -104,7 +105,7 @@ public static class DependencyInjection
                 o.RequireHttpsMetadata = false;
                 o.TokenValidationParameters = new TokenValidationParameters
                 {
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["Jwt:Secret"]!)),
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration[ConfigKeyConstants.JwtSecretKeyName]!)),
                     ValidIssuer = configuration["Jwt:Issuer"],
                     ValidAudience = configuration["Jwt:Audience"],
                     ClockSkew = TimeSpan.Zero

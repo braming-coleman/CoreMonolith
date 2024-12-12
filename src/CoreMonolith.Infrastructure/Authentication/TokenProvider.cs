@@ -1,5 +1,6 @@
 ﻿using CoreMonolith.Application.Abstractions.Authentication;
 using CoreMonolith.Domain.Users;
+using CoreMonolith.ServiceDefaults.Constants;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Tokens;
@@ -12,7 +13,7 @@ internal sealed class TokenProvider(IConfiguration configuration) : ITokenProvid
 {
     public string Create(User user)
     {
-        string secretKey = configuration["Jwt:Secret"]!;
+        string secretKey = configuration[ConfigKeyConstants.JwtSecretKeyName]!;
         var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey));
 
         var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);

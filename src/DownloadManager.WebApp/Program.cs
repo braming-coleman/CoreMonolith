@@ -1,3 +1,4 @@
+using CoreMonolith.ServiceDefaults.Constants;
 using CoreMonolith.SharedKernel.Extensions;
 using DownloadManager.WebApp;
 using DownloadManager.WebApp.Components;
@@ -19,10 +20,10 @@ builder.Services.AddHttpClient<WeatherApiClient>(client =>
 {
     // This URL uses "https+http://" to indicate HTTPS is preferred over HTTP.
     // Learn more about service discovery scheme resolution at https://aka.ms/dotnet/sdschemes.
-    client.BaseAddress = new("https+http://core-monolith-webapi");
+    client.BaseAddress = new($"https+http://{ConnectionNameConstants.WebApiConnectionName}");
 });
 
-builder.AddRedisClient(connectionName: "core-monolith-redis");
+builder.AddRedisClient(connectionName: ConnectionNameConstants.RedisConnectionName);
 
 var app = builder.Build();
 

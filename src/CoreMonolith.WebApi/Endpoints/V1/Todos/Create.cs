@@ -1,8 +1,10 @@
 ﻿using CoreMonolith.Application.Todos.Create;
 using CoreMonolith.Domain.Todos;
 using CoreMonolith.SharedKernel;
-using CoreMonolith.WebApi.Extensions;
-using CoreMonolith.WebApi.Infrastructure;
+using CoreMonolith.SharedKernel.Abstractions;
+using CoreMonolith.SharedKernel.Constants;
+using CoreMonolith.SharedKernel.Extensions;
+using CoreMonolith.SharedKernel.Infrastructure;
 using MediatR;
 
 namespace CoreMonolith.WebApi.Endpoints.V1.Todos;
@@ -21,9 +23,7 @@ internal sealed class Create : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app
-            .NewVersionedApi()
-            .MapGroup("/v{version:apiVersion}/todos")
-            .HasApiVersion(Versions.V1)
+            .MapApiVersion("todos", Versions.V1)
             .MapPost("/", async (TodoCreateRequest request, ISender sender, CancellationToken cancellationToken) =>
             {
                 var command = new CreateTodoCommand

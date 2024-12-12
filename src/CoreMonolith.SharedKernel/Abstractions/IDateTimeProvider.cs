@@ -1,4 +1,4 @@
-﻿namespace CoreMonolith.SharedKernel;
+﻿namespace CoreMonolith.SharedKernel.Abstractions;
 
 public interface IDateTimeProvider
 {

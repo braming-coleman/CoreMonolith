@@ -1,4 +1,4 @@
-﻿using CoreMonolith.SharedKernel;
+﻿using CoreMonolith.SharedKernel.Abstractions;
 
 namespace CoreMonolith.Domain.Users;
 

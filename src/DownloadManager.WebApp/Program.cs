@@ -1,15 +1,19 @@
+using CoreMonolith.SharedKernel.Extensions;
 using DownloadManager.WebApp;
 using DownloadManager.WebApp.Components;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-// Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+builder.AddAndConfigureSerilog();
 
-builder.Services.AddOutputCache();
+// Add services to the container.
+builder.Services
+    .AddOutputCache()
+    .AddRazorComponents()
+    .AddInteractiveServerComponents();
 
 builder.Services.AddHttpClient<WeatherApiClient>(client =>
 {
@@ -38,11 +42,13 @@ app.UseOutputCache();
 
 app.MapStaticAssets();
 
-app.MapStaticAssets();
-
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 app.MapDefaultEndpoints();
+
+app.UseRequestContextLogging();
+
+app.UseSerilogRequestLogging();
 
 await app.RunAsync();

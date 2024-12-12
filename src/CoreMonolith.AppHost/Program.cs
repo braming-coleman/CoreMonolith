@@ -50,6 +50,7 @@ var coreWebApiName = builder.Configuration["AppConfig:CoreWebApiName"];
 
 var webApi = builder.AddProject<Projects.CoreMonolith_WebApi>($"{coreWebApiName}")
     .WithEnvironment("ASPNETCORE_ENVIRONMENT", coreWebApiEnv)
+    .WithExternalHttpEndpoints()
     .WithReference(postgressDb)
     .WaitFor(postgres)
     .WaitFor(postgressDb)

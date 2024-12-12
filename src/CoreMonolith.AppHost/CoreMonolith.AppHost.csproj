@@ -16,6 +16,7 @@
 		<PackageReference Include="Aspire.Hosting.PostgreSQL" Version="*" />
 		<PackageReference Include="Aspire.Hosting.RabbitMQ" Version="9.0.0" />
 		<PackageReference Include="Aspire.Hosting.Redis" Version="9.0.0" />
+		<PackageReference Include="Serilog.Sinks.OpenTelemetry" Version="4.1.1" />
 		<PackageReference Include="SonarAnalyzer.CSharp" Version="10.3.0.106239">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>

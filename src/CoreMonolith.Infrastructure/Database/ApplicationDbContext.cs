@@ -2,6 +2,7 @@
 using CoreMonolith.Domain.Todos;
 using CoreMonolith.Domain.Users;
 using CoreMonolith.SharedKernel;
+using CoreMonolith.SharedKernel.Abstractions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 

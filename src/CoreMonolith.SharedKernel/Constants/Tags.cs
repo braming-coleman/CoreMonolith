@@ -1,4 +1,4 @@
-﻿namespace CoreMonolith.WebApi.Endpoints;
+﻿namespace CoreMonolith.SharedKernel.Constants;
 
 public static class Tags
 {

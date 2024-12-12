@@ -1,6 +1,7 @@
-﻿using CoreMonolith.WebApi.Middleware;
+﻿using CoreMonolith.SharedKernel.Middleware;
+using Microsoft.AspNetCore.Builder;
 
-namespace CoreMonolith.WebApi.Extensions;
+namespace CoreMonolith.SharedKernel.Extensions;
 
 public static class MiddlewareExtensions
 {

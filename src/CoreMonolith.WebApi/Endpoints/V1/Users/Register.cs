@@ -1,7 +1,9 @@
 ﻿using CoreMonolith.Application.Users.Register;
 using CoreMonolith.SharedKernel;
-using CoreMonolith.WebApi.Extensions;
-using CoreMonolith.WebApi.Infrastructure;
+using CoreMonolith.SharedKernel.Abstractions;
+using CoreMonolith.SharedKernel.Constants;
+using CoreMonolith.SharedKernel.Extensions;
+using CoreMonolith.SharedKernel.Infrastructure;
 using MediatR;
 
 namespace CoreMonolith.WebApi.Endpoints.V1.Users;
@@ -13,9 +15,7 @@ internal sealed class Register : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app
-            .NewVersionedApi()
-            .MapGroup("/v{version:apiVersion}/users")
-            .HasApiVersion(Versions.V1)
+            .MapApiVersion("users", Versions.V1)
             .MapPost("/register", async (UserRegisterRequest request, ISender sender, CancellationToken cancellationToken) =>
             {
                 var command = new RegisterUserCommand(

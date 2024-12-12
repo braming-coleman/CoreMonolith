@@ -7,7 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Scalar.AspNetCore;
 
-namespace CoreMonolith.ServiceDefaults;
+namespace CoreMonolith.SharedKernel.Extensions;
 
 public static partial class Extensions
 {
@@ -37,14 +37,20 @@ public static partial class Extensions
     }
 
     public static IHostApplicationBuilder AddDefaultOpenApi(
-        this IHostApplicationBuilder builder,
-        IApiVersioningBuilder? apiVersioning = default)
+        this IHostApplicationBuilder builder)
     {
         var openApi = builder.Configuration.GetSection("OpenApi");
         if (!openApi.Exists())
         {
             return builder;
         }
+
+        var apiVersioning = builder.Services.AddApiVersioning(options =>
+        {
+            options.DefaultApiVersion = new ApiVersion(1, 0);
+            options.ReportApiVersions = true;
+            options.AssumeDefaultVersionWhenUnspecified = true;
+        });
 
         if (apiVersioning is not null)
         {

@@ -4,13 +4,15 @@ using CoreMonolith.Infrastructure.Authentication;
 using CoreMonolith.Infrastructure.Authorization;
 using CoreMonolith.Infrastructure.Database;
 using CoreMonolith.Infrastructure.Time;
-using CoreMonolith.SharedKernel;
+using CoreMonolith.SharedKernel.Abstractions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 
@@ -18,6 +20,40 @@ namespace CoreMonolith.Infrastructure;
 
 public static class DependencyInjection
 {
+    public static void ApplyMigrations(this IApplicationBuilder app)
+    {
+        using IServiceScope scope = app.ApplicationServices.CreateScope();
+
+        using ApplicationDbContext dbContext =
+            scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+
+        dbContext.Database.Migrate();
+    }
+
+    public static WebApplicationBuilder AddInfrastructureClients(this WebApplicationBuilder builder)
+    {
+        builder.AddRedisClient(connectionName: "core-monolith-redis");
+
+        builder.AddRabbitMQClient(connectionName: "core-monolith-mq");
+
+        return builder;
+    }
+
+    public static WebApplicationBuilder EnrichDbContext(this WebApplicationBuilder builder)
+    {
+        builder.EnrichNpgsqlDbContext<ApplicationDbContext>(
+            configureSettings: settings =>
+            {
+                settings.DisableRetry = false;
+                settings.DisableMetrics = false;
+                settings.DisableTracing = false;
+                settings.DisableHealthChecks = false;
+                settings.CommandTimeout = 30;
+            });
+
+        return builder;
+    }
+
     public static IServiceCollection AddInfrastructure(
         this IServiceCollection services,
         IConfiguration configuration) =>

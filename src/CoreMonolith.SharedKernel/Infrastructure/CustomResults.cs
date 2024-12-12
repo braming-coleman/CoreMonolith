@@ -1,6 +1,6 @@
-﻿using CoreMonolith.SharedKernel;
+﻿using Microsoft.AspNetCore.Http;
 
-namespace CoreMonolith.WebApi.Infrastructure;
+namespace CoreMonolith.SharedKernel.Infrastructure;
 
 public static class CustomResults
 {

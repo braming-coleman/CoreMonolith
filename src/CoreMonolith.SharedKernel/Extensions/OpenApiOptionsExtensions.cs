@@ -8,7 +8,7 @@ using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using System.Text;
 
-namespace CoreMonolith.ServiceDefaults;
+namespace CoreMonolith.SharedKernel.Extensions;
 
 internal static class OpenApiOptionsExtensions
 {

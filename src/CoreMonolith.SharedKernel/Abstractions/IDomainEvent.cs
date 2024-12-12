@@ -1,5 +1,5 @@
 ﻿using MediatR;
 
-namespace CoreMonolith.SharedKernel;
+namespace CoreMonolith.SharedKernel.Abstractions;
 
 public interface IDomainEvent : INotification;

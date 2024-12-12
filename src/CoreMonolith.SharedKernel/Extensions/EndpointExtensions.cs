@@ -1,11 +1,22 @@
-﻿using CoreMonolith.WebApi.Endpoints;
+﻿using CoreMonolith.SharedKernel.Abstractions;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using System.Reflection;
 
-namespace CoreMonolith.WebApi.Extensions;
+namespace CoreMonolith.SharedKernel.Extensions;
 
 public static class EndpointExtensions
 {
+    public static RouteGroupBuilder MapApiVersion(this IEndpointRouteBuilder builder, string resource, int version)
+    {
+        return builder
+            .NewVersionedApi()
+            .MapGroup("/v{version:apiVersion}/" + resource)
+            .HasApiVersion(version);
+    }
+
     public static IServiceCollection AddEndpoints(this IServiceCollection services, Assembly assembly)
     {
         ServiceDescriptor[] serviceDescriptors = assembly
@@ -34,8 +45,8 @@ public static class EndpointExtensions
         return app;
     }
 
-    public static RouteHandlerBuilder HasPermission(this RouteHandlerBuilder app, string permission)
+    public static RouteHandlerBuilder HasPermission(this RouteHandlerBuilder builder, string permission)
     {
-        return app.RequireAuthorization(permission);
+        return builder.RequireAuthorization(permission);
     }
 }

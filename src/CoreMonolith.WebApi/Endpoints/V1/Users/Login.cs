@@ -1,4 +1,4 @@
-﻿using CoreMonolith.Application.Users.Login;
+﻿using CoreMonolith.Application.Access.Users.Login;
 using CoreMonolith.SharedKernel;
 using CoreMonolith.SharedKernel.Abstractions;
 using CoreMonolith.SharedKernel.Constants;
@@ -15,7 +15,7 @@ internal sealed class Login : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app
-            .MapApiVersion("users", Versions.V1)
+            .MapApiVersion("user", Versions.V1)
             .MapPost("/login", async (UserLoginRequest request, ISender sender, CancellationToken cancellationToken) =>
             {
                 var command = new LoginUserCommand(request.Email, request.Password);
@@ -25,6 +25,6 @@ internal sealed class Login : IEndpoint
                 return result.Match(Results.Ok, CustomResults.Problem);
             })
             .Produces<string>()
-            .WithTags(Tags.Users);
+            .WithTags(Tags.User);
     }
 }

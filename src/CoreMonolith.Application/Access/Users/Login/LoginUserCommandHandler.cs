@@ -1,11 +1,11 @@
 ﻿using CoreMonolith.Application.Abstractions.Authentication;
 using CoreMonolith.Application.Abstractions.Data;
 using CoreMonolith.Application.Abstractions.Messaging;
-using CoreMonolith.Domain.Users;
+using CoreMonolith.Domain.Access;
 using CoreMonolith.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 
-namespace CoreMonolith.Application.Users.Login;
+namespace CoreMonolith.Application.Access.Users.Login;
 
 internal sealed class LoginUserCommandHandler(
     IApplicationDbContext context,

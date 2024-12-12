@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace CoreMonolith.Application.Users.Register;
+namespace CoreMonolith.Application.Access.Users.Register;
 
 internal sealed class RegisterUserCommandValidator : AbstractValidator<RegisterUserCommand>
 {

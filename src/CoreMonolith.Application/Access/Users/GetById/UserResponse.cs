@@ -1,4 +1,4 @@
-﻿namespace CoreMonolith.Application.Users.GetById;
+﻿namespace CoreMonolith.Application.Access.Users.GetById;
 
 public sealed record UserResponse
 {

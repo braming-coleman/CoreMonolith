@@ -1,10 +1,10 @@
 ﻿using CoreMonolith.Application.Abstractions.Data;
 using CoreMonolith.Application.Abstractions.Messaging;
-using CoreMonolith.Domain.Users;
+using CoreMonolith.Domain.Access;
 using CoreMonolith.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 
-namespace CoreMonolith.Application.Users.GetByEmail;
+namespace CoreMonolith.Application.Access.Users.GetByEmail;
 
 internal sealed class GetUserByEmailQueryHandler(IApplicationDbContext context)
     : IQueryHandler<GetUserByEmailQuery, UserResponse>

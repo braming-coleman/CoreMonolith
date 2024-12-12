@@ -1,10 +1,10 @@
 ﻿using CoreMonolith.Application.Abstractions.Data;
 using CoreMonolith.Application.Abstractions.Messaging;
-using CoreMonolith.Domain.Users;
+using CoreMonolith.Domain.Access;
 using CoreMonolith.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 
-namespace CoreMonolith.Application.Users.GetById;
+namespace CoreMonolith.Application.Access.Users.GetById;
 
 internal sealed class GetUserByIdQueryHandler(IApplicationDbContext context)
     : IQueryHandler<GetUserByIdQuery, UserResponse>

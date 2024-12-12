@@ -1,6 +1,6 @@
 ﻿using CoreMonolith.SharedKernel;
 
-namespace CoreMonolith.Domain.Users;
+namespace CoreMonolith.Domain.Access;
 
 public static class UserErrors
 {

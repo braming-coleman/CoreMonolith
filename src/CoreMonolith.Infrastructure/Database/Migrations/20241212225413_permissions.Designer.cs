@@ -4,17 +4,20 @@ using System.Collections.Generic;
 using CoreMonolith.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace CoreMonolith.Infrastructure.Migrations
+namespace CoreMonolith.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241212225413_permissions")]
+    partial class permissions
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -112,16 +115,6 @@ namespace CoreMonolith.Infrastructure.Migrations
                         .HasDatabaseName("ix_users_email");
 
                     b.ToTable("users", "access");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("a057e03a-2d3e-4958-9384-dbc529297d89"),
-                            Email = "test@test.com",
-                            FirstName = "Braming",
-                            LastName = "Test",
-                            PasswordHash = "EC6553E28054BACDE70E7F693DE71E1B7F31AF6963F647B256F8C564DAE41080-9CD8286C7E114D85232224E079FE6E0C"
-                        });
                 });
 
             modelBuilder.Entity("CoreMonolith.Domain.Access.UserPermission", b =>

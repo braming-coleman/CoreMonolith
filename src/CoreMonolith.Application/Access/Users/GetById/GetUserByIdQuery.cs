@@ -1,5 +1,5 @@
 ﻿using CoreMonolith.Application.Abstractions.Messaging;
 
-namespace CoreMonolith.Application.Users.GetById;
+namespace CoreMonolith.Application.Access.Users.GetById;
 
 public sealed record GetUserByIdQuery(Guid UserId) : IQuery<UserResponse>;

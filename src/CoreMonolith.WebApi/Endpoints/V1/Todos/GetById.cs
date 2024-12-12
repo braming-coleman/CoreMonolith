@@ -13,7 +13,7 @@ internal sealed class GetById : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app
-            .MapApiVersion("todos", Versions.V1)
+            .MapApiVersion("todo", Versions.V1)
             .MapGet("/{id:guid}", async (Guid id, ISender sender, CancellationToken cancellationToken) =>
             {
                 var command = new GetTodoByIdQuery(id);
@@ -22,8 +22,9 @@ internal sealed class GetById : IEndpoint
 
                 return result.Match(Results.Ok, CustomResults.Problem);
             })
+            .HasPermission(Permissions.TodoRead)
             .RequireAuthorization()
             .Produces<TodoResponse>()
-            .WithTags(Tags.Todos);
+            .WithTags(Tags.Todo);
     }
 }

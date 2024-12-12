@@ -1,5 +1,5 @@
 ﻿using CoreMonolith.SharedKernel.Abstractions;
 
-namespace CoreMonolith.Domain.Users;
+namespace CoreMonolith.Domain.Access;
 
 public sealed record UserRegisteredDomainEvent(Guid UserId) : IDomainEvent;

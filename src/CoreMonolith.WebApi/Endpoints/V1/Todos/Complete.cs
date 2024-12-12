@@ -13,7 +13,7 @@ internal sealed class Complete : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app
-            .MapApiVersion("todos", Versions.V1)
+            .MapApiVersion("todo", Versions.V1)
             .MapPut("/{id:guid}/complete", async (Guid id, ISender sender, CancellationToken cancellationToken) =>
             {
                 var command = new CompleteTodoCommand(id);
@@ -22,7 +22,8 @@ internal sealed class Complete : IEndpoint
 
                 return result.Match(Results.NoContent, CustomResults.Problem);
             })
+            .HasPermission(Permissions.TodoWrite)
             .RequireAuthorization()
-            .WithTags(Tags.Todos);
+            .WithTags(Tags.Todo);
     }
 }

@@ -23,7 +23,7 @@ internal sealed class Create : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app
-            .MapApiVersion("todos", Versions.V1)
+            .MapApiVersion("todo", Versions.V1)
             .MapPost("/", async (TodoCreateRequest request, ISender sender, CancellationToken cancellationToken) =>
             {
                 var command = new CreateTodoCommand
@@ -39,8 +39,9 @@ internal sealed class Create : IEndpoint
 
                 return result.Match(Results.Ok, CustomResults.Problem);
             })
+            .HasPermission(Permissions.TodoWrite)
             .RequireAuthorization()
             .Produces<Guid>()
-            .WithTags(Tags.Todos);
+            .WithTags(Tags.Todo);
     }
 }

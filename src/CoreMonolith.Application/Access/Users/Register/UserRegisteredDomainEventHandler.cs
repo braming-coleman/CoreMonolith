@@ -1,7 +1,7 @@
-﻿using CoreMonolith.Domain.Users;
+﻿using CoreMonolith.Domain.Access;
 using MediatR;
 
-namespace CoreMonolith.Application.Users.Register;
+namespace CoreMonolith.Application.Access.Users.Register;
 
 internal sealed class UserRegisteredDomainEventHandler : INotificationHandler<UserRegisteredDomainEvent>
 {

@@ -13,7 +13,7 @@ internal sealed class Delete : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app
-            .MapApiVersion("todos", Versions.V1)
+            .MapApiVersion("todo", Versions.V1)
             .MapDelete("/{id:guid}", async (Guid id, ISender sender, CancellationToken cancellationToken) =>
             {
                 var command = new DeleteTodoCommand(id);
@@ -22,7 +22,8 @@ internal sealed class Delete : IEndpoint
 
                 return result.Match(Results.NoContent, CustomResults.Problem);
             })
+            .HasPermission(Permissions.TodoWrite)
             .RequireAuthorization()
-            .WithTags(Tags.Todos);
+            .WithTags(Tags.Todo);
     }
 }

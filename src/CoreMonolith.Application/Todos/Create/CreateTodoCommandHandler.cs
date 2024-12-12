@@ -1,7 +1,7 @@
 ﻿using CoreMonolith.Application.Abstractions.Data;
 using CoreMonolith.Application.Abstractions.Messaging;
+using CoreMonolith.Domain.Access;
 using CoreMonolith.Domain.Todos;
-using CoreMonolith.Domain.Users;
 using CoreMonolith.SharedKernel;
 using CoreMonolith.SharedKernel.Abstractions;
 using Microsoft.EntityFrameworkCore;

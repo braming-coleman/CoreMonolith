@@ -19,8 +19,11 @@ internal sealed class PasswordHasher : IPasswordHasher
         return $"{Convert.ToHexString(hash)}-{Convert.ToHexString(salt)}";
     }
 
-    public bool Verify(string password, string passwordHash)
+    public bool Verify(string password, string? passwordHash)
     {
+        if (passwordHash is null)
+            return false;
+
         string[] parts = passwordHash.Split('-');
         byte[] hash = Convert.FromHexString(parts[0]);
         byte[] salt = Convert.FromHexString(parts[1]);

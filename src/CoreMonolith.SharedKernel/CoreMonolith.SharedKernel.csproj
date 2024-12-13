@@ -18,7 +18,7 @@
 		<FrameworkReference Include="Microsoft.AspNetCore.App" />
 		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
-		<PackageReference Include="Scalar.AspNetCore" Version="1.2.53" />
+		<PackageReference Include="Scalar.AspNetCore" Version="1.2.55" />
 	</ItemGroup>
 
 </Project>

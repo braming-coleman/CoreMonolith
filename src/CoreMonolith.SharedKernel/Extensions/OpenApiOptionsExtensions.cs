@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.OpenApi;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Primitives;
-using Microsoft.OpenApi.Any;
 using Microsoft.OpenApi.Models;
 using System.Text;
 
@@ -147,19 +146,7 @@ internal static class OpenApiOptionsExtensions
         return options;
     }
 
-    private static IOpenApiAny? CreateOpenApiAnyFromObject(object value)
-    {
-        return value switch
-        {
-            bool b => new OpenApiBoolean(b),
-            int i => new OpenApiInteger(i),
-            double d => new OpenApiDouble(d),
-            string s => new OpenApiString(s),
-            _ => null
-        };
-    }
-
-    private class SecuritySchemeDefinitionsTransformer() : IOpenApiDocumentTransformer
+    private sealed class SecuritySchemeDefinitionsTransformer() : IOpenApiDocumentTransformer
     {
         public Task TransformAsync(OpenApiDocument document, OpenApiDocumentTransformerContext context, CancellationToken cancellationToken)
         {

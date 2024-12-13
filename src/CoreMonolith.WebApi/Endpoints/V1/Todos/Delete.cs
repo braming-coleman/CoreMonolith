@@ -22,7 +22,7 @@ internal sealed class Delete : IEndpoint
 
                 return result.Match(Results.NoContent, CustomResults.Problem);
             })
-            .HasPermission(Permissions.TodoWrite)
+            .HasPermission(ApiPermissions.TodoWrite)
             .RequireAuthorization()
             .WithTags(Tags.Todo);
     }

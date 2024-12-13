@@ -6,14 +6,14 @@ using CoreMonolith.SharedKernel.Extensions;
 using CoreMonolith.SharedKernel.Infrastructure;
 using MediatR;
 
-namespace CoreMonolith.WebApi.Endpoints.V1.Users;
+namespace CoreMonolith.WebApi.Endpoints.V1.Access.Users;
 
 internal sealed class GetById : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app
-            .MapApiVersion("user", Versions.V1)
+            .MapApiVersion("access/user", Versions.V1)
             .MapGet("/{userId}", async (Guid userId, ISender sender, CancellationToken cancellationToken) =>
             {
                 var query = new GetUserByIdQuery(userId);
@@ -22,9 +22,9 @@ internal sealed class GetById : IEndpoint
 
                 return result.Match(Results.Ok, CustomResults.Problem);
             })
-            .HasPermission(Permissions.UserRead)
+            .HasPermission(ApiPermissions.UserRead)
             .RequireAuthorization()
             .Produces<UserResponse>()
-            .WithTags(Tags.User);
+            .WithTags(Tags.Access);
     }
 }

@@ -39,7 +39,7 @@ internal sealed class Create : IEndpoint
 
                 return result.Match(Results.Ok, CustomResults.Problem);
             })
-            .HasPermission(Permissions.TodoWrite)
+            .HasPermission(ApiPermissions.TodoWrite)
             .RequireAuthorization()
             .Produces<Guid>()
             .WithTags(Tags.Todo);

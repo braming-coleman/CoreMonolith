@@ -6,7 +6,7 @@ using CoreMonolith.SharedKernel.Extensions;
 using CoreMonolith.SharedKernel.Infrastructure;
 using MediatR;
 
-namespace CoreMonolith.WebApi.Endpoints.V1.Users;
+namespace CoreMonolith.WebApi.Endpoints.V1.Access.Users;
 
 internal sealed class Login : IEndpoint
 {
@@ -15,7 +15,7 @@ internal sealed class Login : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app
-            .MapApiVersion("user", Versions.V1)
+            .MapApiVersion("access/user", Versions.V1)
             .MapPost("/login", async (UserLoginRequest request, ISender sender, CancellationToken cancellationToken) =>
             {
                 var command = new LoginUserCommand(request.Email, request.Password);
@@ -25,6 +25,6 @@ internal sealed class Login : IEndpoint
                 return result.Match(Results.Ok, CustomResults.Problem);
             })
             .Produces<string>()
-            .WithTags(Tags.User);
+            .WithTags(Tags.Access);
     }
 }

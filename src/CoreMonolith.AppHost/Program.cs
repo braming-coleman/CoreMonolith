@@ -52,8 +52,8 @@ var webApi = builder.AddProject<Projects.CoreMonolith_WebApi>(ConnectionNameCons
     .WaitFor(postgressDb)
     .WithReference(redis)
     .WaitFor(redis)
-    .WithReference(rabbitMq)
-    .WaitFor(rabbitMq);
+    .WithReference(rabbitMq);
+//.WaitFor(rabbitMq);
 
 
 //DownloadManager WebApp

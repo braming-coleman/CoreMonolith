@@ -1,8 +1,12 @@
 ﻿using CoreMonolith.Application.Abstractions.Authentication;
 using CoreMonolith.Application.Abstractions.Data;
+using CoreMonolith.Domain.Abstractions.Repositories;
+using CoreMonolith.Domain.Abstractions.Repositories.Access;
 using CoreMonolith.Infrastructure.Authentication;
 using CoreMonolith.Infrastructure.Authorization;
 using CoreMonolith.Infrastructure.Database;
+using CoreMonolith.Infrastructure.Repositories;
+using CoreMonolith.Infrastructure.Repositories.Access;
 using CoreMonolith.Infrastructure.Time;
 using CoreMonolith.ServiceDefaults.Constants;
 using CoreMonolith.SharedKernel.Abstractions;
@@ -68,6 +72,14 @@ public static class DependencyInjection
     private static IServiceCollection AddServices(this IServiceCollection services)
     {
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        services.AddScoped<IAccessContainer, AccessContainer>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IPermissionRepository, PermissionRepository>();
+        services.AddScoped<IUserPermissionRepository, UserPermissionRepository>();
 
         return services;
     }

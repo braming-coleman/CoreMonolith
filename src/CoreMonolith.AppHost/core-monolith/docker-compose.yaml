@@ -77,6 +77,7 @@ services:
       ASPNETCORE_FORWARDEDHEADERS_ENABLED: "true"
       HTTP_PORTS: "8080"
       ASPNETCORE_ENVIRONMENT: "Development"
+      core-monolith-webapi-jwt-secret: "NjW2qdu6HX8z57zXgbjpWxCTE4vr9hY5jQ8n6jLNj6AgddNYmS9z6vkaEUDhAbkEJ8EjJkfcz4JTgE301V5iaBNzzrzMgBU0fYmeYe6KBkuYchdTZ4rCEtyZ96qHzmhbVGZ36xzhC1C6r0fKVtLcAAMLqLeacf1KzEfzfWJ9bRV765izafWvhCfktjAPtd7u5XvdiN371Z4MPP8XBYemNtjmwE6uZ2696Ej4xu2nYr4xYrwCknmji51R0qU3pcp8bJPj9WJHBjYJfrRVhBZB9S9Kgm7mUzyXCC0G8YU4m04mUVQwQAixqaknuuPLjeginaD20ySCPTmRC7r3HVBHrR3AvzvaTH0c60jC8VwV4T1h0wn1VDzJfLL62BjHX6KFEA5Y1F6w4PaRHN2MDLtHpgJkjuJhH2yXG33vbqh3LWY8M21MCv1Zc2V8Z3F6aE8er6TLwnrp10rR5hqN9EJA5xJbPyhKQL4kktqZfYmYn3YhdAPdhgcr"
       ConnectionStrings__core-monolith-db: "Host=core-monolith-postgres;Port=5432;Username=core-monolith-user;Password=FF6ee473;Database=core-monolith-db"
       ConnectionStrings__core-monolith-redis: "core-monolith-redis:6379"
       ConnectionStrings__core-monolith-mq: "amqp://guest:t1aopxFLodwzHaDD41Wred@core-monolith-mq:5672"

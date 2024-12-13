@@ -1,8 +1,8 @@
 ﻿namespace CoreMonolith.Domain.Abstractions.Repositories;
 
-public interface IRepository
+public interface IRepository<T> where T : class
 {
-    void Add<T>(T entity);
-
-    void Remove<T>(T entity);
+    Task AddAsync(T entity);
+    void Remove(T entity);
+    void Update(T entity);
 }

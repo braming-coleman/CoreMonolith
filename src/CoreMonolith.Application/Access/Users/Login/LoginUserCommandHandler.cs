@@ -7,13 +7,13 @@ using CoreMonolith.SharedKernel;
 namespace CoreMonolith.Application.Access.Users.Login;
 
 internal sealed class LoginUserCommandHandler(
-    IAccessRepository _accessRepo,
+    IUnitOfWork _unitOfWork,
     IPasswordHasher _passwordHasher,
     ITokenProvider _tokenProvider) : ICommandHandler<LoginUserCommand, string>
 {
     public async Task<Result<string>> Handle(LoginUserCommand command, CancellationToken cancellationToken)
     {
-        var user = await _accessRepo.GetUserByEmailAsync(command.Email, cancellationToken);
+        var user = await _unitOfWork.Access.UserRepository.GetUserByEmailAsync(command.Email, cancellationToken);
 
         if (user is null)
             return Result.Failure<string>(UserErrors.NotFoundByEmail);

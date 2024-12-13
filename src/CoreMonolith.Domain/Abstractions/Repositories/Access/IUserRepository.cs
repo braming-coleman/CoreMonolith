@@ -1,8 +1,8 @@
 ﻿using CoreMonolith.Domain.Access;
 
-namespace CoreMonolith.Domain.Abstractions.Repositories;
+namespace CoreMonolith.Domain.Abstractions.Repositories.Access;
 
-public interface IAccessRepository : IRepository
+public interface IUserRepository : IRepository<User>
 {
     Task<User?> GetUserByEmailAsync(string email, CancellationToken cancellationToken = default);
     Task<User?> GetUserByIdAsync(Guid id, CancellationToken cancellationToken = default);

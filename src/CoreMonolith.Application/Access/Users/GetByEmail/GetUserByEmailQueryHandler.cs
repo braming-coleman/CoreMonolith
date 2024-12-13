@@ -6,12 +6,12 @@ using CoreMonolith.SharedKernel;
 namespace CoreMonolith.Application.Access.Users.GetByEmail;
 
 internal sealed class GetUserByEmailQueryHandler(
-    IAccessRepository _accessRepo)
+    IUnitOfWork _unitOfWork)
     : IQueryHandler<GetUserByEmailQuery, UserResponse>
 {
     public async Task<Result<UserResponse>> Handle(GetUserByEmailQuery query, CancellationToken cancellationToken)
     {
-        var user = await _accessRepo.GetUserByEmailAsync(query.Email, cancellationToken);
+        var user = await _unitOfWork.Access.UserRepository.GetUserByEmailAsync(query.Email, cancellationToken);
 
         if (user is null)
             return Result.Failure<UserResponse>(UserErrors.NotFoundByEmail);

@@ -1,20 +1,16 @@
-﻿using CoreMonolith.Application.Abstractions.Data;
-using CoreMonolith.Domain.Abstractions.Repositories;
+﻿using CoreMonolith.Domain.Abstractions.Repositories;
+using CoreMonolith.Domain.Abstractions.Repositories.Access;
 using CoreMonolith.Domain.Access;
+using CoreMonolith.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 
-namespace CoreMonolith.Infrastructure.Repositories;
+namespace CoreMonolith.Infrastructure.Repositories.Access;
 
-public class AccessRepository(
-    IApplicationDbContext _dbContext,
+public class UserRepository(
+    ApplicationDbContext _dbContext,
     IUnitOfWork _unitOfWork)
-    : IAccessRepository
+    : Repository<User>(_dbContext), IUserRepository
 {
-    public void Add<T>(T entity)
-    {
-        throw new NotImplementedException();
-    }
-
     public async Task<User?> GetUserByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
         var result = await _dbContext
@@ -33,11 +29,6 @@ public class AccessRepository(
             .SingleOrDefaultAsync(u => u.Id == id, cancellationToken);
 
         return result;
-    }
-
-    public void Remove<T>(T entity)
-    {
-        throw new NotImplementedException();
     }
 
     public async Task<bool> UserExistsByEmailAsync(string email, CancellationToken cancellationToken = default)

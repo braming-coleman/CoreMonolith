@@ -1,6 +1,10 @@
-﻿namespace CoreMonolith.Domain.Abstractions.Repositories;
+﻿using CoreMonolith.Domain.Abstractions.Repositories.Access;
+
+namespace CoreMonolith.Domain.Abstractions.Repositories;
 
 public interface IUnitOfWork
 {
-    Task SaveChangesAsync(CancellationToken cancellationToken = default);
+    IAccessContainer Access { get; }
+
+    Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);
 }

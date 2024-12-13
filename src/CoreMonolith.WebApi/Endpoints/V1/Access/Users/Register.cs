@@ -6,7 +6,7 @@ using CoreMonolith.SharedKernel.Extensions;
 using CoreMonolith.SharedKernel.Infrastructure;
 using MediatR;
 
-namespace CoreMonolith.WebApi.Endpoints.V1.Users;
+namespace CoreMonolith.WebApi.Endpoints.V1.Access.Users;
 
 internal sealed class Register : IEndpoint
 {
@@ -15,7 +15,7 @@ internal sealed class Register : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app
-            .MapApiVersion("user", Versions.V1)
+            .MapApiVersion("access/user", Versions.V1)
             .MapPost("/register", async (UserRegisterRequest request, ISender sender, CancellationToken cancellationToken) =>
             {
                 var command = new RegisterUserCommand(
@@ -29,6 +29,6 @@ internal sealed class Register : IEndpoint
                 return result.Match(Results.Ok, CustomResults.Problem);
             })
             .Produces<Guid>()
-            .WithTags(Tags.User);
+            .WithTags(Tags.Access);
     }
 }

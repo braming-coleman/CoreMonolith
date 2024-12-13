@@ -4,5 +4,5 @@ namespace CoreMonolith.Domain.Abstractions.Repositories.Access;
 
 public interface IUserPermissionRepository : IRepository<UserPermission>
 {
-    Task<HashSet<string>> GetPermissionsForUserIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<HashSet<string>> GetPermissionsByUserIdAsync(Guid id, CancellationToken cancellationToken = default);
 }

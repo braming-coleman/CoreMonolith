@@ -23,6 +23,14 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
                 FirstName = "Braming",
                 LastName = "Test",
                 PasswordHash = "EC6553E28054BACDE70E7F693DE71E1B7F31AF6963F647B256F8C564DAE41080-9CD8286C7E114D85232224E079FE6E0C"
+            },
+            new User
+            {
+                Id = Guid.Parse("b75e4ad1-0804-427b-abd9-a966e2d12266"),
+                Email = "service-account@download-manager.com",
+                FirstName = "Download Manager",
+                LastName = "Service Account",
+                PasswordHash = "07BCEA2F74FA1473DFA7AD7262FA1AD768306227F639642F6D1251FF53FC1F56-B8C0BF57037CBBA35D3D9FDCDBC33B6D"
             });
     }
 }

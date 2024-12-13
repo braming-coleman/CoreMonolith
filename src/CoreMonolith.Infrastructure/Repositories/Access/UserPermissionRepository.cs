@@ -11,7 +11,7 @@ public class UserPermissionRepository(
     IUnitOfWork _unitOfWork)
     : Repository<UserPermission>(_dbContext), IUserPermissionRepository
 {
-    public async Task<HashSet<string>> GetPermissionsForUserIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<HashSet<string>> GetPermissionsByUserIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var result = await _dbContext
             .UserPermissions

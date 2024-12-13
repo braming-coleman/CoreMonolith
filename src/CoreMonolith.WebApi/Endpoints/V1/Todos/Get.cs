@@ -22,7 +22,7 @@ internal sealed class Get : IEndpoint
 
                 return result.Match(Results.Ok, CustomResults.Problem);
             })
-            .HasPermission(Permissions.TodoRead)
+            .HasPermission(ApiPermissions.TodoRead)
             .RequireAuthorization()
             .Produces<List<TodoResponse>>()
             .WithTags(Tags.Todo);

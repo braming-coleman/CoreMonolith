@@ -1,14 +1,17 @@
-﻿using CoreMonolith.Domain.Abstractions.Repositories;
+﻿using CoreMonolith.Application.Access.UserPermissions.GetPermissionsByUserId;
+using MediatR;
 
 namespace CoreMonolith.Infrastructure.Authorization;
 
-internal sealed class PermissionProvider(IUnitOfWork _unitOfWork)
+internal sealed class PermissionProvider(
+    ISender _sender)
 {
     public async Task<HashSet<string>> GetForUserIdAsync(Guid userId)
     {
-        return await _unitOfWork
-            .Access
-            .UserPermissionRepository
-            .GetPermissionsForUserIdAsync(userId);
+        var query = new GetPermissionsByUserIdQuery(userId);
+
+        var result = await _sender.Send(query, default);
+
+        return result.Value;
     }
 }

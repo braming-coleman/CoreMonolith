@@ -14,7 +14,7 @@ internal sealed class Create : IEndpoint
     public sealed class TodoCreateRequest
     {
         public Guid UserId { get; set; }
-        public string Description { get; set; }
+        public string? Description { get; set; }
         public DateTime? DueDate { get; set; }
         public List<string> Labels { get; set; } = [];
         public int Priority { get; set; }

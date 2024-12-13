@@ -1,4 +1,8 @@
-﻿namespace CoreMonolith.WebApi.Endpoints.V1.Weather;
+﻿using CoreMonolith.SharedKernel.Abstractions;
+using CoreMonolith.SharedKernel.Constants;
+using CoreMonolith.SharedKernel.Extensions;
+
+namespace CoreMonolith.WebApi.Endpoints.V1.Weather;
 
 internal sealed class Forecast : IEndpoint
 {
@@ -24,9 +28,7 @@ internal sealed class Forecast : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app
-            .NewVersionedApi()
-            .MapGroup("/v{version:apiVersion}/weather")
-            .HasApiVersion(Versions.V1)
+            .MapApiVersion("weather", Versions.V1)
             .MapGet("/forecast", () =>
             {
                 var forecast = Enumerable.Range(1, 5).Select(index =>

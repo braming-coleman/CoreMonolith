@@ -1,12 +1,17 @@
-﻿namespace CoreMonolith.Infrastructure.Authorization;
+﻿using CoreMonolith.Infrastructure.Database;
+using Microsoft.EntityFrameworkCore;
 
-internal sealed class PermissionProvider
+namespace CoreMonolith.Infrastructure.Authorization;
+
+internal sealed class PermissionProvider(ApplicationDbContext _dbContext)
 {
-    public Task<HashSet<string>> GetForUserIdAsync(Guid userId)
+    public async Task<HashSet<string>> GetForUserIdAsync(Guid userId)
     {
-        //TODO: Here you'll implement your logic to fetch permissions.
-        HashSet<string> permissionsSet = [];
-
-        return Task.FromResult(permissionsSet);
+        return await _dbContext
+            .UserPermissions
+            .Include(i => i.Permission)
+            .Where(p => p.UserId == userId)
+            .Select(s => s.Permission.Key)
+            .ToHashSetAsync();
     }
 }

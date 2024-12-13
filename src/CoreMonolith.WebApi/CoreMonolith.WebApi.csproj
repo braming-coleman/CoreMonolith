@@ -19,6 +19,7 @@
 		</PackageReference>
 		<PackageReference Include="Scalar.AspNetCore" Version="1.2.53" />
 		<PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+		<PackageReference Include="Serilog.Sinks.OpenTelemetry" Version="4.1.1" />
 		<PackageReference Include="Serilog.Sinks.Seq" Version="8.0.0" />
 		<PackageReference Include="SonarAnalyzer.CSharp" Version="10.3.0.106239">
 			<PrivateAssets>all</PrivateAssets>
@@ -29,6 +30,7 @@
 	<ItemGroup>
 		<ProjectReference Include="..\CoreMonolith.Infrastructure\CoreMonolith.Infrastructure.csproj" />
 		<ProjectReference Include="..\CoreMonolith.ServiceDefaults\CoreMonolith.ServiceDefaults.csproj" />
+		<ProjectReference Include="..\CoreMonolith.SharedKernel\CoreMonolith.SharedKernel.csproj" />
 		<PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="*" />
 	</ItemGroup>
 

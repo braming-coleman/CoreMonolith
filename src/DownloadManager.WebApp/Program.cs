@@ -1,24 +1,29 @@
+using CoreMonolith.ServiceDefaults.Constants;
+using CoreMonolith.SharedKernel.Extensions;
 using DownloadManager.WebApp;
 using DownloadManager.WebApp.Components;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-// Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+builder.AddAndConfigureSerilog();
 
-builder.Services.AddOutputCache();
+// Add services to the container.
+builder.Services
+    .AddOutputCache()
+    .AddRazorComponents()
+    .AddInteractiveServerComponents();
 
 builder.Services.AddHttpClient<WeatherApiClient>(client =>
 {
     // This URL uses "https+http://" to indicate HTTPS is preferred over HTTP.
     // Learn more about service discovery scheme resolution at https://aka.ms/dotnet/sdschemes.
-    client.BaseAddress = new("https+http://core-monolith-webapi");
+    client.BaseAddress = new($"https+http://{ConnectionNameConstants.WebApiConnectionName}");
 });
 
-builder.AddRedisClient(connectionName: "core-monolith-redis");
+builder.AddRedisClient(connectionName: ConnectionNameConstants.RedisConnectionName);
 
 var app = builder.Build();
 
@@ -38,11 +43,13 @@ app.UseOutputCache();
 
 app.MapStaticAssets();
 
-app.MapStaticAssets();
-
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
 app.MapDefaultEndpoints();
+
+app.UseRequestContextLogging();
+
+app.UseSerilogRequestLogging();
 
 await app.RunAsync();

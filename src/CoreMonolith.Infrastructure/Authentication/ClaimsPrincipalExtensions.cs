@@ -1,5 +1,4 @@
-﻿using Microsoft.IdentityModel.JsonWebTokens;
-using System.Security.Claims;
+﻿using System.Security.Claims;
 
 namespace CoreMonolith.Infrastructure.Authentication;
 
@@ -7,7 +6,7 @@ internal static class ClaimsPrincipalExtensions
 {
     public static Guid GetUserId(this ClaimsPrincipal? principal)
     {
-        string? userId = principal?.FindFirstValue(JwtRegisteredClaimNames.Sub);
+        string? userId = principal?.FindFirstValue("userid");
 
         return Guid.TryParse(userId, out Guid parsedUserId) ?
             parsedUserId :

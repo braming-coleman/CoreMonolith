@@ -1,7 +1,9 @@
 ﻿using CoreMonolith.Application.Todos.Complete;
 using CoreMonolith.SharedKernel;
-using CoreMonolith.WebApi.Extensions;
-using CoreMonolith.WebApi.Infrastructure;
+using CoreMonolith.SharedKernel.Abstractions;
+using CoreMonolith.SharedKernel.Constants;
+using CoreMonolith.SharedKernel.Extensions;
+using CoreMonolith.SharedKernel.Infrastructure;
 using MediatR;
 
 namespace CoreMonolith.WebApi.Endpoints.V1.Todos;
@@ -11,9 +13,7 @@ internal sealed class Complete : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app
-            .NewVersionedApi()
-            .MapGroup("/v{version:apiVersion}/todos")
-            .HasApiVersion(Versions.V1)
+            .MapApiVersion("todo", Versions.V1)
             .MapPut("/{id:guid}/complete", async (Guid id, ISender sender, CancellationToken cancellationToken) =>
             {
                 var command = new CompleteTodoCommand(id);
@@ -22,7 +22,8 @@ internal sealed class Complete : IEndpoint
 
                 return result.Match(Results.NoContent, CustomResults.Problem);
             })
+            .HasPermission(Permissions.TodoWrite)
             .RequireAuthorization()
-            .WithTags(Tags.Todos);
+            .WithTags(Tags.Todo);
     }
 }

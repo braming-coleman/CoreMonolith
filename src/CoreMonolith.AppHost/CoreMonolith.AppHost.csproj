@@ -12,10 +12,17 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Include="..\CoreMonolith.ServiceDefaults\Constants\ConfigKeyConstants.cs" Link="Constants\ConfigKeyConstants.cs" />
+	  <Compile Include="..\CoreMonolith.ServiceDefaults\Constants\ConnectionNameConstants.cs" Link="Constants\ConnectionNameConstants.cs" />
+	  <Compile Include="..\CoreMonolith.ServiceDefaults\Constants\ResourceNameConstants.cs" Link="Constants\ResourceNameConstants.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Aspire.Hosting.AppHost" Version="9.0.0" />
 		<PackageReference Include="Aspire.Hosting.PostgreSQL" Version="*" />
 		<PackageReference Include="Aspire.Hosting.RabbitMQ" Version="9.0.0" />
 		<PackageReference Include="Aspire.Hosting.Redis" Version="9.0.0" />
+		<PackageReference Include="Serilog.Sinks.OpenTelemetry" Version="4.1.1" />
 		<PackageReference Include="SonarAnalyzer.CSharp" Version="10.3.0.106239">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -25,6 +32,10 @@
 	<ItemGroup>
 		<ProjectReference Include="..\CoreMonolith.WebApi\CoreMonolith.WebApi.csproj" />
 		<ProjectReference Include="..\DownloadManager.WebApp\DownloadManager.WebApp.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Constants\" />
 	</ItemGroup>
 
 </Project>

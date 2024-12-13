@@ -2,6 +2,7 @@
 using CoreMonolith.Application.Abstractions.Messaging;
 using CoreMonolith.Domain.Todos;
 using CoreMonolith.SharedKernel;
+using CoreMonolith.SharedKernel.Abstractions;
 using Microsoft.EntityFrameworkCore;
 
 namespace CoreMonolith.Application.Todos.Complete;

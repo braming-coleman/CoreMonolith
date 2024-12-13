@@ -17,4 +17,9 @@
     <ProjectReference Include="..\CoreMonolith.SharedKernel\CoreMonolith.SharedKernel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Abstractions\" />
+    <Folder Include="Exceptions\" />
+  </ItemGroup>
+
 </Project>

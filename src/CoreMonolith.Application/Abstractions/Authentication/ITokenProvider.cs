@@ -1,4 +1,4 @@
-﻿using CoreMonolith.Domain.Users;
+﻿using CoreMonolith.Domain.Access;
 
 namespace CoreMonolith.Application.Abstractions.Authentication;
 

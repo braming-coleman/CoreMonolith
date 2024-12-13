@@ -1,7 +1,9 @@
-﻿using CoreMonolith.Application.Users.GetById;
+﻿using CoreMonolith.Application.Access.Users.GetById;
 using CoreMonolith.SharedKernel;
-using CoreMonolith.WebApi.Extensions;
-using CoreMonolith.WebApi.Infrastructure;
+using CoreMonolith.SharedKernel.Abstractions;
+using CoreMonolith.SharedKernel.Constants;
+using CoreMonolith.SharedKernel.Extensions;
+using CoreMonolith.SharedKernel.Infrastructure;
 using MediatR;
 
 namespace CoreMonolith.WebApi.Endpoints.V1.Users;
@@ -11,9 +13,7 @@ internal sealed class GetById : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app
-            .NewVersionedApi()
-            .MapGroup("/v{version:apiVersion}/users")
-            .HasApiVersion(Versions.V1)
+            .MapApiVersion("user", Versions.V1)
             .MapGet("/{userId}", async (Guid userId, ISender sender, CancellationToken cancellationToken) =>
             {
                 var query = new GetUserByIdQuery(userId);
@@ -22,9 +22,9 @@ internal sealed class GetById : IEndpoint
 
                 return result.Match(Results.Ok, CustomResults.Problem);
             })
-            .HasPermission(Permissions.UsersAccess)
+            .HasPermission(Permissions.UserRead)
             .RequireAuthorization()
             .Produces<UserResponse>()
-            .WithTags(Tags.Users);
+            .WithTags(Tags.User);
     }
 }

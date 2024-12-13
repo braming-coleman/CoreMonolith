@@ -1,32 +1,29 @@
 ﻿using CoreMonolith.Application.Abstractions.Authentication;
-using CoreMonolith.Application.Abstractions.Data;
 using CoreMonolith.Application.Abstractions.Messaging;
+using CoreMonolith.Domain.Abstractions.Repositories;
 using CoreMonolith.Domain.Access;
 using CoreMonolith.SharedKernel;
-using Microsoft.EntityFrameworkCore;
 
 namespace CoreMonolith.Application.Access.Users.Login;
 
 internal sealed class LoginUserCommandHandler(
-    IApplicationDbContext context,
-    IPasswordHasher passwordHasher,
-    ITokenProvider tokenProvider) : ICommandHandler<LoginUserCommand, string>
+    IAccessRepository _accessRepo,
+    IPasswordHasher _passwordHasher,
+    ITokenProvider _tokenProvider) : ICommandHandler<LoginUserCommand, string>
 {
     public async Task<Result<string>> Handle(LoginUserCommand command, CancellationToken cancellationToken)
     {
-        User? user = await context.Users
-            .AsNoTracking()
-            .SingleOrDefaultAsync(u => u.Email == command.Email, cancellationToken);
+        var user = await _accessRepo.GetUserByEmailAsync(command.Email, cancellationToken);
 
         if (user is null)
             return Result.Failure<string>(UserErrors.NotFoundByEmail);
 
-        bool verified = passwordHasher.Verify(command.Password, user.PasswordHash);
+        bool verified = _passwordHasher.Verify(command.Password, user.PasswordHash);
 
         if (!verified)
             return Result.Failure<string>(UserErrors.NotFoundByEmail);
 
-        string token = tokenProvider.Create(user);
+        string token = _tokenProvider.Create(user);
 
         return token;
     }

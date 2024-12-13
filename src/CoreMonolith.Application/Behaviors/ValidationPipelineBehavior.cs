@@ -7,7 +7,7 @@ using System.Reflection;
 namespace CoreMonolith.Application.Behaviors;
 
 internal sealed class ValidationPipelineBehavior<TRequest, TResponse>(
-    IEnumerable<IValidator<TRequest>> validators)
+    IEnumerable<IValidator<TRequest>> _validators)
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : class
 {
@@ -43,13 +43,13 @@ internal sealed class ValidationPipelineBehavior<TRequest, TResponse>(
 
     private async Task<ValidationFailure[]> ValidateAsync(TRequest request)
     {
-        if (!validators.Any())
+        if (!_validators.Any())
             return [];
 
         var context = new ValidationContext<TRequest>(request);
 
         ValidationResult[] validationResults = await Task.WhenAll(
-            validators.Select(validator => validator.ValidateAsync(context)));
+            _validators.Select(validator => validator.ValidateAsync(context)));
 
         ValidationFailure[] validationFailures = validationResults
             .Where(validationResult => !validationResult.IsValid)

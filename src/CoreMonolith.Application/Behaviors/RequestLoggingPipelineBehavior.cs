@@ -6,7 +6,7 @@ using Serilog.Context;
 namespace CoreMonolith.Application.Behaviors;
 
 internal sealed class RequestLoggingPipelineBehavior<TRequest, TResponse>(
-    ILogger<RequestLoggingPipelineBehavior<TRequest, TResponse>> logger)
+    ILogger<RequestLoggingPipelineBehavior<TRequest, TResponse>> _logger)
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : class
     where TResponse : Result
@@ -18,15 +18,15 @@ internal sealed class RequestLoggingPipelineBehavior<TRequest, TResponse>(
     {
         string requestName = typeof(TRequest).Name;
 
-        logger.LogInformation("Processing request {RequestName}", requestName);
+        _logger.LogInformation("Processing request {RequestName}", requestName);
 
         TResponse result = await next();
 
         if (result.IsSuccess)
-            logger.LogInformation("Completed request {RequestName}", requestName);
+            _logger.LogInformation("Completed request {RequestName}", requestName);
         else
             using (LogContext.PushProperty("Error", result.Error, true))
-                logger.LogError("Completed request {RequestName} with error", requestName);
+                _logger.LogError("Completed request {RequestName} with error", requestName);
 
         return result;
     }

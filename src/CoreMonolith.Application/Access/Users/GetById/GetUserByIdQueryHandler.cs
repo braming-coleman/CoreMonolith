@@ -1,30 +1,29 @@
-﻿using CoreMonolith.Application.Abstractions.Data;
-using CoreMonolith.Application.Abstractions.Messaging;
+﻿using CoreMonolith.Application.Abstractions.Messaging;
+using CoreMonolith.Domain.Abstractions.Repositories;
 using CoreMonolith.Domain.Access;
 using CoreMonolith.SharedKernel;
-using Microsoft.EntityFrameworkCore;
 
 namespace CoreMonolith.Application.Access.Users.GetById;
 
-internal sealed class GetUserByIdQueryHandler(IApplicationDbContext context)
+internal sealed class GetUserByIdQueryHandler(
+    IAccessRepository _accessRepo)
     : IQueryHandler<GetUserByIdQuery, UserResponse>
 {
     public async Task<Result<UserResponse>> Handle(GetUserByIdQuery query, CancellationToken cancellationToken)
     {
-        UserResponse? user = await context.Users
-            .Where(u => u.Id == query.UserId)
-            .Select(u => new UserResponse
-            {
-                Id = u.Id,
-                FirstName = u.FirstName,
-                LastName = u.LastName,
-                Email = u.Email
-            })
-            .SingleOrDefaultAsync(cancellationToken);
+        var user = await _accessRepo.GetUserByIdAsync(query.UserId, cancellationToken);
 
         if (user is null)
             return Result.Failure<UserResponse>(UserErrors.NotFound(query.UserId));
 
-        return user;
+        var userResult = new UserResponse
+        {
+            Id = user.Id,
+            FirstName = user.FirstName,
+            LastName = user.LastName,
+            Email = user.Email
+        };
+
+        return userResult;
     }
 }

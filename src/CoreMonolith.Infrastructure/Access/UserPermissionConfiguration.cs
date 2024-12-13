@@ -17,6 +17,9 @@ internal sealed class UserPermissionConfiguration : IEntityTypeConfiguration<Use
             .HasIndex(u => new { u.UserId, u.PermissionId })
             .IsUnique();
 
+        builder.HasOne(o => o.User).WithMany(m => m.UserPermissions).HasForeignKey(t => t.UserId);
+        builder.HasOne(o => o.Permission).WithMany(m => m.UserPermissions).HasForeignKey(t => t.PermissionId);
+
         builder.HasData(
             new UserPermission { Id = Guid.Parse("f4bf25be-1bfa-430e-8773-912ac312f2f8"), UserId = Guid.Parse("a057e03a-2d3e-4958-9384-dbc529297d89"), PermissionId = Guid.Parse("d6cbe40d-3f0b-4402-ba4a-9a2d89536f07") },
             new UserPermission { Id = Guid.Parse("633afe8b-fd9f-46d7-b94b-9036bdf9e83b"), UserId = Guid.Parse("a057e03a-2d3e-4958-9384-dbc529297d89"), PermissionId = Guid.Parse("87f797e2-92cb-4298-8ec8-1a0d0334837b") },

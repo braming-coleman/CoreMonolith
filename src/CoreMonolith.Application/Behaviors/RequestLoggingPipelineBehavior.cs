@@ -3,7 +3,7 @@ using MediatR;
 using Microsoft.Extensions.Logging;
 using Serilog.Context;
 
-namespace CoreMonolith.Application.Abstractions.Behaviors;
+namespace CoreMonolith.Application.Behaviors;
 
 internal sealed class RequestLoggingPipelineBehavior<TRequest, TResponse>(
     ILogger<RequestLoggingPipelineBehavior<TRequest, TResponse>> logger)
@@ -26,9 +26,7 @@ internal sealed class RequestLoggingPipelineBehavior<TRequest, TResponse>(
             logger.LogInformation("Completed request {RequestName}", requestName);
         else
             using (LogContext.PushProperty("Error", result.Error, true))
-            {
                 logger.LogError("Completed request {RequestName} with error", requestName);
-            }
 
         return result;
     }

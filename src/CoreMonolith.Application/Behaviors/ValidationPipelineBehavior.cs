@@ -4,7 +4,7 @@ using FluentValidation.Results;
 using MediatR;
 using System.Reflection;
 
-namespace CoreMonolith.Application.Abstractions.Behaviors;
+namespace CoreMonolith.Application.Behaviors;
 
 internal sealed class ValidationPipelineBehavior<TRequest, TResponse>(
     IEnumerable<IValidator<TRequest>> validators)
@@ -19,9 +19,7 @@ internal sealed class ValidationPipelineBehavior<TRequest, TResponse>(
         ValidationFailure[] validationFailures = await ValidateAsync(request);
 
         if (validationFailures.Length == 0)
-        {
             return await next();
-        }
 
         if (typeof(TResponse).IsGenericType &&
             typeof(TResponse).GetGenericTypeDefinition() == typeof(Result<>))
@@ -33,16 +31,12 @@ internal sealed class ValidationPipelineBehavior<TRequest, TResponse>(
                 .GetMethod(nameof(Result<object>.ValidationFailure));
 
             if (failureMethod is not null)
-            {
                 return (TResponse)failureMethod.Invoke(
                     null,
                     [CreateValidationError(validationFailures)]);
-            }
         }
         else if (typeof(TResponse) == typeof(Result))
-        {
             return (TResponse)(object)Result.Failure(CreateValidationError(validationFailures));
-        }
 
         throw new ValidationException(validationFailures);
     }
@@ -50,9 +44,7 @@ internal sealed class ValidationPipelineBehavior<TRequest, TResponse>(
     private async Task<ValidationFailure[]> ValidateAsync(TRequest request)
     {
         if (!validators.Any())
-        {
             return [];
-        }
 
         var context = new ValidationContext<TRequest>(request);
 

@@ -1,4 +1,4 @@
-﻿using CoreMonolith.Application.Abstractions.Behaviors;
+﻿using CoreMonolith.Application.Behaviors;
 using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 

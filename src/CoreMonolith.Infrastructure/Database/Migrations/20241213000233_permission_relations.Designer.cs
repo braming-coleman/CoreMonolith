@@ -4,17 +4,20 @@ using System.Collections.Generic;
 using CoreMonolith.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
-namespace CoreMonolith.Infrastructure.Migrations
+namespace CoreMonolith.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20241213000233_permission_relations")]
+    partial class permission_relations
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -230,23 +233,19 @@ namespace CoreMonolith.Infrastructure.Migrations
 
             modelBuilder.Entity("CoreMonolith.Domain.Access.UserPermission", b =>
                 {
-                    b.HasOne("CoreMonolith.Domain.Access.Permission", "Permission")
-                        .WithMany("UserPermissions")
+                    b.HasOne("CoreMonolith.Domain.Access.Permission", null)
+                        .WithMany()
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_permissions_permissions_permission_id");
 
-                    b.HasOne("CoreMonolith.Domain.Access.User", "User")
-                        .WithMany("UserPermissions")
+                    b.HasOne("CoreMonolith.Domain.Access.User", null)
+                        .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_user_permissions_users_user_id");
-
-                    b.Navigation("Permission");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("CoreMonolith.Domain.Todos.TodoItem", b =>
@@ -257,16 +256,6 @@ namespace CoreMonolith.Infrastructure.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
                         .HasConstraintName("fk_todo_items_users_user_id");
-                });
-
-            modelBuilder.Entity("CoreMonolith.Domain.Access.Permission", b =>
-                {
-                    b.Navigation("UserPermissions");
-                });
-
-            modelBuilder.Entity("CoreMonolith.Domain.Access.User", b =>
-                {
-                    b.Navigation("UserPermissions");
                 });
 #pragma warning restore 612, 618
         }

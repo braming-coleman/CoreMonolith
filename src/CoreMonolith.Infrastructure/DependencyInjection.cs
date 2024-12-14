@@ -4,6 +4,7 @@ using CoreMonolith.Domain.Abstractions.Repositories;
 using CoreMonolith.Domain.Abstractions.Repositories.Access;
 using CoreMonolith.Infrastructure.Authentication;
 using CoreMonolith.Infrastructure.Authorization;
+using CoreMonolith.Infrastructure.Clients.HttpClients;
 using CoreMonolith.Infrastructure.Database;
 using CoreMonolith.Infrastructure.Repositories;
 using CoreMonolith.Infrastructure.Repositories.Access;
@@ -18,7 +19,9 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Http.Resilience;
 using Microsoft.IdentityModel.Tokens;
+using Polly;
 using System.Text;
 
 namespace CoreMonolith.Infrastructure;
@@ -66,7 +69,7 @@ public static class DependencyInjection
             .AddServices()
             .AddDatabase(configuration)
             .AddHealthChecks(configuration)
-            .AddAuthenticationInternal(configuration)
+            .AddCustomAuthentication(configuration)
             .AddAuthorizationInternal();
 
     private static IServiceCollection AddServices(this IServiceCollection services)
@@ -80,6 +83,38 @@ public static class DependencyInjection
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IPermissionRepository, PermissionRepository>();
         services.AddScoped<IUserPermissionRepository, UserPermissionRepository>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddCustomHttpClients(this IServiceCollection services)
+    {
+        services.AddHttpClient<WeatherApiClient>(client =>
+             {
+                 client.BaseAddress = new($"https+http://{ConnectionNameConstants.WebApiConnectionName}");
+             })
+            .AddResilienceHandler("custom", pipeline =>
+            {
+                pipeline.AddTimeout(TimeSpan.FromSeconds(5));
+
+                pipeline.AddRetry(new HttpRetryStrategyOptions
+                {
+                    MaxRetryAttempts = 3,
+                    BackoffType = DelayBackoffType.Exponential,
+                    UseJitter = true,
+                    Delay = TimeSpan.FromMilliseconds(500)
+                });
+
+                pipeline.AddCircuitBreaker(new HttpCircuitBreakerStrategyOptions
+                {
+                    SamplingDuration = TimeSpan.FromSeconds(10),
+                    FailureRatio = 0.9,
+                    MinimumThroughput = 5,
+                    BreakDuration = TimeSpan.FromSeconds(5)
+                });
+
+                pipeline.AddTimeout(TimeSpan.FromSeconds(1));
+            });
 
         return services;
     }
@@ -107,7 +142,7 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddAuthenticationInternal(
+    public static IServiceCollection AddCustomAuthentication(
         this IServiceCollection services,
         IConfiguration configuration)
     {

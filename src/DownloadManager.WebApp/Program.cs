@@ -1,12 +1,8 @@
-using CoreMonolith.Application.Abstractions.Authentication;
-using CoreMonolith.Infrastructure.Authentication;
+using CoreMonolith.Infrastructure;
 using CoreMonolith.ServiceDefaults.Constants;
 using CoreMonolith.SharedKernel.Extensions;
 using CoreMonolith.SharedKernel.Infrastructure;
-using DownloadManager.WebApp;
 using DownloadManager.WebApp.Components;
-using Microsoft.Extensions.Http.Resilience;
-using Polly;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,33 +19,11 @@ builder.Services
 
 //Shared Services
 builder.Services
+    .AddCustomAuthentication(builder.Configuration)
     .AddExceptionHandler<GlobalExceptionHandler>()
     .AddProblemDetails()
-    .AddHttpContextAccessor();
-
-builder.Services.AddScoped<IUserContext, UserContext>();
-
-builder.Services
-    .AddHttpClient<WeatherApiClient>(client =>
-    {
-        // This URL uses "https+http://" to indicate HTTPS is preferred over HTTP.
-        // Learn more about service discovery scheme resolution at https://aka.ms/dotnet/sdschemes.
-        client.BaseAddress = new($"https+http://{ConnectionNameConstants.WebApiConnectionName}");
-    })
-    .AddResilienceHandler("custom", pipeline =>
-    {
-        pipeline.AddTimeout(TimeSpan.FromSeconds(5));
-
-        pipeline.AddRetry(new HttpRetryStrategyOptions
-        {
-            MaxRetryAttempts = 3,
-            BackoffType = DelayBackoffType.Exponential,
-            UseJitter = true,
-            Delay = TimeSpan.FromMilliseconds(500)
-        });
-
-        pipeline.AddTimeout(TimeSpan.FromSeconds(1));
-    });
+    .AddHttpContextAccessor()
+    .AddCustomHttpClients();
 
 builder.AddRedisClient(connectionName: ConnectionNameConstants.RedisConnectionName);
 
@@ -81,6 +55,8 @@ app.UseRequestContextLogging();
 app.UseSerilogRequestLogging();
 
 app.UseExceptionHandler();
+
+app.UseAuthentication();
 
 await app.RunAsync();
 

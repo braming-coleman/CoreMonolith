@@ -1,9 +1,9 @@
 ﻿using CoreMonolith.Application.Abstractions.Clients;
 using CoreMonolith.Domain.RootFolderClients;
 
-namespace CoreMonolith.Infrastructure.Clients.WindowsLocal
+namespace CoreMonolith.Infrastructure.Clients.FolderClients.WindowsNetwork
 {
-    public class WindowsLocalClient : IRootFolderContextClient
+    public class WindowsNetworkClient : IRootFolderContextClient
     {
         public List<FolderListingResult> GetFolderListing(string relativePath)
         {

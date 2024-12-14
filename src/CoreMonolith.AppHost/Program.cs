@@ -61,6 +61,7 @@ var downloadManagerEnv = builder.AddParameter(ConfigKeyConstants.WebAppEnvKeyNam
 
 builder.AddProject<Projects.DownloadManager_WebApp>(ConnectionNameConstants.WebAppConnectionName)
     .WithEnvironment("ASPNETCORE_ENVIRONMENT", downloadManagerEnv)
+    .WithEnvironment(ConfigKeyConstants.JwtSecretKeyName, jwtSecret)
     .WithExternalHttpEndpoints()
     .WithReference(redis)
     .WaitFor(redis)

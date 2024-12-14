@@ -1,6 +1,4 @@
-using CoreMonolith.Application.Abstractions.Authentication;
 using CoreMonolith.Infrastructure;
-using CoreMonolith.Infrastructure.Authentication;
 using CoreMonolith.ServiceDefaults.Constants;
 using CoreMonolith.SharedKernel.Extensions;
 using CoreMonolith.SharedKernel.Infrastructure;
@@ -21,11 +19,10 @@ builder.Services
 
 //Shared Services
 builder.Services
+    .AddCustomAuthentication(builder.Configuration)
     .AddExceptionHandler<GlobalExceptionHandler>()
     .AddProblemDetails()
-    .AddHttpContextAccessor()
-    .AddCustomHttpClients()
-    .AddScoped<IUserContext, UserContext>();
+    .AddCustomHttpClients();
 
 builder.AddRedisClient(connectionName: ConnectionNameConstants.RedisConnectionName);
 
@@ -57,6 +54,8 @@ app.UseRequestContextLogging();
 app.UseSerilogRequestLogging();
 
 app.UseExceptionHandler();
+
+app.UseAuthentication();
 
 await app.RunAsync();
 

@@ -13,7 +13,7 @@ internal sealed class GetPermissionsByUserIdQueryHandler(
         var permissions = await _unitOfWork
             .Access
             .UserPermissionRepository
-            .GetPermissionsByUserIdAsync(request.UserId);
+            .GetPermissionsByUserIdAsync(request.UserId, cancellationToken);
 
         return permissions;
     }

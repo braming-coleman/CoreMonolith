@@ -4,7 +4,7 @@ using CoreMonolith.SharedKernel;
 
 namespace CoreMonolith.Application.Access.UserPermissions.GetPermissionsByUserId;
 
-public sealed class GetPermissionsByUserIdQueryHandler(
+internal sealed class GetPermissionsByUserIdQueryHandler(
     IUnitOfWork _unitOfWork)
     : IQueryHandler<GetPermissionsByUserIdQuery, HashSet<string>>
 {
@@ -13,7 +13,7 @@ public sealed class GetPermissionsByUserIdQueryHandler(
         var permissions = await _unitOfWork
             .Access
             .UserPermissionRepository
-            .GetPermissionsByUserIdAsync(request.Id);
+            .GetPermissionsByUserIdAsync(request.UserId);
 
         return permissions;
     }

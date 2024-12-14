@@ -3,7 +3,7 @@ using CoreMonolith.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CoreMonolith.Infrastructure.Access;
+namespace CoreMonolith.Infrastructure.DataSourceConfigs.Access;
 
 internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 {

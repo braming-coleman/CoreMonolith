@@ -4,7 +4,7 @@ using CoreMonolith.SharedKernel.Constants;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace CoreMonolith.Infrastructure.Access;
+namespace CoreMonolith.Infrastructure.DataSourceConfigs.Access;
 
 internal sealed class PermissionConfiguration : IEntityTypeConfiguration<Permission>
 {

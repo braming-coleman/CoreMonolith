@@ -4,7 +4,7 @@ using CoreMonolith.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Infrastructure.Todos;
+namespace CoreMonolith.Infrastructure.DataSourceConfigs.Todos;
 
 internal sealed class TodoItemConfiguration : IEntityTypeConfiguration<TodoItem>
 {

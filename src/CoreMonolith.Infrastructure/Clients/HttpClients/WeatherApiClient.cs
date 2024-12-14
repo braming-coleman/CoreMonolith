@@ -1,4 +1,6 @@
-namespace DownloadManager.WebApp;
+using System.Net.Http.Json;
+
+namespace CoreMonolith.Infrastructure.Clients.HttpClients;
 
 public class WeatherApiClient(HttpClient httpClient)
 {

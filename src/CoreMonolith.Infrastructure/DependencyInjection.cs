@@ -4,6 +4,7 @@ using CoreMonolith.Domain.Abstractions.Repositories;
 using CoreMonolith.Domain.Abstractions.Repositories.Access;
 using CoreMonolith.Infrastructure.Authentication;
 using CoreMonolith.Infrastructure.Authorization;
+using CoreMonolith.Infrastructure.Clients.HttpClients;
 using CoreMonolith.Infrastructure.Database;
 using CoreMonolith.Infrastructure.Repositories;
 using CoreMonolith.Infrastructure.Repositories.Access;
@@ -66,7 +67,7 @@ public static class DependencyInjection
             .AddServices()
             .AddDatabase(configuration)
             .AddHealthChecks(configuration)
-            .AddAuthenticationInternal(configuration)
+            .AddCustomAuthentication(configuration)
             .AddAuthorizationInternal();
 
     private static IServiceCollection AddServices(this IServiceCollection services)
@@ -80,6 +81,16 @@ public static class DependencyInjection
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IPermissionRepository, PermissionRepository>();
         services.AddScoped<IUserPermissionRepository, UserPermissionRepository>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddCustomHttpClients(this IServiceCollection services)
+    {
+        services.AddHttpClient<WeatherApiClient>(client =>
+             {
+                 client.BaseAddress = new($"https+http://{ConnectionNameConstants.WebApiConnectionName}");
+             });
 
         return services;
     }
@@ -107,7 +118,7 @@ public static class DependencyInjection
         return services;
     }
 
-    private static IServiceCollection AddAuthenticationInternal(
+    public static IServiceCollection AddCustomAuthentication(
         this IServiceCollection services,
         IConfiguration configuration)
     {

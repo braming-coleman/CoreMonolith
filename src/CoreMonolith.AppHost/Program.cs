@@ -2,9 +2,6 @@ using CoreMonolith.ServiceDefaults.Constants;
 
 var builder = DistributedApplication.CreateBuilder(args);
 
-//JWT
-
-
 //Core Postgres Db & PgAdmin
 var postgresUser = builder.AddParameter(ConfigKeyConstants.DbUsernameKeyName, secret: false);
 var postgresPassword = builder.AddParameter(ConfigKeyConstants.DbPasswordKeyName, secret: true);
@@ -26,6 +23,7 @@ var postgres = builder.AddPostgres(ResourceNameConstants.DbServerName, postgresU
     });
 
 var postgressDb = postgres.AddDatabase(ConnectionNameConstants.DbConnStringName);
+//-----------------------------------------------------------------------------------------//
 
 
 //Core RabbitMQ
@@ -33,10 +31,12 @@ var rabbitMq = builder.AddRabbitMQ(ConnectionNameConstants.RabbitMqConnectionNam
     .WithVolume($"{ConnectionNameConstants.RabbitMqConnectionName}-volume", @"/var/lib/rabbitmq")
     .WithManagementPlugin()
     .WithLifetime(ContainerLifetime.Persistent);
+//-----------------------------------------------------------------------------------------//
 
 
 //Core Redis
 var redis = builder.AddRedis(ConnectionNameConstants.RedisConnectionName);
+//-----------------------------------------------------------------------------------------//
 
 
 //Core WebApi
@@ -53,7 +53,7 @@ var webApi = builder.AddProject<Projects.CoreMonolith_WebApi>(ConnectionNameCons
     .WithReference(redis)
     .WaitFor(redis)
     .WithReference(rabbitMq);
-//.WaitFor(rabbitMq);
+//-----------------------------------------------------------------------------------------//
 
 
 //DownloadManager WebApp
@@ -61,6 +61,7 @@ var downloadManagerEnv = builder.AddParameter(ConfigKeyConstants.WebAppEnvKeyNam
 
 builder.AddProject<Projects.DownloadManager_WebApp>(ConnectionNameConstants.WebAppConnectionName)
     .WithEnvironment("ASPNETCORE_ENVIRONMENT", downloadManagerEnv)
+    .WithEnvironment(ConfigKeyConstants.JwtSecretKeyName, jwtSecret)
     .WithExternalHttpEndpoints()
     .WithReference(redis)
     .WaitFor(redis)
@@ -68,3 +69,4 @@ builder.AddProject<Projects.DownloadManager_WebApp>(ConnectionNameConstants.WebA
     .WaitFor(webApi);
 
 await builder.Build().RunAsync();
+//-----------------------------------------------------------------------------------------//

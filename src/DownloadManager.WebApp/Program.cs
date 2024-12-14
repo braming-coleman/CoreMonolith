@@ -1,6 +1,7 @@
+using CoreMonolith.Infrastructure;
 using CoreMonolith.ServiceDefaults.Constants;
 using CoreMonolith.SharedKernel.Extensions;
-using DownloadManager.WebApp;
+using CoreMonolith.SharedKernel.Infrastructure;
 using DownloadManager.WebApp.Components;
 using Serilog;
 
@@ -16,12 +17,12 @@ builder.Services
     .AddRazorComponents()
     .AddInteractiveServerComponents();
 
-builder.Services.AddHttpClient<WeatherApiClient>(client =>
-{
-    // This URL uses "https+http://" to indicate HTTPS is preferred over HTTP.
-    // Learn more about service discovery scheme resolution at https://aka.ms/dotnet/sdschemes.
-    client.BaseAddress = new($"https+http://{ConnectionNameConstants.WebApiConnectionName}");
-});
+//Shared Services
+builder.Services
+    .AddCustomAuthentication(builder.Configuration)
+    .AddExceptionHandler<GlobalExceptionHandler>()
+    .AddProblemDetails()
+    .AddCustomHttpClients();
 
 builder.AddRedisClient(connectionName: ConnectionNameConstants.RedisConnectionName);
 
@@ -52,4 +53,14 @@ app.UseRequestContextLogging();
 
 app.UseSerilogRequestLogging();
 
+app.UseExceptionHandler();
+
+app.UseAuthentication();
+
 await app.RunAsync();
+
+// REMARK: Required for functional and integration tests to work.
+namespace DownloadManager.WebApp
+{
+    public partial class Program;
+}

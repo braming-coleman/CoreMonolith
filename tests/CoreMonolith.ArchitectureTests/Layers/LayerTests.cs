@@ -32,7 +32,7 @@ public class LayerTests : BaseTest
     {
         TestResult result = Types.InAssembly(DomainAssembly)
             .Should()
-            .NotHaveDependencyOn(PresentationAssembly.GetName().Name)
+            .NotHaveDependencyOn(WebAppAssembly.GetName().Name)
             .GetResult();
 
         result.IsSuccessful.Should().BeTrue();
@@ -54,7 +54,7 @@ public class LayerTests : BaseTest
     {
         TestResult result = Types.InAssembly(ApplicationAssembly)
             .Should()
-            .NotHaveDependencyOn(PresentationAssembly.GetName().Name)
+            .NotHaveDependencyOn(WebAppAssembly.GetName().Name)
             .GetResult();
 
         result.IsSuccessful.Should().BeTrue();
@@ -65,7 +65,40 @@ public class LayerTests : BaseTest
     {
         TestResult result = Types.InAssembly(InfrastructureAssembly)
             .Should()
-            .NotHaveDependencyOn(PresentationAssembly.GetName().Name)
+            .NotHaveDependencyOn(WebAppAssembly.GetName().Name)
+            .GetResult();
+
+        result.IsSuccessful.Should().BeTrue();
+    }
+
+    [Fact]
+    public void DomainLayer_ShouldNotHaveDependencyOn_ApiLayer()
+    {
+        TestResult result = Types.InAssembly(DomainAssembly)
+            .Should()
+            .NotHaveDependencyOn(WebApiAssembly.GetName().Name)
+            .GetResult();
+
+        result.IsSuccessful.Should().BeTrue();
+    }
+
+    [Fact]
+    public void ApplicationLayer_ShouldNotHaveDependencyOn_ApiLayer()
+    {
+        TestResult result = Types.InAssembly(ApplicationAssembly)
+            .Should()
+            .NotHaveDependencyOn(WebApiAssembly.GetName().Name)
+            .GetResult();
+
+        result.IsSuccessful.Should().BeTrue();
+    }
+
+    [Fact]
+    public void InfrastructureLayer_ShouldNotHaveDependencyOn_ApiLayer()
+    {
+        TestResult result = Types.InAssembly(InfrastructureAssembly)
+            .Should()
+            .NotHaveDependencyOn(WebApiAssembly.GetName().Name)
             .GetResult();
 
         result.IsSuccessful.Should().BeTrue();

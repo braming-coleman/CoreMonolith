@@ -19,9 +19,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Http.Resilience;
 using Microsoft.IdentityModel.Tokens;
-using Polly;
 using System.Text;
 
 namespace CoreMonolith.Infrastructure;
@@ -92,29 +90,7 @@ public static class DependencyInjection
         services.AddHttpClient<WeatherApiClient>(client =>
              {
                  client.BaseAddress = new($"https+http://{ConnectionNameConstants.WebApiConnectionName}");
-             })
-            .AddResilienceHandler("custom", pipeline =>
-            {
-                pipeline.AddTimeout(TimeSpan.FromSeconds(5));
-
-                pipeline.AddRetry(new HttpRetryStrategyOptions
-                {
-                    MaxRetryAttempts = 3,
-                    BackoffType = DelayBackoffType.Exponential,
-                    UseJitter = true,
-                    Delay = TimeSpan.FromMilliseconds(500)
-                });
-
-                pipeline.AddCircuitBreaker(new HttpCircuitBreakerStrategyOptions
-                {
-                    SamplingDuration = TimeSpan.FromSeconds(10),
-                    FailureRatio = 0.9,
-                    MinimumThroughput = 5,
-                    BreakDuration = TimeSpan.FromSeconds(5)
-                });
-
-                pipeline.AddTimeout(TimeSpan.FromSeconds(1));
-            });
+             });
 
         return services;
     }

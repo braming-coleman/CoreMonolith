@@ -25,6 +25,7 @@
     <ProjectReference Include="..\..\src\CoreMonolith.Domain\CoreMonolith.Domain.csproj" />
     <ProjectReference Include="..\..\src\CoreMonolith.Infrastructure\CoreMonolith.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\CoreMonolith.WebApi\CoreMonolith.WebApi.csproj" />
+    <ProjectReference Include="..\..\src\DownloadManager.WebApp\DownloadManager.WebApp.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,5 +1,8 @@
+using CoreMonolith.Application.Abstractions.Authentication;
+using CoreMonolith.Infrastructure.Authentication;
 using CoreMonolith.ServiceDefaults.Constants;
 using CoreMonolith.SharedKernel.Extensions;
+using CoreMonolith.SharedKernel.Infrastructure;
 using DownloadManager.WebApp;
 using DownloadManager.WebApp.Components;
 using Serilog;
@@ -15,6 +18,14 @@ builder.Services
     .AddOutputCache()
     .AddRazorComponents()
     .AddInteractiveServerComponents();
+
+//Shared Services
+builder.Services
+    .AddExceptionHandler<GlobalExceptionHandler>()
+    .AddProblemDetails()
+    .AddHttpContextAccessor();
+
+builder.Services.AddScoped<IUserContext, UserContext>();
 
 builder.Services.AddHttpClient<WeatherApiClient>(client =>
 {
@@ -52,4 +63,12 @@ app.UseRequestContextLogging();
 
 app.UseSerilogRequestLogging();
 
+app.UseExceptionHandler();
+
 await app.RunAsync();
+
+// REMARK: Required for functional and integration tests to work.
+namespace DownloadManager.WebApp
+{
+    public partial class Program;
+}

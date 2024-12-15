@@ -1,5 +1,6 @@
 ﻿using CoreMonolith.SharedKernel.Abstractions;
 using FluentAssertions;
+using NSubstitute;
 
 namespace CoreMonolith.SharedKernel.UnitTests.Models;
 
@@ -17,34 +18,6 @@ public class EntityTests
     }
 
     [Fact]
-    public void Raise_ShouldAddDomainEvent()
-    {
-        // Arrange
-        var domainEvent = new TestDomainEvent();
-
-        // Act
-        _entity.Raise(domainEvent);
-
-        // Assert
-        _entity.DomainEvents.Should().ContainSingle()
-            .Which.Should().Be(domainEvent);
-    }
-
-    [Fact]
-    public void ClearDomainEvents_ShouldRemoveAllDomainEvents()
-    {
-        // Arrange
-        _entity.Raise(new TestDomainEvent());
-        _entity.Raise(new TestDomainEvent());
-
-        // Act
-        _entity.ClearDomainEvents();
-
-        // Assert
-        _entity.DomainEvents.Should().BeEmpty();
-    }
-
-    [Fact]
     public void DomainEvents_ShouldNotAllowModificationDirectly()
     {
         // Act
@@ -53,5 +26,34 @@ public class EntityTests
         // Assert
         domainEvents.Should().NotBeNull();
         domainEvents.Should().BeEmpty();
+    }
+
+    [Fact]
+    public void Raise_ShouldAddDomainEventToList()
+    {
+        // Arrange
+        var entity = Substitute.ForPartsOf<Entity>();
+        var domainEvent = Substitute.For<IDomainEvent>();
+
+        // Act
+        entity.Raise(domainEvent);
+
+        // Assert
+        entity.DomainEvents.Should().ContainSingle()
+            .Which.Should().Be(domainEvent);
+    }
+
+    [Fact]
+    public void ClearDomainEvents_ShouldClearDomainEventsList()
+    {
+        // Arrange
+        var entity = Substitute.ForPartsOf<Entity>();
+        entity.Raise(Substitute.For<IDomainEvent>());
+
+        // Act
+        entity.ClearDomainEvents();
+
+        // Assert
+        entity.DomainEvents.Should().BeEmpty();
     }
 }

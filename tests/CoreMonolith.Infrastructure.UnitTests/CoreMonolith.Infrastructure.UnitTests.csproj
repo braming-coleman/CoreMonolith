@@ -14,10 +14,12 @@
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
     <PackageReference Include="xunit" Version="2.9.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" Version="*" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\CoreMonolith.Domain\CoreMonolith.Domain.csproj" />
+    <ProjectReference Include="..\..\src\CoreMonolith.Infrastructure\CoreMonolith.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>

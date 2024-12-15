@@ -1,4 +1,4 @@
-﻿using CoreMonolith.Domain.Access;
+﻿using CoreMonolith.Domain.Access.Users;
 using FluentAssertions;
 
 namespace CoreMonolith.Domain.UnitTests.Access;

@@ -1,7 +1,7 @@
 ﻿using CoreMonolith.Application.Abstractions.Authentication;
 using CoreMonolith.Application.Abstractions.Messaging;
 using CoreMonolith.Domain.Abstractions.Repositories;
-using CoreMonolith.Domain.Access;
+using CoreMonolith.Domain.Access.Users;
 using CoreMonolith.SharedKernel;
 
 namespace CoreMonolith.Application.Access.Users.Login;

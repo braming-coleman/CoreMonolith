@@ -1,6 +1,8 @@
 ﻿using CoreMonolith.Application.Abstractions.Messaging;
 using CoreMonolith.Domain.Abstractions.Repositories;
-using CoreMonolith.Domain.Access;
+using CoreMonolith.Domain.Access.Permissions;
+using CoreMonolith.Domain.Access.UserPermissions;
+using CoreMonolith.Domain.Access.Users;
 using CoreMonolith.SharedKernel;
 
 namespace CoreMonolith.Application.Access.UserPermissions.Create;
@@ -16,7 +18,7 @@ internal sealed class CreateUserPermissionCommandHandler(IUnitOfWork _unitOfWork
 
         //check permission existance 
         if (!await _unitOfWork.Access.PermissionRepository.ExistsByIdAsync(command.PermissionId, cancellationToken))
-            return Result.Failure<Guid>(PermisionErrors.NotFound(command.PermissionId));
+            return Result.Failure<Guid>(PermissionErrors.NotFound(command.PermissionId));
 
         //check user permission existance
         if (await _unitOfWork.Access.UserPermissionRepository

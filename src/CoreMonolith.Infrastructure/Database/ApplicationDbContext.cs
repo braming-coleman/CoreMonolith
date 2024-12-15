@@ -1,5 +1,7 @@
 ﻿using CoreMonolith.Application.Abstractions.Data;
-using CoreMonolith.Domain.Access;
+using CoreMonolith.Domain.Access.Permissions;
+using CoreMonolith.Domain.Access.UserPermissions;
+using CoreMonolith.Domain.Access.Users;
 using CoreMonolith.Domain.Todos;
 using CoreMonolith.SharedKernel;
 using CoreMonolith.SharedKernel.Abstractions;

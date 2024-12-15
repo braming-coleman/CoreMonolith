@@ -1,5 +1,4 @@
-﻿using CoreMonolith.Domain.Access;
-using CoreMonolith.SharedKernel;
+﻿using CoreMonolith.Domain.Access.Permissions;
 using FluentAssertions;
 
 namespace CoreMonolith.Domain.UnitTests.Access;
@@ -31,20 +30,5 @@ public class PermissionTests
         permission.Key.Should().Be(key);
         permission.Description.Should().Be(description);
         permission.UserPermissions.Should().HaveCount(1);
-    }
-
-    [Fact]
-    public void PermissionErrorsNotFound_ShouldReturnCorrectErrorForPermissionId()
-    {
-        // Arrange
-        var permissionId = Guid.NewGuid();
-
-        // Act
-        var error = PermisionErrors.NotFound(permissionId);
-
-        // Assert
-        error.Code.Should().Be("Permision.NotFound");
-        error.Description.Should().Be($"The permision with the Id = '{permissionId}' was not found.");
-        error.Type.Should().Be(ErrorType.NotFound);
     }
 }

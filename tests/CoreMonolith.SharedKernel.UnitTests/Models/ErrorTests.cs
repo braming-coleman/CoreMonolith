@@ -5,6 +5,20 @@ namespace CoreMonolith.SharedKernel.UnitTests.Models;
 public class ErrorTests
 {
     [Fact]
+    public void Constructor_SetsPropertiesCorrectly()
+    {
+        var code = "TestCode";
+        var description = "Test Description";
+        var type = ErrorType.Problem;
+
+        var error = new Error(code, description, type);
+
+        error.Code.Should().Be(code);
+        error.Description.Should().Be(description);
+        error.Type.Should().Be(type);
+    }
+
+    [Fact]
     public void None_ShouldHaveEmptyCodeAndDescription()
     {
         // Act
@@ -62,5 +76,29 @@ public class ErrorTests
         error.Code.Should().Be("Test.Conflict");
         error.Description.Should().Be("Conflict occurred");
         error.Type.Should().Be(ErrorType.Conflict);
+    }
+
+    [Theory]
+    [InlineData(ErrorType.Failure)]
+    [InlineData(ErrorType.NotFound)]
+    [InlineData(ErrorType.Problem)]
+    [InlineData(ErrorType.Conflict)]
+    public void StaticFactoryMethods_CreateCorrectErrorType(ErrorType type)
+    {
+        var code = "TestCode";
+        var description = "Test Description";
+
+        var error = type switch
+        {
+            ErrorType.Failure => Error.Failure(code, description),
+            ErrorType.NotFound => Error.NotFound(code, description),
+            ErrorType.Problem => Error.Problem(code, description),
+            ErrorType.Conflict => Error.Conflict(code, description),
+            _ => throw new ArgumentOutOfRangeException(nameof(type))
+        };
+
+        error.Code.Should().Be(code);
+        error.Description.Should().Be(description);
+        error.Type.Should().Be(type);
     }
 }

@@ -1,11 +1,11 @@
 ﻿using CoreMonolith.Application.Access.Permissions;
 using CoreMonolith.Application.Access.Permissions.GetAll;
 using CoreMonolith.Domain.Abstractions.Repositories;
-using CoreMonolith.Domain.Access;
+using CoreMonolith.Domain.Access.Permissions;
 using FluentAssertions;
 using NSubstitute;
 
-namespace CoreMonolith.Application.UnitTests.Access.Permissions;
+namespace CoreMonolith.Application.UnitTests.Access.Permissions.GetAll;
 
 public class GetAllPermissionsQueryHandlerTests
 {
@@ -75,5 +75,4 @@ public class GetAllPermissionsQueryHandlerTests
         await _unitOfWork.Access.PermissionRepository.Received(1)
             .GetAllAsync(Arg.Any<CancellationToken>());
     }
-
 }

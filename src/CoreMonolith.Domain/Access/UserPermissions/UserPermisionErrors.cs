@@ -1,6 +1,6 @@
 ﻿using CoreMonolith.SharedKernel;
 
-namespace CoreMonolith.Domain.Access;
+namespace CoreMonolith.Domain.Access.UserPermissions;
 
 public static class UserPermisionErrors
 {

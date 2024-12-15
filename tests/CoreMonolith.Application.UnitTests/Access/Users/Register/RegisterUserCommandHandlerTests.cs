@@ -1,7 +1,7 @@
 ﻿using CoreMonolith.Application.Abstractions.Authentication;
 using CoreMonolith.Application.Access.Users.Register;
 using CoreMonolith.Domain.Abstractions.Repositories;
-using CoreMonolith.Domain.Access;
+using CoreMonolith.Domain.Access.Users;
 using FluentAssertions;
 using NSubstitute;
 

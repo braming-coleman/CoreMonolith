@@ -1,4 +1,4 @@
-﻿using CoreMonolith.Domain.Access;
+﻿using CoreMonolith.Domain.Access.Permissions;
 using CoreMonolith.Infrastructure.Database;
 using CoreMonolith.SharedKernel.Constants;
 using Microsoft.EntityFrameworkCore;

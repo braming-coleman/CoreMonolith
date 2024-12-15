@@ -1,6 +1,8 @@
 ﻿using CoreMonolith.Application.Access.UserPermissions.Create;
 using CoreMonolith.Domain.Abstractions.Repositories;
-using CoreMonolith.Domain.Access;
+using CoreMonolith.Domain.Access.Permissions;
+using CoreMonolith.Domain.Access.UserPermissions;
+using CoreMonolith.Domain.Access.Users;
 using FluentAssertions;
 using NSubstitute;
 
@@ -53,7 +55,7 @@ public class CreateUserPermissionCommandHandlerTests
 
         // Assert
         result.IsFailure.Should().BeTrue();
-        result.Error.Should().Be(PermisionErrors.NotFound(command.PermissionId));
+        result.Error.Should().Be(PermissionErrors.NotFound(command.PermissionId));
     }
 
 

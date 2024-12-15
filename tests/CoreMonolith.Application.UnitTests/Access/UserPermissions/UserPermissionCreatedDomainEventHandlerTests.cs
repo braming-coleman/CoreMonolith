@@ -1,5 +1,5 @@
 ﻿using CoreMonolith.Application.Access.UserPermissions.Create;
-using CoreMonolith.Domain.Access;
+using CoreMonolith.Domain.Access.UserPermissions;
 using CoreMonolith.SharedKernel.Constants;
 using Microsoft.AspNetCore.OutputCaching;
 using NSubstitute;

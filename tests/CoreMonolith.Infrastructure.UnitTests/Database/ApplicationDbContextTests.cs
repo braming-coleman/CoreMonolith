@@ -1,4 +1,4 @@
-﻿using CoreMonolith.Domain.Access;
+﻿using CoreMonolith.Domain.Access.Users;
 using CoreMonolith.Infrastructure.Database;
 using CoreMonolith.SharedKernel.Abstractions;
 using FluentAssertions;

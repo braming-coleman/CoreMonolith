@@ -1,6 +1,8 @@
-﻿using CoreMonolith.SharedKernel;
+﻿using CoreMonolith.Domain.Access.Permissions;
+using CoreMonolith.Domain.Access.Users;
+using CoreMonolith.SharedKernel;
 
-namespace CoreMonolith.Domain.Access;
+namespace CoreMonolith.Domain.Access.UserPermissions;
 
 public class UserPermission : Entity
 {

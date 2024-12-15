@@ -1,4 +1,5 @@
 ﻿using CoreMonolith.Application.Abstractions.Authentication;
+using CoreMonolith.SharedKernel.Extensions;
 using Microsoft.AspNetCore.Http;
 
 namespace CoreMonolith.Infrastructure.Authentication;

@@ -25,6 +25,7 @@ internal sealed class GetById : IEndpoint
             .HasPermission(ApiPermissions.TodoRead)
             .RequireAuthorization()
             .Produces<TodoResponse>()
-            .WithTags(Tags.Todo);
+            .WithTags(Tags.Todo)
+            .CacheAuthedOutput(Tags.Todo);
     }
 }

@@ -11,11 +11,19 @@ public class UserPermissionRepository(
 {
     private readonly ApplicationDbContext _dbContext = _dbContext;
 
+    public async Task<bool> ExistsByUserAndPermissionIdAsync(Guid userId, Guid permissionId, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext
+            .UserPermissions.AsNoTracking()
+            .AnyAsync(u => u.UserId == userId && u.PermissionId == permissionId,
+            cancellationToken);
+    }
+
     public async Task<HashSet<string>> GetPermissionsByUserIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var result = await _dbContext
-            .UserPermissions
-            .Include(i => i.Permission)
+            .UserPermissions.AsNoTracking()
+            .Include(i => i.Permission).AsNoTracking()
             .Where(p => p.UserId == id)
             .Select(s => $"{s.Permission.Key}")
             .ToHashSetAsync(cancellationToken);

@@ -1,8 +1,8 @@
 ﻿using System.Security.Claims;
 
-namespace CoreMonolith.Infrastructure.Authentication;
+namespace CoreMonolith.SharedKernel.Extensions;
 
-internal static class ClaimsPrincipalExtensions
+public static class ClaimsPrincipalExtensions
 {
     public static Guid GetUserId(this ClaimsPrincipal? principal)
     {

@@ -35,7 +35,14 @@ var rabbitMq = builder.AddRabbitMQ(ConnectionNameConstants.RabbitMqConnectionNam
 
 
 //Core Redis
-var redis = builder.AddRedis(ConnectionNameConstants.RedisConnectionName);
+var redis = builder.AddRedis(ConnectionNameConstants.RedisConnectionName)
+    .WithRedisCommander(config =>
+    {
+        config
+        .PublishAsContainer()
+        .WithContainerName(ResourceNameConstants.RedisAdminName)
+        .WithLifetime(ContainerLifetime.Persistent);
+    });
 //-----------------------------------------------------------------------------------------//
 
 

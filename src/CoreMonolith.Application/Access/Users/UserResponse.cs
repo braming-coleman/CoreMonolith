@@ -1,4 +1,4 @@
-﻿namespace CoreMonolith.Application.Access.Users.GetByEmail;
+﻿namespace CoreMonolith.Application.Access.Users;
 
 public sealed record UserResponse
 {

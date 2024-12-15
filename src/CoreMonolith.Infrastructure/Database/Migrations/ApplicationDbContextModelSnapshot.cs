@@ -84,6 +84,18 @@ namespace CoreMonolith.Infrastructure.Migrations
                             Id = new Guid("c9a0b1be-391b-44aa-90d8-aca0757d18d6"),
                             Description = "Write access to [user-permission] resource",
                             Key = "user-permission:write"
+                        },
+                        new
+                        {
+                            Id = new Guid("86c9629c-c5e5-49ad-94b7-6981f921386b"),
+                            Description = "Read access to [permission] resource",
+                            Key = "permission:read"
+                        },
+                        new
+                        {
+                            Id = new Guid("82fddd77-f662-4927-aae1-46ebb00c2c05"),
+                            Description = "Write access to [permission] resource",
+                            Key = "permission:write"
                         });
                 });
 
@@ -204,6 +216,18 @@ namespace CoreMonolith.Infrastructure.Migrations
                         },
                         new
                         {
+                            Id = new Guid("03183e06-4c68-42a0-9752-a529a12b1936"),
+                            PermissionId = new Guid("86c9629c-c5e5-49ad-94b7-6981f921386b"),
+                            UserId = new Guid("a057e03a-2d3e-4958-9384-dbc529297d89")
+                        },
+                        new
+                        {
+                            Id = new Guid("468aec95-abc6-4522-a406-344c99ccac58"),
+                            PermissionId = new Guid("82fddd77-f662-4927-aae1-46ebb00c2c05"),
+                            UserId = new Guid("a057e03a-2d3e-4958-9384-dbc529297d89")
+                        },
+                        new
+                        {
                             Id = new Guid("8fdfbd52-6f5b-40b0-a86b-2624478de3b6"),
                             PermissionId = new Guid("d6cbe40d-3f0b-4402-ba4a-9a2d89536f07"),
                             UserId = new Guid("b75e4ad1-0804-427b-abd9-a966e2d12266")
@@ -236,6 +260,18 @@ namespace CoreMonolith.Infrastructure.Migrations
                         {
                             Id = new Guid("8bbd1b7e-b91d-46bf-b746-3722376c8186"),
                             PermissionId = new Guid("c9a0b1be-391b-44aa-90d8-aca0757d18d6"),
+                            UserId = new Guid("b75e4ad1-0804-427b-abd9-a966e2d12266")
+                        },
+                        new
+                        {
+                            Id = new Guid("c6373e0a-dae5-4c50-96ee-a785b8483a48"),
+                            PermissionId = new Guid("86c9629c-c5e5-49ad-94b7-6981f921386b"),
+                            UserId = new Guid("b75e4ad1-0804-427b-abd9-a966e2d12266")
+                        },
+                        new
+                        {
+                            Id = new Guid("b6d32088-4628-49ea-a2d3-01ba347f39a2"),
+                            PermissionId = new Guid("82fddd77-f662-4927-aae1-46ebb00c2c05"),
                             UserId = new Guid("b75e4ad1-0804-427b-abd9-a966e2d12266")
                         });
                 });

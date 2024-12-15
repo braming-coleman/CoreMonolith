@@ -13,7 +13,7 @@ internal sealed class LoginUserCommandHandler(
 {
     public async Task<Result<string>> Handle(LoginUserCommand command, CancellationToken cancellationToken)
     {
-        var user = await _unitOfWork.Access.UserRepository.GetUserByEmailAsync(command.Email, cancellationToken);
+        var user = await _unitOfWork.Access.UserRepository.GetByEmailAsync(command.Email, cancellationToken);
 
         if (user is null)
             return Result.Failure<string>(UserErrors.NotFoundByEmail);

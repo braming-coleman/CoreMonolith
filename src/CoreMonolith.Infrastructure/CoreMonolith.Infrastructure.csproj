@@ -10,6 +10,7 @@
     <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0" />
     <PackageReference Include="Aspire.RabbitMQ.Client" Version="9.0.0" />
     <PackageReference Include="Aspire.StackExchange.Redis" Version="9.0.0" />
+    <PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" Version="9.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="8.0.2" />
     <PackageReference Include="EFCore.NamingConventions" Version="9.0.0" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
@@ -29,6 +30,12 @@
     <ProjectReference Include="..\CoreMonolith.Application\CoreMonolith.Application.csproj" />
     <ProjectReference Include="..\CoreMonolith.ServiceDefaults\CoreMonolith.ServiceDefaults.csproj" />
     <ProjectReference Include="..\CoreMonolith.SharedKernel\CoreMonolith.SharedKernel.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="CoreMonolith.Application.UnitTests" />
+    <InternalsVisibleTo Include="CoreMonolith.Domain.UnitTests" />
+    <InternalsVisibleTo Include="CoreMonolith.SharedKernel.UnitTests" />
   </ItemGroup>
 
 </Project>

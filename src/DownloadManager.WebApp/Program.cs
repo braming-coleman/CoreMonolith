@@ -1,5 +1,4 @@
 using CoreMonolith.Infrastructure;
-using CoreMonolith.ServiceDefaults.Constants;
 using CoreMonolith.SharedKernel.Extensions;
 using CoreMonolith.SharedKernel.Infrastructure;
 using DownloadManager.WebApp.Components;
@@ -13,7 +12,6 @@ builder.AddAndConfigureSerilog();
 
 // Add services to the container.
 builder.Services
-    .AddOutputCache()
     .AddRazorComponents()
     .AddInteractiveServerComponents();
 
@@ -24,14 +22,13 @@ builder.Services
     .AddProblemDetails()
     .AddCustomHttpClients();
 
-builder.AddRedisClient(connectionName: ConnectionNameConstants.RedisConnectionName);
+builder.AddRedisClients();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
@@ -39,8 +36,6 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAntiforgery();
-
-app.UseOutputCache();
 
 app.MapStaticAssets();
 
@@ -56,6 +51,8 @@ app.UseSerilogRequestLogging();
 app.UseExceptionHandler();
 
 app.UseAuthentication();
+
+app.UseOutputCache();
 
 await app.RunAsync();
 

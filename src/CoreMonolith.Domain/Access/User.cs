@@ -10,5 +10,5 @@ public class User : Entity
     public string? LastName { get; set; }
     public string? PasswordHash { get; set; }
 
-    public IEnumerable<UserPermission> UserPermissions { get; set; } = [];
+    public List<UserPermission> UserPermissions { get; set; } = [];
 }

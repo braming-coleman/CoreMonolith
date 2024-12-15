@@ -11,6 +11,7 @@ using CoreMonolith.Infrastructure.Repositories.Access;
 using CoreMonolith.Infrastructure.Time;
 using CoreMonolith.ServiceDefaults.Constants;
 using CoreMonolith.SharedKernel.Abstractions;
+using CoreMonolith.SharedKernel.OutputCaching;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
@@ -36,11 +37,35 @@ public static class DependencyInjection
         dbContext.Database.Migrate();
     }
 
-    public static WebApplicationBuilder AddInfrastructureClients(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddRabbitMqClient(this WebApplicationBuilder builder)
     {
-        builder.AddRedisClient(connectionName: ConnectionNameConstants.RedisConnectionName);
+        builder.AddRabbitMQClient(connectionName: ConnectionNameConstants.RabbitMqConnectionName, options =>
+        {
+            options.DisableTracing = false;
+            options.DisableHealthChecks = false;
+        });
 
-        builder.AddRabbitMQClient(connectionName: ConnectionNameConstants.RabbitMqConnectionName);
+        return builder;
+    }
+
+    public static WebApplicationBuilder AddRedisClients(this WebApplicationBuilder builder)
+    {
+        builder.AddRedisClient(connectionName: ConnectionNameConstants.RedisConnectionName, options =>
+        {
+            options.DisableTracing = false;
+            options.DisableHealthChecks = false;
+        });
+
+        builder.Services.AddOutputCache(options =>
+        {
+            options.AddBasePolicy(b => b.AddPolicy<CustomPolicy>().SetCacheKeyPrefix("custom-"), true);
+        });
+
+        builder.AddRedisOutputCache(connectionName: ConnectionNameConstants.RedisConnectionName, options =>
+        {
+            options.DisableTracing = false;
+            options.DisableHealthChecks = false;
+        });
 
         return builder;
     }
@@ -91,6 +116,20 @@ public static class DependencyInjection
              {
                  client.BaseAddress = new($"https+http://{ConnectionNameConstants.WebApiConnectionName}");
              });
+
+        return services;
+    }
+
+    public static IServiceCollection AddCustomOutputCache(this IServiceCollection services, IConfiguration configuration, string instanceName)
+    {
+        services
+            .AddOutputCache()
+            .AddStackExchangeRedisOutputCache(options =>
+            {
+                options.Configuration = configuration.GetConnectionString(ConnectionNameConstants.RedisConnectionName);
+
+                options.InstanceName = instanceName;
+            });
 
         return services;
     }

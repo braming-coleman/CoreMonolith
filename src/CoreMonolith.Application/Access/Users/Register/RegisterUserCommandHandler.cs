@@ -13,7 +13,7 @@ internal sealed class RegisterUserCommandHandler(
 {
     public async Task<Result<Guid>> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
     {
-        if (await _unitOfWork.Access.UserRepository.UserExistsByEmailAsync(command.Email, cancellationToken))
+        if (await _unitOfWork.Access.UserRepository.ExistsByEmailAsync(command.Email, cancellationToken))
             return Result.Failure<Guid>(UserErrors.EmailNotUnique);
 
         var user = new User
@@ -27,7 +27,7 @@ internal sealed class RegisterUserCommandHandler(
 
         user.Raise(new UserRegisteredDomainEvent(user.Id));
 
-        await _unitOfWork.Access.UserRepository.AddAsync(user);
+        await _unitOfWork.Access.UserRepository.AddAsync(user, cancellationToken);
 
         await _unitOfWork.SaveChangesAsync(cancellationToken);
 

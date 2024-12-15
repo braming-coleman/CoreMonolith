@@ -5,13 +5,12 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoreMonolith.Infrastructure.Repositories.Access;
 
-public class UserRepository(
-    ApplicationDbContext _dbContext)
+public class UserRepository(ApplicationDbContext _dbContext)
     : Repository<User>(_dbContext), IUserRepository
 {
     private readonly ApplicationDbContext _dbContext = _dbContext;
 
-    public async Task<User?> GetUserByEmailAsync(string email, CancellationToken cancellationToken = default)
+    public async Task<User?> GetByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
         var result = await _dbContext
             .Users
@@ -21,7 +20,7 @@ public class UserRepository(
         return result;
     }
 
-    public async Task<User?> GetUserByIdAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var result = await _dbContext
             .Users
@@ -31,8 +30,10 @@ public class UserRepository(
         return result;
     }
 
-    public async Task<bool> UserExistsByEmailAsync(string email, CancellationToken cancellationToken = default)
+    public async Task<bool> ExistsByEmailAsync(string email, CancellationToken cancellationToken = default)
     {
-        return await _dbContext.Users.AnyAsync(u => u.Email == email, cancellationToken);
+        return await _dbContext
+            .Users.AsNoTracking()
+            .AnyAsync(u => u.Email == email, cancellationToken);
     }
 }

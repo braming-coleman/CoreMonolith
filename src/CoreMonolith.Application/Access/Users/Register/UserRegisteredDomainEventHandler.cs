@@ -1,13 +1,18 @@
 ﻿using CoreMonolith.Domain.Access;
+using CoreMonolith.SharedKernel.Constants;
 using MediatR;
+using Microsoft.AspNetCore.OutputCaching;
 
 namespace CoreMonolith.Application.Access.Users.Register;
 
-internal sealed class UserRegisteredDomainEventHandler : INotificationHandler<UserRegisteredDomainEvent>
+internal sealed class UserRegisteredDomainEventHandler(IOutputCacheStore _cacheStore)
+    : INotificationHandler<UserRegisteredDomainEvent>
 {
-    public Task Handle(UserRegisteredDomainEvent notification, CancellationToken cancellationToken)
+    public async Task Handle(UserRegisteredDomainEvent notification, CancellationToken cancellationToken)
     {
+        await _cacheStore.EvictByTagAsync(Tags.User, cancellationToken);
+
         //TODO: Send an email verification link, etc.
-        return Task.CompletedTask;
+        //return Task.CompletedTask;
     }
 }

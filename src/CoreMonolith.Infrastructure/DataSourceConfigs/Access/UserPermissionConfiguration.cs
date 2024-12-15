@@ -31,12 +31,16 @@ internal sealed class UserPermissionConfiguration : IEntityTypeConfiguration<Use
             new UserPermission { Id = Guid.Parse("4a6dee70-f862-464f-b643-b90aeea50706"), UserId = testUserId, PermissionId = Guid.Parse("d69712b8-195b-4c62-ae66-d4b37702a23d") },
             new UserPermission { Id = Guid.Parse("610f21e7-77e6-4398-8be2-0330c8111143"), UserId = testUserId, PermissionId = Guid.Parse("122c9c3d-1ad2-4228-8d0c-53b3a55dcff6") },
             new UserPermission { Id = Guid.Parse("43b1a7d7-97fb-4b27-be30-a61724e6300c"), UserId = testUserId, PermissionId = Guid.Parse("c9a0b1be-391b-44aa-90d8-aca0757d18d6") },
+            new UserPermission { Id = Guid.Parse("03183e06-4c68-42a0-9752-a529a12b1936"), UserId = testUserId, PermissionId = Guid.Parse("86c9629c-c5e5-49ad-94b7-6981f921386b") },
+            new UserPermission { Id = Guid.Parse("468aec95-abc6-4522-a406-344c99ccac58"), UserId = testUserId, PermissionId = Guid.Parse("82fddd77-f662-4927-aae1-46ebb00c2c05") },
             //service-account@download-manager.com
             new UserPermission { Id = Guid.Parse("8fdfbd52-6f5b-40b0-a86b-2624478de3b6"), UserId = webAppServiceAccount, PermissionId = Guid.Parse("d6cbe40d-3f0b-4402-ba4a-9a2d89536f07") },
             new UserPermission { Id = Guid.Parse("693c920b-dd14-4654-9c48-c0a6aa0df11c"), UserId = webAppServiceAccount, PermissionId = Guid.Parse("87f797e2-92cb-4298-8ec8-1a0d0334837b") },
             new UserPermission { Id = Guid.Parse("1734a74d-14c1-4dc2-9332-4091ba9c7c56"), UserId = webAppServiceAccount, PermissionId = Guid.Parse("b057d9cd-ce76-4d0b-b79d-d10da140a8e8") },
             new UserPermission { Id = Guid.Parse("354bdea6-7847-4a21-aeb7-52b39be4719a"), UserId = webAppServiceAccount, PermissionId = Guid.Parse("d69712b8-195b-4c62-ae66-d4b37702a23d") },
             new UserPermission { Id = Guid.Parse("5c9b4ceb-0591-484f-8ffd-803deb266c7a"), UserId = webAppServiceAccount, PermissionId = Guid.Parse("122c9c3d-1ad2-4228-8d0c-53b3a55dcff6") },
-            new UserPermission { Id = Guid.Parse("8bbd1b7e-b91d-46bf-b746-3722376c8186"), UserId = webAppServiceAccount, PermissionId = Guid.Parse("c9a0b1be-391b-44aa-90d8-aca0757d18d6") });
+            new UserPermission { Id = Guid.Parse("8bbd1b7e-b91d-46bf-b746-3722376c8186"), UserId = webAppServiceAccount, PermissionId = Guid.Parse("c9a0b1be-391b-44aa-90d8-aca0757d18d6") },
+            new UserPermission { Id = Guid.Parse("c6373e0a-dae5-4c50-96ee-a785b8483a48"), UserId = webAppServiceAccount, PermissionId = Guid.Parse("86c9629c-c5e5-49ad-94b7-6981f921386b") },
+            new UserPermission { Id = Guid.Parse("b6d32088-4628-49ea-a2d3-01ba347f39a2"), UserId = webAppServiceAccount, PermissionId = Guid.Parse("82fddd77-f662-4927-aae1-46ebb00c2c05") });
     }
 }

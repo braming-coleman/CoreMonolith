@@ -19,7 +19,8 @@ builder.Services
 
 builder
     .EnrichDbContext()
-    .AddInfrastructureClients()
+    .AddRabbitMqClient()
+    .AddRedisClients()
     .AddDefaultOpenApi();
 
 var app = builder.Build();
@@ -44,6 +45,8 @@ app.UseExceptionHandler();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseOutputCache();
 
 await app.RunAsync();
 

@@ -24,6 +24,11 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
         modelBuilder.HasDefaultSchema(Schemas.Default);
     }
 
+    internal void OnModelCreatingInternal(ModelBuilder modelBuilder)
+    {
+        OnModelCreating(modelBuilder);
+    }
+
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {
         // When should you publish domain events?

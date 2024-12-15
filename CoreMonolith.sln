@@ -48,6 +48,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreMonolith.Domain.UnitTes
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreMonolith.SharedKernel.UnitTests", "tests\CoreMonolith.SharedKernel.UnitTests\CoreMonolith.SharedKernel.UnitTests.csproj", "{9BED1526-B0B0-46D1-A919-62DF9AF0CACB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreMonolith.Infrastructure.UnitTests", "tests\CoreMonolith.Infrastructure.UnitTests\CoreMonolith.Infrastructure.UnitTests.csproj", "{35A8585F-DA54-4BAA-8610-A1E7EEF817D1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -102,6 +104,10 @@ Global
 		{9BED1526-B0B0-46D1-A919-62DF9AF0CACB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9BED1526-B0B0-46D1-A919-62DF9AF0CACB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9BED1526-B0B0-46D1-A919-62DF9AF0CACB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{35A8585F-DA54-4BAA-8610-A1E7EEF817D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{35A8585F-DA54-4BAA-8610-A1E7EEF817D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{35A8585F-DA54-4BAA-8610-A1E7EEF817D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{35A8585F-DA54-4BAA-8610-A1E7EEF817D1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -124,5 +130,6 @@ Global
 		{3798E064-CFC0-4987-9772-3F705600774E} = {C6CCF3F1-6773-4425-8C59-D4818EAB7244}
 		{6B1CF0AD-88CD-4455-87E9-CADFC680CBEA} = {C6CCF3F1-6773-4425-8C59-D4818EAB7244}
 		{9BED1526-B0B0-46D1-A919-62DF9AF0CACB} = {C6CCF3F1-6773-4425-8C59-D4818EAB7244}
+		{35A8585F-DA54-4BAA-8610-A1E7EEF817D1} = {C6CCF3F1-6773-4425-8C59-D4818EAB7244}
 	EndGlobalSection
 EndGlobal

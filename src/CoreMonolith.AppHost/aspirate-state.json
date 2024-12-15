@@ -49,7 +49,8 @@
       "core-monolith-webapi-jwt-secret": {
         "value": "CtZXxipTw51U1uv3jG9ekN88XPVjvscvh7qXcVwgoJpcKiVbB9OK9/QK1lH2lUTR\u002BBcLH2FbqCkMy32PSbCXIptdRszbD48H/FaWsfd\u002BbSY1LhRBtSOyOh6vLNv0KwQOk\u002BGdfu6YFyUrnXxjRkjL0qUgB4mO\u002BaSIevCDeL8ah0hyM1BUWtGmTkd8kCWNOo/hWxVk1TUNeAxnZovRk/NgTKQ7u2wyuB4C7DWX0Yg4ahpljQqcAV9y1RzBNJe2BOfKR4ON\u002BYDPjn\u002BExJACy4QpY82NNNNA1ewE3LnaLGZtDL3hVTZfST7BcySsxlR8\u002BX/RBPvpVIbXTZCFx1FxadNjblkEm/daGSMEPSmR8zhYwjqzxeFe0RPdBUhZpkQ1pjHrNuHartoqR2kzbPy/8DY2g4hj6d97NlZmt9UAbXzrWVfj5aMdcKQ/20e1EXUvmR\u002BUTq9VfS7LHfgerXwr5C/ADc3RNOKsBjgYfHSWwp9jUlpYcQGVypux\u002BhyMyI5AkKuM2naRVMf5fLUmbigMTRj5KceoABe5iTpnI1DWp3meJHRrf737NtZH0sGn\u002BpYrkQJtBgDcz6F51Z8MqbyGJdCnMPkrqsnUqyGyAxlTTwbkKUeiqRC/15kWzvQSTB27tExBxCLkPPO0zXtIpwfW40rR/7SePJWScC9CtfUxjm/M0AkKo/YOyShO7W4e4Jbvwxvt"
       },
-      "core-monolith-redisb": {}
+      "core-monolith-redisb": {},
+      "core-monolith-redis-commander": {}
     }
   },
   "processAllComponents": true

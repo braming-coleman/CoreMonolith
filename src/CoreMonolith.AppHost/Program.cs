@@ -19,6 +19,7 @@ var postgres = builder.AddPostgres(ResourceNameConstants.DbServerName, postgresU
         .WithContainerName(ResourceNameConstants.DbServerAdminName)
         .WithVolume($"{ResourceNameConstants.DbServerAdminName}-volume", @"/var/lib/pgadmin")
         .WithHostPort(pgadminHostPort)
+        .WithExternalHttpEndpoints()
         .WithLifetime(ContainerLifetime.Persistent);
     });
 
@@ -30,17 +31,20 @@ var postgressDb = postgres.AddDatabase(ConnectionNameConstants.DbConnStringName)
 var rabbitMq = builder.AddRabbitMQ(ConnectionNameConstants.RabbitMqConnectionName)
     .WithVolume($"{ConnectionNameConstants.RabbitMqConnectionName}-volume", @"/var/lib/rabbitmq")
     .WithManagementPlugin()
+    .WithExternalHttpEndpoints()
     .WithLifetime(ContainerLifetime.Persistent);
 //-----------------------------------------------------------------------------------------//
 
 
 //Core Redis
 var redis = builder.AddRedis(ConnectionNameConstants.RedisConnectionName)
+    .WithExternalHttpEndpoints()
     .WithRedisCommander(config =>
     {
         config
         .PublishAsContainer()
         .WithContainerName(ResourceNameConstants.RedisAdminName)
+        .WithExternalHttpEndpoints()
         .WithLifetime(ContainerLifetime.Persistent);
     });
 //-----------------------------------------------------------------------------------------//

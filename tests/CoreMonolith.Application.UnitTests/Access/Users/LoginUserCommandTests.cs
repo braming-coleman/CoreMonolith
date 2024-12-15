@@ -34,7 +34,7 @@ public class LoginUserCommandTests
         _unitOfWorkMock
             .Access
             .UserRepository
-            .GetUserByEmailAsync(Arg.Is<string>(e => e == Command.Email))
+            .GetByEmailAsync(Arg.Is<string>(e => e == Command.Email))
             .Returns((User?)null);
 
         //Act
@@ -51,7 +51,7 @@ public class LoginUserCommandTests
         _unitOfWorkMock
             .Access
             .UserRepository
-            .GetUserByEmailAsync(Arg.Is<string>(e => e == Command.Email))
+            .GetByEmailAsync(Arg.Is<string>(e => e == Command.Email))
             .Returns(new User());
 
         _passwordHasherMock
@@ -72,7 +72,7 @@ public class LoginUserCommandTests
         _unitOfWorkMock
             .Access
             .UserRepository
-            .GetUserByEmailAsync(Arg.Is<string>(e => e == Command.Email))
+            .GetByEmailAsync(Arg.Is<string>(e => e == Command.Email))
             .Returns(new User());
 
         _passwordHasherMock

@@ -1,6 +1,8 @@
-﻿namespace CoreMonolith.Domain.Access;
+﻿using CoreMonolith.SharedKernel;
 
-public class UserPermission
+namespace CoreMonolith.Domain.Access;
+
+public class UserPermission : Entity
 {
     public Guid Id { get; set; }
     public Guid UserId { get; set; }

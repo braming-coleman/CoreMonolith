@@ -34,7 +34,7 @@ public class RegisterUserCommandTests
         _unitOfWorkMock
             .Access
             .UserRepository
-            .UserExistsByEmailAsync(Arg.Is<string>(e => e == Command.Email))
+            .ExistsByEmailAsync(Arg.Is<string>(e => e == Command.Email))
             .Returns(true);
 
         //Act
@@ -64,7 +64,7 @@ public class RegisterUserCommandTests
         _unitOfWorkMock
             .Access
             .UserRepository
-            .UserExistsByEmailAsync(Arg.Is<string>(e => e == Command.Email))
+            .ExistsByEmailAsync(Arg.Is<string>(e => e == Command.Email))
             .Returns(false);
 
         //Act
@@ -81,7 +81,7 @@ public class RegisterUserCommandTests
         _unitOfWorkMock
             .Access
             .UserRepository
-            .UserExistsByEmailAsync(Arg.Is<string>(e => e == Command.Email))
+            .ExistsByEmailAsync(Arg.Is<string>(e => e == Command.Email))
             .Returns(false);
 
         //Act
@@ -92,7 +92,7 @@ public class RegisterUserCommandTests
             .Access
             .UserRepository
             .Received(1)
-            .AddAsync(Arg.Is<User>(u => u.Id == result.Value));
+            .AddAsync(Arg.Is<User>(u => u.Id == result.Value), default);
     }
 
     [Fact]
@@ -102,7 +102,7 @@ public class RegisterUserCommandTests
         _unitOfWorkMock
             .Access
             .UserRepository
-            .UserExistsByEmailAsync(Arg.Is<string>(e => e == Command.Email))
+            .ExistsByEmailAsync(Arg.Is<string>(e => e == Command.Email))
             .Returns(false);
 
         //Act

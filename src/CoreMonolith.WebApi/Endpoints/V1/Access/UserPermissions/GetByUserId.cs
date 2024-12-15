@@ -24,6 +24,7 @@ internal sealed class GetByUserId : IEndpoint
             .HasPermission(ApiPermissions.UserPermissionRead)
             .RequireAuthorization()
             .Produces<HashSet<string>>()
-            .WithTags(Tags.Access);
+            .WithTags(Tags.Access)
+            .CacheAuthedOutput(Tags.UserPermission);
     }
 }

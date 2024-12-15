@@ -4,15 +4,15 @@ using Microsoft.EntityFrameworkCore;
 
 namespace CoreMonolith.Infrastructure.Repositories;
 
-public class Repository<T>(
-    ApplicationDbContext _dbContext)
+public class Repository<T>(ApplicationDbContext _dbContext)
     : IRepository<T> where T : class
 {
     private readonly DbSet<T> _dbSet = _dbContext.Set<T>();
 
-    public async Task AddAsync(T entity)
+
+    public async Task AddAsync(T entity, CancellationToken cancellationToken)
     {
-        await _dbSet.AddAsync(entity);
+        await _dbSet.AddAsync(entity, cancellationToken);
     }
 
     public void Remove(T entity)
@@ -23,5 +23,17 @@ public class Repository<T>(
     public void Update(T entity)
     {
         _dbSet.Update(entity);
+    }
+
+    public async Task<bool> ExistsByIdAsync(Guid Id, CancellationToken cancellationToken)
+    {
+        var result = await _dbSet.FindAsync(Id, cancellationToken);
+
+        return result is not null;
+    }
+
+    public async Task<T?> FindByIdAsync(Guid Id, CancellationToken cancellationToken)
+    {
+        return await _dbSet.FindAsync(Id, cancellationToken);
     }
 }

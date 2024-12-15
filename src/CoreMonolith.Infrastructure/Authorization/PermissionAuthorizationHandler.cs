@@ -1,4 +1,4 @@
-﻿using CoreMonolith.Infrastructure.Authentication;
+﻿using CoreMonolith.SharedKernel.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.Extensions.DependencyInjection;
 

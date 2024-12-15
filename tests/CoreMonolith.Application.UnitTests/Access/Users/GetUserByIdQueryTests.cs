@@ -27,7 +27,7 @@ public class GetUserByIdQueryTests
         _unitOfWorkMock
             .Access
             .UserRepository
-            .GetUserByIdAsync(Arg.Is<Guid>(e => e == Query.UserId))
+            .GetByIdAsync(Arg.Is<Guid>(e => e == Query.UserId))
             .Returns((User?)null);
 
         //Act
@@ -44,7 +44,7 @@ public class GetUserByIdQueryTests
         _unitOfWorkMock
             .Access
             .UserRepository
-            .GetUserByIdAsync(Arg.Is<Guid>(e => e == Query.UserId))
+            .GetByIdAsync(Arg.Is<Guid>(e => e == Query.UserId))
             .Returns(new User());
 
         //Act

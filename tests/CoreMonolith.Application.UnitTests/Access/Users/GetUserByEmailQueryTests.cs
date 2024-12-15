@@ -28,7 +28,7 @@ public class GetUserByEmailQueryTests
         _unitOfWorkMock
             .Access
             .UserRepository
-            .GetUserByEmailAsync(Arg.Is<string>(e => e == Query.Email))
+            .GetByEmailAsync(Arg.Is<string>(e => e == Query.Email))
             .Returns((User?)null);
 
         //Act
@@ -45,7 +45,7 @@ public class GetUserByEmailQueryTests
         _unitOfWorkMock
             .Access
             .UserRepository
-            .GetUserByEmailAsync(Arg.Is<string>(e => e == Query.Email))
+            .GetByEmailAsync(Arg.Is<string>(e => e == Query.Email))
             .Returns(new User());
 
         //Act

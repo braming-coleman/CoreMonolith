@@ -1,5 +1,4 @@
 using CoreMonolith.Infrastructure;
-using CoreMonolith.ServiceDefaults.Constants;
 using CoreMonolith.SharedKernel.Extensions;
 using CoreMonolith.SharedKernel.Infrastructure;
 using DownloadManager.WebApp.Components;
@@ -13,7 +12,6 @@ builder.AddAndConfigureSerilog();
 
 // Add services to the container.
 builder.Services
-    .AddOutputCache()
     .AddRazorComponents()
     .AddInteractiveServerComponents();
 
@@ -24,7 +22,7 @@ builder.Services
     .AddProblemDetails()
     .AddCustomHttpClients();
 
-builder.AddRedisClient(connectionName: ConnectionNameConstants.RedisConnectionName);
+builder.AddRedisClients();
 
 var app = builder.Build();
 
@@ -38,8 +36,6 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 
 app.UseAntiforgery();
-
-app.UseOutputCache();
 
 app.MapStaticAssets();
 
@@ -55,6 +51,8 @@ app.UseSerilogRequestLogging();
 app.UseExceptionHandler();
 
 app.UseAuthentication();
+
+app.UseOutputCache();
 
 await app.RunAsync();
 

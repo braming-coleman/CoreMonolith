@@ -52,7 +52,7 @@
       "image": "docker.io/dpage/pgadmin4:8.12",
       "bindMounts": [
         {
-          "source": "C:/Users/faatus/AppData/Local/Temp/tmpnbcytb.tmp",
+          "source": "C:/Users/faatus/AppData/Local/Temp/tmpc11s3x.tmp",
           "target": "/pgadmin4/servers.json",
           "readOnly": false
         }
@@ -76,7 +76,8 @@
           "protocol": "tcp",
           "transport": "http",
           "port": 62153,
-          "targetPort": 80
+          "targetPort": 80,
+          "external": true
         }
       }
     },
@@ -110,7 +111,8 @@
           "scheme": "http",
           "protocol": "tcp",
           "transport": "http",
-          "targetPort": 15672
+          "targetPort": 15672,
+          "external": true
         }
       }
     },
@@ -124,6 +126,19 @@
           "protocol": "tcp",
           "transport": "tcp",
           "targetPort": 6379
+        }
+      }
+    },
+    "core-monolith-redis-commander": {
+      "type": "container.v0",
+      "image": "docker.io/rediscommander/redis-commander:latest",
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http",
+          "targetPort": 8081,
+          "external": true
         }
       }
     },
@@ -195,6 +210,7 @@
         "ASPNETCORE_FORWARDEDHEADERS_ENABLED": "true",
         "HTTP_PORTS": "{download-manager-webapp.bindings.http.targetPort}",
         "ASPNETCORE_ENVIRONMENT": "{download-manager-webapp-env.value}",
+        "core-monolith-webapi-jwt-secret": "{core-monolith-webapi-jwt-secret.value}",
         "ConnectionStrings__core-monolith-redis": "{core-monolith-redis.connectionString}",
         "services__core-monolith-webapi__http__0": "{core-monolith-webapi.bindings.http.url}",
         "services__core-monolith-webapi__https__0": "{core-monolith-webapi.bindings.https.url}"

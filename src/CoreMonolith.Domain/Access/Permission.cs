@@ -8,5 +8,5 @@ public class Permission : Entity
     public string? Key { get; set; }
     public string? Description { get; set; }
 
-    public IEnumerable<UserPermission> UserPermissions { get; set; } = [];
+    public List<UserPermission> UserPermissions { get; set; } = [];
 }

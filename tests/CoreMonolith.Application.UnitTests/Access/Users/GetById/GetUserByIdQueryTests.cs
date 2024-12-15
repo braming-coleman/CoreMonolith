@@ -4,7 +4,7 @@ using CoreMonolith.Domain.Access;
 using FluentAssertions;
 using NSubstitute;
 
-namespace CoreMonolith.Application.UnitTests.Access.Users;
+namespace CoreMonolith.Application.UnitTests.Access.Users.GetById;
 
 public class GetUserByIdQueryTests
 {

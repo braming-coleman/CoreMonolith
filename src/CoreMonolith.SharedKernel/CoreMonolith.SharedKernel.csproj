@@ -1,26 +1,32 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>net9.0</TargetFramework>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-	</PropertyGroup>
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
 
-	<ItemGroup>
-		<PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" Version="9.0.0" />
-		<PackageReference Include="MediatR" Version="12.4.1" />
-		<PackageReference Include="Microsoft.AspNetCore.OutputCaching.StackExchangeRedis" Version="9.0.0" />
-		<PackageReference Include="Serilog" Version="4.2.0" />
-		<PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
-		<PackageReference Include="Serilog.Sinks.OpenTelemetry" Version="4.1.1" />
-		<PackageReference Include="SonarAnalyzer.CSharp" Version="10.3.0.106239">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<FrameworkReference Include="Microsoft.AspNetCore.App" />
-		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
-		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
-		<PackageReference Include="Scalar.AspNetCore" Version="1.2.55" />
-	</ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" Version="9.0.0" />
+    <PackageReference Include="MediatR" Version="12.4.1" />
+    <PackageReference Include="Microsoft.AspNetCore.OutputCaching.StackExchangeRedis" Version="9.0.0" />
+    <PackageReference Include="Serilog" Version="4.2.0" />
+    <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+    <PackageReference Include="Serilog.Sinks.OpenTelemetry" Version="4.1.1" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.3.0.106239">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    <PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
+    <PackageReference Include="Scalar.AspNetCore" Version="1.2.55" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="CoreMonolith.Application.UnitTests" />
+    <InternalsVisibleTo Include="CoreMonolith.Domain.UnitTests" />
+    <InternalsVisibleTo Include="CoreMonolith.SharedKernel.UnitTests" />
+  </ItemGroup>
 
 </Project>

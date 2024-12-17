@@ -1,5 +1,5 @@
-﻿using CoreMonolith.Application.Access.Users.Register;
-using CoreMonolith.Domain.Access.Users;
+﻿using CoreMonolith.Application.BusinessLogic.Access.Users.Register;
+using CoreMonolith.Domain.Models.Access.Users;
 using CoreMonolith.SharedKernel.Constants;
 using Microsoft.AspNetCore.OutputCaching;
 using NSubstitute;

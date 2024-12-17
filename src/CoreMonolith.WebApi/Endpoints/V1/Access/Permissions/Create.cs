@@ -1,4 +1,4 @@
-﻿using CoreMonolith.Application.Access.Permissions.Create;
+﻿using CoreMonolith.Application.BusinessLogic.Access.Permissions.Create;
 using CoreMonolith.SharedKernel;
 using CoreMonolith.SharedKernel.Abstractions;
 using CoreMonolith.SharedKernel.Constants;

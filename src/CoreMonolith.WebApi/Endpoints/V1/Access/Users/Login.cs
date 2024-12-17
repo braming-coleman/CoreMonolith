@@ -1,4 +1,4 @@
-﻿using CoreMonolith.Application.Access.Users.Login;
+﻿using CoreMonolith.Application.BusinessLogic.Access.Users.Login;
 using CoreMonolith.SharedKernel;
 using CoreMonolith.SharedKernel.Abstractions;
 using CoreMonolith.SharedKernel.Constants;

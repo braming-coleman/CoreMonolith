@@ -1,4 +1,4 @@
-﻿using CoreMonolith.Application.Access.Users.Register;
+﻿using CoreMonolith.Application.BusinessLogic.Access.Users.Register;
 using FluentValidation.TestHelper;
 
 namespace CoreMonolith.Application.UnitTests.Access.Users.Register;

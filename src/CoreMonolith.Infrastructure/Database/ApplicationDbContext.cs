@@ -1,8 +1,7 @@
 ﻿using CoreMonolith.Application.Abstractions.Data;
-using CoreMonolith.Domain.Access.Permissions;
-using CoreMonolith.Domain.Access.UserPermissions;
-using CoreMonolith.Domain.Access.Users;
-using CoreMonolith.Domain.Todos;
+using CoreMonolith.Domain.Models.Access.Permissions;
+using CoreMonolith.Domain.Models.Access.UserPermissions;
+using CoreMonolith.Domain.Models.Access.Users;
 using CoreMonolith.SharedKernel;
 using CoreMonolith.SharedKernel.Abstractions;
 using MediatR;
@@ -16,8 +15,6 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<User> Users { get; set; }
     public DbSet<Permission> Permissions { get; set; }
     public DbSet<UserPermission> UserPermissions { get; set; }
-
-    public DbSet<TodoItem> TodoItems { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

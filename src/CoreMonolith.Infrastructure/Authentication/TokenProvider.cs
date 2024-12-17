@@ -1,5 +1,5 @@
 ﻿using CoreMonolith.Application.Abstractions.Authentication;
-using CoreMonolith.Domain.Access.Users;
+using CoreMonolith.Domain.Models.Access.Users;
 using CoreMonolith.ServiceDefaults.Constants;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.JsonWebTokens;

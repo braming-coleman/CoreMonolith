@@ -1,4 +1,4 @@
-﻿using CoreMonolith.Domain.Access.UserPermissions;
+﻿using CoreMonolith.Domain.Models.Access.UserPermissions;
 
 namespace CoreMonolith.Domain.Abstractions.Repositories.Access;
 

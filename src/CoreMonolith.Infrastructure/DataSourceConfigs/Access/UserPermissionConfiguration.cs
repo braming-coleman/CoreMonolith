@@ -1,4 +1,4 @@
-﻿using CoreMonolith.Domain.Access.UserPermissions;
+﻿using CoreMonolith.Domain.Models.Access.UserPermissions;
 using CoreMonolith.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;

@@ -1,4 +1,4 @@
-﻿using CoreMonolith.Domain.RootFolderClients;
+﻿using CoreMonolith.Domain.Models.RootFolderClients;
 
 namespace CoreMonolith.Application.Abstractions.Clients;
 

@@ -1,4 +1,4 @@
-﻿using CoreMonolith.Application.Access.UserPermissions.GetPermissionsByUserId;
+﻿using CoreMonolith.Application.BusinessLogic.Access.UserPermissions.GetPermissionsByUserId;
 using MediatR;
 
 namespace CoreMonolith.Infrastructure.Authorization;

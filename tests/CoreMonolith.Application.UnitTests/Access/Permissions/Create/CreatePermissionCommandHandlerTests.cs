@@ -1,7 +1,7 @@
-﻿using CoreMonolith.Application.Access.Permissions.Create;
+﻿using CoreMonolith.Application.BusinessLogic.Access.Permissions.Create;
 using CoreMonolith.Domain.Abstractions.Repositories;
 using CoreMonolith.Domain.Abstractions.Repositories.Access;
-using CoreMonolith.Domain.Access.Permissions;
+using CoreMonolith.Domain.Models.Access.Permissions;
 using FluentAssertions;
 using NSubstitute;
 

@@ -1,4 +1,4 @@
-﻿using CoreMonolith.Domain.Access.Users;
+﻿using CoreMonolith.Domain.Models.Access.Users;
 using CoreMonolith.Infrastructure.Database;
 using CoreMonolith.SharedKernel.Abstractions;
 using FluentAssertions;
@@ -81,6 +81,5 @@ public class ApplicationDbContextTests
         dbContext.Users.Should().NotBeNull();
         dbContext.Permissions.Should().NotBeNull();
         dbContext.UserPermissions.Should().NotBeNull();
-        dbContext.TodoItems.Should().NotBeNull();
     }
 }

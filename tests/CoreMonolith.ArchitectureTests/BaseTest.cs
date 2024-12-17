@@ -1,5 +1,5 @@
 ﻿using CoreMonolith.Application.Abstractions.Messaging;
-using CoreMonolith.Domain.Access.Users;
+using CoreMonolith.Domain.Models.Access.Users;
 using CoreMonolith.Infrastructure.Database;
 using System.Reflection;
 

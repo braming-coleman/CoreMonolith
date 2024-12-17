@@ -1,5 +1,5 @@
 ﻿using CoreMonolith.Domain.Abstractions.Repositories.Access;
-using CoreMonolith.Domain.Access.UserPermissions;
+using CoreMonolith.Domain.Models.Access.UserPermissions;
 using CoreMonolith.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
 

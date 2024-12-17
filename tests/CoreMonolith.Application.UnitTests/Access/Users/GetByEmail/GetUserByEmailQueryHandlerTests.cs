@@ -1,6 +1,6 @@
-﻿using CoreMonolith.Application.Access.Users.GetByEmail;
+﻿using CoreMonolith.Application.BusinessLogic.Access.Users.GetByEmail;
 using CoreMonolith.Domain.Abstractions.Repositories;
-using CoreMonolith.Domain.Access.Users;
+using CoreMonolith.Domain.Models.Access.Users;
 using FluentAssertions;
 using NSubstitute;
 

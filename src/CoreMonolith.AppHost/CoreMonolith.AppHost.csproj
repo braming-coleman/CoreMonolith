@@ -38,4 +38,11 @@
 	  <Folder Include="Constants\" />
 	</ItemGroup>
 
+  <PropertyGroup>
+    <RunTests>true</RunTests>
+  </PropertyGroup>
+  <Target Name="AfterBuild" Condition="'$(RunTests)' == 'true'">
+    <Exec Command="dotnet test --logger trx" />
+  </Target>
+
 </Project>

@@ -1,4 +1,4 @@
-﻿using CoreMonolith.Application.Access.Permissions.Create;
+﻿using CoreMonolith.Application.BusinessLogic.Access.Permissions.Create;
 using FluentAssertions;
 
 namespace CoreMonolith.Application.UnitTests.Access.Permissions.Create;

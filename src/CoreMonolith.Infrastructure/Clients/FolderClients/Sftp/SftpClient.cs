@@ -1,5 +1,5 @@
 ﻿using CoreMonolith.Application.Abstractions.Clients;
-using CoreMonolith.Domain.RootFolderClients;
+using CoreMonolith.Domain.Models.RootFolderClients;
 
 namespace CoreMonolith.Infrastructure.Clients.FolderClients.Sftp
 {

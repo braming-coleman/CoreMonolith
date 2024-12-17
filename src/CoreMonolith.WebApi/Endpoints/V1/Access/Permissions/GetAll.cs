@@ -1,5 +1,5 @@
-﻿using CoreMonolith.Application.Access.Permissions;
-using CoreMonolith.Application.Access.Permissions.GetAll;
+﻿using CoreMonolith.Application.BusinessLogic.Access.Permissions;
+using CoreMonolith.Application.BusinessLogic.Access.Permissions.GetAll;
 using CoreMonolith.SharedKernel.Abstractions;
 using CoreMonolith.SharedKernel.Constants;
 using CoreMonolith.SharedKernel.Extensions;

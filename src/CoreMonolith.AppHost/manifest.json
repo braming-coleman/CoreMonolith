@@ -52,7 +52,7 @@
       "image": "docker.io/dpage/pgadmin4:8.12",
       "bindMounts": [
         {
-          "source": "C:/Users/faatus/AppData/Local/Temp/tmpc11s3x.tmp",
+          "source": "C:/Users/faatus/AppData/Local/Temp/tmptbn5rs.tmp",
           "target": "/pgadmin4/servers.json",
           "readOnly": false
         }
@@ -142,6 +142,35 @@
         }
       }
     },
+    "core-monolith-keycloak": {
+      "type": "container.v0",
+      "image": "quay.io/keycloak/keycloak:26.0",
+      "args": [
+        "start-dev",
+        "--import-realm"
+      ],
+      "volumes": [
+        {
+          "name": "core-monolith-keycloak-volume",
+          "target": "/opt/keycloak",
+          "readOnly": false
+        }
+      ],
+      "env": {
+        "KEYCLOAK_ADMIN": "admin",
+        "KEYCLOAK_ADMIN_PASSWORD": "{core-monolith-keycloak-password.value}"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http",
+          "port": 63502,
+          "targetPort": 8080,
+          "external": true
+        }
+      }
+    },
     "core-monolith-webapi-jwt-secret": {
       "type": "parameter.v0",
       "value": "{core-monolith-webapi-jwt-secret.inputs.value}",
@@ -173,8 +202,9 @@
         "ASPNETCORE_ENVIRONMENT": "{core-monolith-webapi-env.value}",
         "core-monolith-webapi-jwt-secret": "{core-monolith-webapi-jwt-secret.value}",
         "ConnectionStrings__core-monolith-db": "{core-monolith-db.connectionString}",
+        "ConnectionStrings__core-monolith-mq": "{core-monolith-mq.connectionString}",
         "ConnectionStrings__core-monolith-redis": "{core-monolith-redis.connectionString}",
-        "ConnectionStrings__core-monolith-mq": "{core-monolith-mq.connectionString}"
+        "services__core-monolith-keycloak__http__0": "{core-monolith-keycloak.bindings.http.url}"
       },
       "bindings": {
         "http": {
@@ -212,6 +242,7 @@
         "ASPNETCORE_ENVIRONMENT": "{download-manager-webapp-env.value}",
         "core-monolith-webapi-jwt-secret": "{core-monolith-webapi-jwt-secret.value}",
         "ConnectionStrings__core-monolith-redis": "{core-monolith-redis.connectionString}",
+        "services__core-monolith-keycloak__http__0": "{core-monolith-keycloak.bindings.http.url}",
         "services__core-monolith-webapi__http__0": "{core-monolith-webapi.bindings.http.url}",
         "services__core-monolith-webapi__https__0": "{core-monolith-webapi.bindings.https.url}"
       },
@@ -241,6 +272,21 @@
             "generate": {
               "minLength": 22,
               "special": false
+            }
+          }
+        }
+      }
+    },
+    "core-monolith-keycloak-password": {
+      "type": "parameter.v0",
+      "value": "{core-monolith-keycloak-password.inputs.value}",
+      "inputs": {
+        "value": {
+          "type": "string",
+          "secret": true,
+          "default": {
+            "generate": {
+              "minLength": 22
             }
           }
         }

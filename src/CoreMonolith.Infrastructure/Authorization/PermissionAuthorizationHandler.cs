@@ -20,7 +20,7 @@ internal sealed class PermissionAuthorizationHandler(IServiceScopeFactory servic
 
         Guid userId = context.User.GetUserId();
 
-        HashSet<string> permissions = await permissionProvider.GetForUserIdAsync(userId);
+        HashSet<string> permissions = await permissionProvider.GetForExternalIdAsync(userId);
 
         if (permissions.Contains(requirement.Permission))
         {

@@ -50,6 +50,14 @@ var redis = builder.AddRedis(ConnectionNameConstants.RedisConnectionName)
 //-----------------------------------------------------------------------------------------//
 
 
+//Keycloak
+var keycloak = builder.AddKeycloak(ConnectionNameConstants.KeycloakConnectionName, 63502)
+    .WithVolume($"{ConnectionNameConstants.KeycloakConnectionName}-volume", @"/opt/keycloak")
+    .WithExternalHttpEndpoints()
+    .WithLifetime(ContainerLifetime.Persistent);
+//-----------------------------------------------------------------------------------------//
+
+
 //Core WebApi
 var jwtSecret = builder.AddParameter(ConfigKeyConstants.JwtSecretKeyName, secret: true);
 var coreWebApiEnv = builder.AddParameter(ConfigKeyConstants.WebApiEnvKeyName, secret: false);
@@ -61,9 +69,11 @@ var webApi = builder.AddProject<Projects.CoreMonolith_WebApi>(ConnectionNameCons
     .WithReference(postgressDb)
     .WaitFor(postgres)
     .WaitFor(postgressDb)
+    .WithReference(rabbitMq)
     .WithReference(redis)
     .WaitFor(redis)
-    .WithReference(rabbitMq);
+    .WithReference(keycloak)
+    .WaitFor(keycloak);
 //-----------------------------------------------------------------------------------------//
 
 
@@ -76,8 +86,12 @@ builder.AddProject<Projects.DownloadManager_WebApp>(ConnectionNameConstants.WebA
     .WithExternalHttpEndpoints()
     .WithReference(redis)
     .WaitFor(redis)
+    .WithReference(keycloak)
+    .WaitFor(keycloak)
     .WithReference(webApi)
-    .WaitFor(webApi);
+    .WaitFor(webApi)
+    .WaitFor(keycloak);
+//-----------------------------------------------------------------------------------------//
+
 
 await builder.Build().RunAsync();
-//-----------------------------------------------------------------------------------------//

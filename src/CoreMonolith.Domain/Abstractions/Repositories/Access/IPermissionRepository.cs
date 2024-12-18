@@ -4,7 +4,7 @@ namespace CoreMonolith.Domain.Abstractions.Repositories.Access;
 
 public interface IPermissionRepository : IRepository<Permission>
 {
-    Task<List<Permission>> GetAllAsync(CancellationToken cancellationToken);
+    Task<List<Permission>> GetAllAsync(CancellationToken cancellationToken = default);
 
-    Task<bool> ExistsByKeyAsync(string key, CancellationToken cancellationToken);
+    Task<bool> ExistsByKeyAsync(string key, CancellationToken cancellationToken = default);
 }

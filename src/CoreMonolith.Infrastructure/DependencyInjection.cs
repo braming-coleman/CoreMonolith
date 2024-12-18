@@ -11,6 +11,7 @@ using CoreMonolith.Infrastructure.Repositories.Access;
 using CoreMonolith.Infrastructure.Time;
 using CoreMonolith.ServiceDefaults.Constants;
 using CoreMonolith.SharedKernel.Abstractions;
+using CoreMonolith.SharedKernel.Infrastructure;
 using CoreMonolith.SharedKernel.OutputCaching;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -70,6 +71,16 @@ public static class DependencyInjection
         return builder;
     }
 
+    public static IServiceCollection AddPresentation(this IServiceCollection services)
+    {
+        services.AddEndpointsApiExplorer();
+
+        services.AddExceptionHandler<GlobalExceptionHandler>();
+        services.AddProblemDetails();
+
+        return services;
+    }
+
     public static WebApplicationBuilder EnrichDbContext(this WebApplicationBuilder builder)
     {
         builder.EnrichNpgsqlDbContext<ApplicationDbContext>(
@@ -92,7 +103,7 @@ public static class DependencyInjection
             .AddServices()
             .AddDatabase(configuration)
             .AddHealthChecks(configuration)
-            .AddCustomAuthentication(configuration)
+            .AddKeycloakAuth()
             .AddAuthorizationInternal();
 
     private static IServiceCollection AddServices(this IServiceCollection services)
@@ -153,6 +164,26 @@ public static class DependencyInjection
         services
             .AddHealthChecks()
             .AddNpgSql(configuration.GetConnectionString(ConnectionNameConstants.DbConnStringName)!);
+
+        return services;
+    }
+
+    public static IServiceCollection AddKeycloakAuth(
+        this IServiceCollection services)
+    {
+        services.AddAuthorization();
+
+        services.AddAuthentication()
+            .AddKeycloakJwtBearer(ConnectionNameConstants.KeycloakConnectionName, realm: "core-monolith_webapi", options =>
+            {
+                options.RequireHttpsMetadata = false;
+                options.Audience = "webapi-test-client";
+            });
+
+        services.AddHttpContextAccessor();
+        services.AddScoped<IUserContext, UserContext>();
+        services.AddSingleton<IPasswordHasher, PasswordHasher>();
+        services.AddSingleton<ITokenProvider, TokenProvider>();
 
         return services;
     }

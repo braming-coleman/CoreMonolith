@@ -40,7 +40,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Deployment", "Deployment", 
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DownloadManager.WebApp", "src\DownloadManager.WebApp\DownloadManager.WebApp.csproj", "{769328B2-A835-4082-99E2-F01B4A85EB92}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{81F1CBB7-938A-47F8-AE64-10B6823DD7F4}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution-items", "solution-items", "{81F1CBB7-938A-47F8-AE64-10B6823DD7F4}"
+	ProjectSection(SolutionItems) = preProject
+		solution-items\CodeMap1.dgml = solution-items\CodeMap1.dgml
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreMonolith.Application.UnitTests", "tests\CoreMonolith.Application.UnitTests\CoreMonolith.Application.UnitTests.csproj", "{3798E064-CFC0-4987-9772-3F705600774E}"
 EndProject
@@ -49,6 +52,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreMonolith.SharedKernel.UnitTests", "tests\CoreMonolith.SharedKernel.UnitTests\CoreMonolith.SharedKernel.UnitTests.csproj", "{9BED1526-B0B0-46D1-A919-62DF9AF0CACB}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CoreMonolith.Infrastructure.UnitTests", "tests\CoreMonolith.Infrastructure.UnitTests\CoreMonolith.Infrastructure.UnitTests.csproj", "{35A8585F-DA54-4BAA-8610-A1E7EEF817D1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipelines", "pipelines", "{2C89531F-F707-47A6-A181-06B04928720D}"
+	ProjectSection(SolutionItems) = preProject
+		solution-items\pipelines\core-monolith-build-sonar.yaml = solution-items\pipelines\core-monolith-build-sonar.yaml
+		solution-items\pipelines\core-monolith-build-validate.yaml = solution-items\pipelines\core-monolith-build-validate.yaml
+		solution-items\pipelines\core-monolith-release-server.yaml = solution-items\pipelines\core-monolith-release-server.yaml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -131,5 +141,6 @@ Global
 		{6B1CF0AD-88CD-4455-87E9-CADFC680CBEA} = {C6CCF3F1-6773-4425-8C59-D4818EAB7244}
 		{9BED1526-B0B0-46D1-A919-62DF9AF0CACB} = {C6CCF3F1-6773-4425-8C59-D4818EAB7244}
 		{35A8585F-DA54-4BAA-8610-A1E7EEF817D1} = {C6CCF3F1-6773-4425-8C59-D4818EAB7244}
+		{2C89531F-F707-47A6-A181-06B04928720D} = {81F1CBB7-938A-47F8-AE64-10B6823DD7F4}
 	EndGlobalSection
 EndGlobal

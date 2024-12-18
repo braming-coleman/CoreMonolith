@@ -51,7 +51,7 @@ var redis = builder.AddRedis(ConnectionNameConstants.RedisConnectionName)
 
 
 //Keycloak
-var keycloak = builder.AddKeycloak(ConnectionNameConstants.KeycloakConnectionName)
+var keycloak = builder.AddKeycloak(ConnectionNameConstants.KeycloakConnectionName, 63502)
     .WithVolume($"{ConnectionNameConstants.KeycloakConnectionName}-volume", @"/opt/keycloak")
     .WithExternalHttpEndpoints()
     .WithLifetime(ContainerLifetime.Persistent);
@@ -89,7 +89,9 @@ builder.AddProject<Projects.DownloadManager_WebApp>(ConnectionNameConstants.WebA
     .WithReference(keycloak)
     .WaitFor(keycloak)
     .WithReference(webApi)
-    .WaitFor(webApi);
+    .WaitFor(webApi)
+    .WaitFor(keycloak);
+//-----------------------------------------------------------------------------------------//
+
 
 await builder.Build().RunAsync();
-//-----------------------------------------------------------------------------------------//

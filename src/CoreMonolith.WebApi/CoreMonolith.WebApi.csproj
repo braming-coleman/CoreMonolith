@@ -9,6 +9,7 @@
 	<ItemGroup>
 		<PackageReference Include="Asp.Versioning.Mvc" Version="8.1.0" />
 		<PackageReference Include="Asp.Versioning.Mvc.ApiExplorer" Version="8.1.0" />
+		<PackageReference Include="Aspire.Keycloak.Authentication" Version="9.0.0-preview.5.24551.3" />
 		<PackageReference Include="Aspire.RabbitMQ.Client" Version="9.0.0" />
 		<PackageReference Include="Aspire.StackExchange.Redis" Version="9.0.0" />
 		<PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" Version="9.0.0" />

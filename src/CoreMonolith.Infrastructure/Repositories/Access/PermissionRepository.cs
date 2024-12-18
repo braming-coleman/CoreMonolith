@@ -10,14 +10,14 @@ public class PermissionRepository(ApplicationDbContext _dbContext)
 {
     private readonly ApplicationDbContext _dbContext = _dbContext;
 
-    public async Task<bool> ExistsByKeyAsync(string key, CancellationToken cancellationToken)
+    public async Task<bool> ExistsByKeyAsync(string key, CancellationToken cancellationToken = default)
     {
         return await _dbContext
             .Permissions.AsNoTracking()
             .AnyAsync(p => p.Key == key, cancellationToken);
     }
 
-    public async Task<List<Permission>> GetAllAsync(CancellationToken cancellationToken)
+    public async Task<List<Permission>> GetAllAsync(CancellationToken cancellationToken = default)
     {
         return await _dbContext
             .Permissions.AsNoTracking()

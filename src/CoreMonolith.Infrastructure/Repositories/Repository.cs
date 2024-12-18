@@ -24,15 +24,15 @@ public class Repository<T>(ApplicationDbContext _dbContext)
         _dbSet.Update(entity);
     }
 
-    public async Task<bool> ExistsByIdAsync(Guid Id, CancellationToken cancellationToken = default)
-    {
-        var result = await _dbSet.FindAsync(Id, cancellationToken);
-
-        return result is not null;
-    }
-
     public async Task<T?> FindByIdAsync(Guid Id, CancellationToken cancellationToken = default)
     {
-        return await _dbSet.FindAsync(Id, cancellationToken);
+        return await _dbSet.FindAsync([Id], cancellationToken: cancellationToken);
+    }
+
+    public async Task<bool> ExistsByIdAsync(Guid Id, CancellationToken cancellationToken = default)
+    {
+        var result = await FindByIdAsync(Id, cancellationToken);
+
+        return result is not null;
     }
 }

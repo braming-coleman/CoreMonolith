@@ -11,8 +11,5 @@ internal sealed class UserRegisteredDomainEventHandler(IOutputCacheStore _cacheS
     public async Task Handle(UserRegisteredDomainEvent notification, CancellationToken cancellationToken)
     {
         await _cacheStore.EvictByTagAsync(Tags.User, cancellationToken);
-
-        //TODO: Send an email verification link, etc.
-        //return Task.CompletedTask;
     }
 }

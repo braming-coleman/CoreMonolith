@@ -17,6 +17,8 @@
 
     private async Task IncrementCount()
     {
-        await Task.FromResult(currentCount += IncrementAmount);
+        currentCount += IncrementAmount;
+
+        await Task.FromResult(currentCount);
     }
 }

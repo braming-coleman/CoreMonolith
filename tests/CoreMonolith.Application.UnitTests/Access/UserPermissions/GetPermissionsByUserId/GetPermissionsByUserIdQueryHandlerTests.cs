@@ -3,7 +3,7 @@ using CoreMonolith.Domain.Abstractions.Repositories;
 using FluentAssertions;
 using NSubstitute;
 
-namespace CoreMonolith.Application.UnitTests.Access.UserPermissions.Create;
+namespace CoreMonolith.Application.UnitTests.Access.UserPermissions.GetPermissionsByUserId;
 
 public class GetPermissionsByUserIdQueryHandlerTests
 {

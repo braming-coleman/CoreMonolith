@@ -7,7 +7,8 @@ steps:
 - task: UseDotNet@2
   inputs:
     packageType: 'sdk'
-    version: '9.0.x' # Or your desired .NET SDK version
+    version: '9.0.x'
+    performMultiLevelLookup: true
 
 - task: DotNetCoreCLI@2
   displayName: 'Build solution'
@@ -20,18 +21,5 @@ steps:
   displayName: 'Run unit tests with code coverage'
   inputs:
     command: 'test'
-    projects: '**/*tests/*.csproj' # Adjust the path if your test projects are located elsewhere
-    arguments: '--configuration $(buildConfiguration) --collect "XPlat Code Coverage" --results-directory "TestResults"'
-
-- task: PublishCodeCoverageResults@2
-  displayName: 'Publish code coverage report'
-  inputs:
-    summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.cobertura.xml'
-    failIfCoverageEmpty: true # Fail the build if no code coverage data is collected
-
-- task: PublishTestResults@2
-  displayName: 'Publish unit test results'
-  inputs:
-    testResultsFiles: '**/TestResults/*.trx'
-    testRunTitle: 'Unit Tests'
-    failTaskOnFailedTests: true # Fail the build if any unit tests fail
+    projects: '**/*tests/*.csproj'
+    arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'

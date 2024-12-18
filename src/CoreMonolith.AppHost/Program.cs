@@ -6,7 +6,7 @@ var builder = DistributedApplication.CreateBuilder(args);
 var postgresUser = builder.AddParameter(ConfigKeyConstants.DbUsernameKeyName, secret: false);
 var postgresPassword = builder.AddParameter(ConfigKeyConstants.DbPasswordKeyName, secret: true);
 
-var pgadminHostPort = int.TryParse(builder.Configuration["AppConfig:CorePgAdminHostPort"], out int value) ? value : 80;
+var pgAdminHostPort = int.TryParse(builder.Configuration["AppConfig:CorePgAdminHostPort"], out int pgAdminPort) ? pgAdminPort : 81;
 
 var postgres = builder.AddPostgres(ResourceNameConstants.DbServerName, postgresUser, postgresPassword)
     .WithVolume($"{ResourceNameConstants.DbServerName}-volume", @"/var/lib/postgresql/data")
@@ -18,7 +18,7 @@ var postgres = builder.AddPostgres(ResourceNameConstants.DbServerName, postgresU
         .PublishAsContainer()
         .WithContainerName(ResourceNameConstants.DbServerAdminName)
         .WithVolume($"{ResourceNameConstants.DbServerAdminName}-volume", @"/var/lib/pgadmin")
-        .WithHostPort(pgadminHostPort)
+        .WithHostPort(pgAdminHostPort)
         .WithExternalHttpEndpoints()
         .WithLifetime(ContainerLifetime.Persistent);
     });
@@ -51,7 +51,9 @@ var redis = builder.AddRedis(ConnectionNameConstants.RedisConnectionName)
 
 
 //Keycloak
-var keycloak = builder.AddKeycloak(ConnectionNameConstants.KeycloakConnectionName, 63502)
+var keycloakHostPort = int.TryParse(builder.Configuration["AppConfig:KeycloakHostPort"], out int keycloakPort) ? keycloakPort : 91;
+
+var keycloak = builder.AddKeycloak(ConnectionNameConstants.KeycloakConnectionName, keycloakHostPort)
     .WithVolume($"{ConnectionNameConstants.KeycloakConnectionName}-volume", @"/opt/keycloak")
     .WithExternalHttpEndpoints()
     .WithLifetime(ContainerLifetime.Persistent);

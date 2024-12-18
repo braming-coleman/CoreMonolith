@@ -23,10 +23,9 @@ steps:
     projects: '**/*tests/*.csproj' # Adjust the path if your test projects are located elsewhere
     arguments: '--configuration $(buildConfiguration) --collect "XPlat Code Coverage" --results-directory "TestResults"'
 
-- task: PublishCodeCoverageResults@1
+- task: PublishCodeCoverageResults@2
   displayName: 'Publish code coverage report'
   inputs:
-    codeCoverageTool: 'Cobertura'
     summaryFileLocation: '$(System.DefaultWorkingDirectory)/**/coverage.cobertura.xml'
     failIfCoverageEmpty: true # Fail the build if no code coverage data is collected
 

@@ -1,3 +1,6 @@
+pool:
+  name: Default
+
 variables:
   solution: '**/*.sln' # Path to your solution file
   buildPlatform: 'Any CPU'

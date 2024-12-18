@@ -19,6 +19,24 @@ public class UserPermissionRepository(
             cancellationToken);
     }
 
+    public async Task<HashSet<string>> GetPermissionsByExternalIdAsync(Guid externalId, CancellationToken cancellationToken = default)
+    {
+        var result = await _dbContext
+            .UserPermissions.AsNoTracking()
+            .Include(i => i.Permission).AsNoTracking()
+            .Include(i => i.User).AsNoTracking()
+            .Where(p => p.User.ExternalId == externalId)
+            .Select(s => $"{s.Permission.Key}")
+            .ToHashSetAsync(cancellationToken);
+
+        HashSet<string> permissions = [];
+
+        if (result is not null)
+            permissions = result;
+
+        return permissions;
+    }
+
     public async Task<HashSet<string>> GetPermissionsByUserIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var result = await _dbContext

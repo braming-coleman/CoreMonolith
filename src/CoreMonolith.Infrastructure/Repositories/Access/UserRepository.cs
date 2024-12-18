@@ -23,8 +23,7 @@ public class UserRepository(ApplicationDbContext _dbContext)
     public async Task<User?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
         var result = await _dbContext
-            .Users
-            .AsNoTracking()
+            .Users.AsNoTracking()
             .SingleOrDefaultAsync(u => u.Id == id, cancellationToken);
 
         return result;
@@ -35,5 +34,12 @@ public class UserRepository(ApplicationDbContext _dbContext)
         return await _dbContext
             .Users.AsNoTracking()
             .AnyAsync(u => u.Email == email, cancellationToken);
+    }
+
+    public async Task<User?> GetByExternalIdAsync(Guid externalId, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext
+            .Users.AsNoTracking()
+            .SingleOrDefaultAsync(u => u.ExternalId == externalId, cancellationToken);
     }
 }

@@ -1,7 +1,6 @@
 using CoreMonolith.Application;
 using CoreMonolith.Infrastructure;
 using CoreMonolith.SharedKernel.Extensions;
-using CoreMonolith.WebApi;
 using Serilog;
 using System.Reflection;
 
@@ -12,9 +11,9 @@ builder.AddServiceDefaults();
 builder.AddAndConfigureSerilog();
 
 builder.Services
+    .AddInfrastructure(builder.Configuration)
     .AddApplication()
     .AddPresentation()
-    .AddInfrastructure(builder.Configuration)
     .AddEndpoints(Assembly.GetExecutingAssembly());
 
 builder
@@ -36,17 +35,13 @@ if (app.Environment.IsDevelopment())
     app.UseDefaultOpenApi();
 }
 
-app.UseRequestContextLogging();
-
-app.UseSerilogRequestLogging();
-
-app.UseExceptionHandler();
-
-app.UseAuthentication();
-
-app.UseAuthorization();
-
-app.UseOutputCache();
+app
+    .UseRequestContextLogging()
+    .UseSerilogRequestLogging()
+    .UseExceptionHandler()
+    .UseAuthentication()
+    .UseAuthorization()
+    .UseOutputCache();
 
 await app.RunAsync();
 

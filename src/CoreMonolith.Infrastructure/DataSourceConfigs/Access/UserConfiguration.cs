@@ -13,12 +13,15 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
 
         builder.HasKey(u => u.Id);
 
+        builder.HasIndex(u => u.ExternalId).IsUnique();
+
         builder.HasIndex(u => u.Email).IsUnique();
 
         builder.HasData(
             new User
             {
                 Id = Guid.Parse("a057e03a-2d3e-4958-9384-dbc529297d89"),
+                ExternalId = Guid.Parse("f286059b-bc48-4172-bb3f-23cac97dcdf6"),
                 Email = "test@test.com",
                 FirstName = "Braming",
                 LastName = "Test",
@@ -27,6 +30,7 @@ internal sealed class UserConfiguration : IEntityTypeConfiguration<User>
             new User
             {
                 Id = Guid.Parse("b75e4ad1-0804-427b-abd9-a966e2d12266"),
+                ExternalId = null,
                 Email = "service-account@download-manager.com",
                 FirstName = "Download Manager",
                 LastName = "Service Account",

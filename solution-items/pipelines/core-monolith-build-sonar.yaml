@@ -1,18 +1,6 @@
 trigger: 
  - master
 
-variables:
-- name: buildPlatform
-  value: 'Any CPU' 
-- name: buildConfiguration
-  value: 'Release' 
-- name: SonarOrg
-  value: 'zeox115' 
-- name: SonarProjectKey
-  value: 'zeox115_CoreMonolith' 
-- name: SonarProjectName
-  value: 'CoreMonolith' 
-
 jobs:
 - job: core_monolith_build_sonar
   pool:

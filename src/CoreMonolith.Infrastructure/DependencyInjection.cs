@@ -13,16 +13,17 @@ using CoreMonolith.ServiceDefaults.Constants;
 using CoreMonolith.SharedKernel.Abstractions;
 using CoreMonolith.SharedKernel.Infrastructure;
 using CoreMonolith.SharedKernel.OutputCaching;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
+using Microsoft.IdentityModel.Protocols.OpenIdConnect;
+using System.Net.Http.Headers;
 
 namespace CoreMonolith.Infrastructure;
 
@@ -126,7 +127,8 @@ public static class DependencyInjection
         services.AddHttpClient<WeatherApiClient>(client =>
              {
                  client.BaseAddress = new($"https+http://{ConnectionNameConstants.WebApiConnectionName}");
-             });
+             })
+             .AddHttpMessageHandler<KeycloakTokenHandler>();
 
         return services;
     }
@@ -171,14 +173,14 @@ public static class DependencyInjection
     public static IServiceCollection AddKeycloakAuth(
         this IServiceCollection services)
     {
-        services.AddAuthorization();
-
         services.AddAuthentication()
-            .AddKeycloakJwtBearer(ConnectionNameConstants.KeycloakConnectionName, realm: "core-monolith_webapi", options =>
+            .AddKeycloakJwtBearer(ConnectionNameConstants.KeycloakConnectionName, realm: "core_monolith", options =>
             {
                 options.RequireHttpsMetadata = false;
-                options.Audience = "webapi-test-client";
+                options.Audience = "core-monolith-web-api";
             });
+
+        services.AddAuthorization();
 
         services.AddHttpContextAccessor();
         services.AddScoped<IUserContext, UserContext>();
@@ -192,18 +194,18 @@ public static class DependencyInjection
         this IServiceCollection services,
         IConfiguration configuration)
     {
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(o =>
-            {
-                o.RequireHttpsMetadata = false;
-                o.TokenValidationParameters = new TokenValidationParameters
-                {
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration[ConfigKeyConstants.JwtSecretKeyName]!)),
-                    ValidIssuer = configuration["Jwt:Issuer"],
-                    ValidAudience = configuration["Jwt:Audience"],
-                    ClockSkew = TimeSpan.Zero
-                };
-            });
+        //services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        //    .AddJwtBearer(o =>
+        //    {
+        //        o.RequireHttpsMetadata = false;
+        //        o.TokenValidationParameters = new TokenValidationParameters
+        //        {
+        //            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration[ConfigKeyConstants.JwtSecretKeyName]!)),
+        //            ValidIssuer = configuration["Jwt:Issuer"],
+        //            ValidAudience = configuration["Jwt:Audience"],
+        //            ClockSkew = TimeSpan.Zero
+        //        };
+        //    });
 
         services.AddHttpContextAccessor();
         services.AddScoped<IUserContext, UserContext>();
@@ -220,9 +222,28 @@ public static class DependencyInjection
         services.AddScoped<PermissionProvider>();
 
         services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
-
         services.AddTransient<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 
         return services;
+    }
+}
+
+internal sealed class KeycloakTokenHandler : DelegatingHandler
+{
+    private readonly IHttpContextAccessor _httpContextAccessor;
+
+    public KeycloakTokenHandler(IHttpContextAccessor httpContextAccessor)
+    {
+        _httpContextAccessor = httpContextAccessor;
+    }
+
+    protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+    {
+        var token = await _httpContextAccessor.HttpContext.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);
+
+        if (!string.IsNullOrEmpty(token))
+            request.Headers.Authorization = new AuthenticationHeaderValue("Bearer", token);
+
+        return await base.SendAsync(request, cancellationToken);
     }
 }

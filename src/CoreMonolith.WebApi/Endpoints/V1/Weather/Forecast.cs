@@ -41,6 +41,7 @@ internal sealed class Forecast : IEndpoint
                     .ToArray();
                 return forecast;
             })
+            .RequireAuthorization()
             .Produces<WeatherForecast[]>()
             .WithTags(Tags.Weather)
             .CacheNonAuthedOutput(Tags.Weather);

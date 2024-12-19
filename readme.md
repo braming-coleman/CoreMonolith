@@ -20,6 +20,7 @@ This repository contains a .NET solution for a CoreMonolith application. It demo
 * **CoreMonolith.Infrastructure:**  Contains infrastructure concerns, such as database access, external service integrations, and repositories.
 * **CoreMonolith.SharedKernel:**  Contains shared components and utilities used across the solution.
 
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+| Pipeline | Status |
+|----------|--------|
+|core-monolith-build-sonar | [![Build Status](https://dev.azure.com/zeox115/CoreMonolith/_apis/build/status%2Fcore-monolith-build-sonar?branchName=master&jobName=core_monolith_build_sonar)](https://dev.azure.com/zeox115/CoreMonolith/_build/latest?definitionId=4&branchName=master)|
+|core-monolith-release-server | [![Build Status](https://dev.azure.com/zeox115/CoreMonolith/_apis/build/status%2Fcore-monolith-release-server?branchName=master&jobName=core_monolith_release_server)](https://dev.azure.com/zeox115/CoreMonolith/_build/latest?definitionId=5&branchName=master)|

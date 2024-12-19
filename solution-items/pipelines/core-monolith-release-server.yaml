@@ -4,6 +4,7 @@ trigger:
 jobs:
 - deployment: core_monolith_release_server
   environment: Server
+  pool: Default
   workspace:
     clean: all
   strategy:

@@ -6,7 +6,7 @@ var builder = DistributedApplication.CreateBuilder(args);
 var postgresUser = builder.AddParameter(ConfigKeyConstants.DbUsernameKeyName, secret: false);
 var postgresPassword = builder.AddParameter(ConfigKeyConstants.DbPasswordKeyName, secret: true);
 
-var pgAdminHostPort = int.TryParse(builder.Configuration["AppConfig:CorePgAdminHostPort"], out int pgAdminPort) ? pgAdminPort : 81;
+var pgAdminHostPort = int.TryParse(builder.Configuration["AppConfig:CorePgAdminHostPort"], out int pgAdminPort) ? pgAdminPort : 8181;
 
 var postgres = builder.AddPostgres(ResourceNameConstants.DbServerName, postgresUser, postgresPassword)
     .WithVolume($"{ResourceNameConstants.DbServerName}-volume", @"/var/lib/postgresql/data")
@@ -28,7 +28,10 @@ var postgressDb = postgres.AddDatabase(ConnectionNameConstants.DbConnStringName)
 
 
 //Core RabbitMQ
-var rabbitMq = builder.AddRabbitMQ(ConnectionNameConstants.RabbitMqConnectionName)
+var rabbitMqUser = builder.AddParameter(ConfigKeyConstants.RabbitMqUsernameKeyName, secret: false);
+var rabbitMqPassword = builder.AddParameter(ConfigKeyConstants.RabbitMqPasswordKeyName, secret: true);
+
+var rabbitMq = builder.AddRabbitMQ(ConnectionNameConstants.RabbitMqConnectionName, rabbitMqUser, rabbitMqPassword)
     .WithVolume($"{ConnectionNameConstants.RabbitMqConnectionName}-volume", @"/var/lib/rabbitmq")
     .WithManagementPlugin()
     .WithExternalHttpEndpoints()
@@ -51,9 +54,12 @@ var redis = builder.AddRedis(ConnectionNameConstants.RedisConnectionName)
 
 
 //Keycloak
-var keycloakHostPort = int.TryParse(builder.Configuration["AppConfig:KeycloakHostPort"], out int keycloakPort) ? keycloakPort : 91;
+var keycloakUser = builder.AddParameter(ConfigKeyConstants.KeycloakUsernameKeyName, secret: false);
+var keycloakPassword = builder.AddParameter(ConfigKeyConstants.KeycloakPasswordKeyName, secret: true);
 
-var keycloak = builder.AddKeycloak(ConnectionNameConstants.KeycloakConnectionName, keycloakHostPort)
+var keycloakHostPort = int.TryParse(builder.Configuration["AppConfig:KeycloakHostPort"], out int keycloakPort) ? keycloakPort : 9191;
+
+var keycloak = builder.AddKeycloak(ConnectionNameConstants.KeycloakConnectionName, keycloakHostPort, keycloakUser, keycloakPassword)
     .WithVolume($"{ConnectionNameConstants.KeycloakConnectionName}-volume", @"/opt/keycloak")
     .WithExternalHttpEndpoints()
     .WithLifetime(ContainerLifetime.Persistent);
@@ -96,4 +102,4 @@ builder.AddProject<Projects.DownloadManager_WebApp>(ConnectionNameConstants.WebA
 //-----------------------------------------------------------------------------------------//
 
 
-await builder.Build().RunAsync();
+await builder.Build().RunAsync(default);

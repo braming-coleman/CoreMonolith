@@ -11,46 +11,53 @@
   "privateRegistryEmail": "aspir8@aka.ms",
   "includeDashboard": true,
   "secrets": {
-    "salt": "CtZXxipTw51U1uv3",
-    "hash": "ig2xvPQSvIyVsJwQNu5ilbkdroYQaxM/oPbxOPGPdo4=",
+    "salt": "blzaiR6hMkqDU/WI",
+    "hash": "Qlvk2r1IMx0DmnXpLA/pr\u002BUtlTMAi1JDRNf4VwOc/FQ=",
     "secrets": {
-      "core-monolith-mq-password": {
-        "value": "CtZXxipTw51U1uv3VAuVu/CjQkAAdoalB3sHsGZ7lsddNhYhIO/F94lc6E2lxnnTygs="
-      },
-      "core-monolith-webapi-env": {
-        "value": "CtZXxipTw51U1uv3I4hwW9i0DitaUrdUhnCzvlYvgc1BISAAKuXG"
-      },
       "core-monolith-db-username": {
-        "value": "CtZXxipTw51U1uv3gQohikMHLaHZbozvF0I36nElhc0AIz8DIOfb\u002BakQ2Xr0hQ=="
+        "value": "blzaiR6hMkqDU/WIrTrtEp55XPHdRFlSt3cjgmEQE8l3HRoqomC2YIK\u002Bn8yuaus="
       },
       "core-monolith-db-password": {
-        "value": "CtZXxipTw51U1uv3jg0gkJLxedqlFChuBiD15FQMwc1Iemde"
+        "value": "blzaiR6hMkqDU/WIanSHtXmGj9luYmwGefcZ03sQCMMQOk1yr3WmXqbqteL7bbK/8l\u002B2Xbt/DyzHHcJMR5aJieYP8YA="
       },
-      "core-monolith-postgres": {
-        "POSTGRES_PASSWORD": "CtZXxipTw51U1uv3jg0gkJLxedqlFChuBiD15FQMwc1Iemde"
+      "core-monolith-mq-username": {
+        "value": "blzaiR6hMkqDU/WIrTrtEp55XPHdRFlSt3cjgmEQE8l3HRoqomC2YIK\u002Bn8yuaus="
       },
-      "core-monolith-db": {},
-      "core-monolith-mq": {},
-      "core-monolith-webapi": {
-        "ConnectionStrings__core-monolith-db": "CtZXxipTw51U1uv3ijaG3h1Ns2Y7OdtQdM9jGFolhNwQLT8fKqbf4q9SwGDlnwPRwBw8LFYKrWBlzFbOHtSbf58MX/HUS6AB9Vfli/VfMXFuNxFPnB\u002BCOnK4NPvMKBEFqvmMcubIYDcK7io2QynNgIADPZKW6q2gING5Orxuh0JFOQp2bNL\u002Bc0Y=",
-        "ConnectionStrings__core-monolith-mq": "CtZXxipTw51U1uv3iMXuQIOs5TkvhPWsEgnFZ3MnhtgXYX8KOu7B\u002BftJnWj\u002Bh1bn4wAsPF4nvx9xlxXtUYTLDM5YeOecVKEO916xnPIAOS05bUkXwg==",
-        "ConnectionStrings__core-monolith-redis": "CtZXxipTw51U1uv3WjXHvNCIwdcvrV9R1EcQYXElhc0AIz8DIOfb\u002BakQ3mz1nl2bmVx/cg==",
-        "ConnectionStrings__core-monolith-redisb": "CtZXxipTw51U1uv3Cf1IJ6TxZQRgEHn/kNbsZ3Elhc0AIz8DIOfb\u002BakQ3mz1nl3DlVl7fB0="
+      "core-monolith-mq-password": {
+        "value": "blzaiR6hMkqDU/WIvCO6AQWI3Wf5pD41kE2RgWksM/8yHRAGhzW5YL7VrOayd9Gz82iwT7BFXTn1I4ECW4W724s6yZg="
       },
-      "core-monolith-postgres-pgadmin": {},
-      "core-monolith-redis": {},
-      "download-manager-webapp-env": {
-        "value": "CtZXxipTw51U1uv3I4hwW9i0DitaUrdUhnCzvlYvgc1BISAAKuXG"
+      "core-monolith-keycloak-username": {
+        "value": "blzaiR6hMkqDU/WIrTrtEp55XPHdRFlSt3cjgmEQE8l3HRoqomC2YIK\u002Bn8yuaus="
       },
-      "download-manager-webapp": {
-        "ConnectionStrings__core-monolith-redis": "CtZXxipTw51U1uv3WjXHvNCIwdcvrV9R1EcQYXElhc0AIz8DIOfb\u002BakQ3mz1nl2bmVx/cg==",
-        "ConnectionStrings__core-monolith-redisb": "CtZXxipTw51U1uv3Cf1IJ6TxZQRgEHn/kNbsZ3Elhc0AIz8DIOfb\u002BakQ3mz1nl3DlVl7fB0="
+      "core-monolith-keycloak-password": {
+        "value": "blzaiR6hMkqDU/WIBb0dFH8lbl/QUK1hEmZjykAmMe4qFQ80pWmUbbnSu\u002BWQN7agj2yqR6JCTGrUDMBER\u002BmBo/8p55I="
       },
       "core-monolith-webapi-jwt-secret": {
-        "value": "CtZXxipTw51U1uv3jG9ekN88XPVjvscvh7qXcVwgoJpcKiVbB9OK9/QK1lH2lUTR\u002BBcLH2FbqCkMy32PSbCXIptdRszbD48H/FaWsfd\u002BbSY1LhRBtSOyOh6vLNv0KwQOk\u002BGdfu6YFyUrnXxjRkjL0qUgB4mO\u002BaSIevCDeL8ah0hyM1BUWtGmTkd8kCWNOo/hWxVk1TUNeAxnZovRk/NgTKQ7u2wyuB4C7DWX0Yg4ahpljQqcAV9y1RzBNJe2BOfKR4ON\u002BYDPjn\u002BExJACy4QpY82NNNNA1ewE3LnaLGZtDL3hVTZfST7BcySsxlR8\u002BX/RBPvpVIbXTZCFx1FxadNjblkEm/daGSMEPSmR8zhYwjqzxeFe0RPdBUhZpkQ1pjHrNuHartoqR2kzbPy/8DY2g4hj6d97NlZmt9UAbXzrWVfj5aMdcKQ/20e1EXUvmR\u002BUTq9VfS7LHfgerXwr5C/ADc3RNOKsBjgYfHSWwp9jUlpYcQGVypux\u002BhyMyI5AkKuM2naRVMf5fLUmbigMTRj5KceoABe5iTpnI1DWp3meJHRrf737NtZH0sGn\u002BpYrkQJtBgDcz6F51Z8MqbyGJdCnMPkrqsnUqyGyAxlTTwbkKUeiqRC/15kWzvQSTB27tExBxCLkPPO0zXtIpwfW40rR/7SePJWScC9CtfUxjm/M0AkKo/YOyShO7W4e4Jbvwxvt"
+        "value": "blzaiR6hMkqDU/WIDt5H\u002B4mSmH82gU9cW\u002BtlTkQsO/wdFj08\u002Bn2tX6egrOCVOtWo4EWkZ7ZsZh2lIOlnV7S5pYZOwL/YI4Xj3zcoFUcsHQ332P2z0/SKYG7lWOUm8FKNYA3eqMXc6CrgOzBdxGhO8fs9fnUthwpTTXDIK3JjyDPKmYXeBtsXM7V5mE2UHziGCKCDdelFgEhWjnadilGuqFJN9ehtNBfdC31Dg2f8MbRLMJfmZoLnsbhMzzI8zRNwU8nVVT7hFwBhdyVlInqk0jcrIRXG1WMY5PpbIHDaH1PJ0ato8mTkwTxPmlPNNxa9DgJWJ7ysPerDIv1D7G7L9ILEFqcFWMcvqJrWZMLNSJGxWsNSv8Ll0koo5HE2S6B1tQRtjlecKyDzC/\u002BoB2jjq4xnuVvHlom\u002Beo2r9zzEIRJhBoLBm9bHMcCMqHgdSrawLg7l8yLI5NZgzxop3T80/qAsSz9niw/\u002BPQYdQqEe8bcC5bDYxUeWKtRQHM8Weh5/6pwB4VTwYiYJ1SwDMiloCaUy/g3lQnQe5sqrz7zR8LQh5Qf7Oa/YBrk6uRc="
       },
-      "core-monolith-redisb": {},
-      "core-monolith-redis-commander": {}
+      "core-monolith-webapi-env": {
+        "value": "blzaiR6hMkqDU/WICkTtM056rN6iEGc1ql7WJEYaF8k2HwUpqGKr"
+      },
+      "download-manager-webapp-env": {
+        "value": "blzaiR6hMkqDU/WICkTtM056rN6iEGc1ql7WJEYaF8k2HwUpqGKr"
+      },
+      "core-monolith-postgres": {
+        "POSTGRES_PASSWORD": "blzaiR6hMkqDU/WIanSHtXmGj9luYmwGefcZ03sQCMMQOk1yr3WmXqbqteL7bbK/8l\u002B2Xbt/DyzHHcJMR5aJieYP8YA="
+      },
+      "core-monolith-postgres-pgadmin": {},
+      "core-monolith-db": {},
+      "core-monolith-mq": {},
+      "core-monolith-redis": {},
+      "core-monolith-redis-commander": {},
+      "core-monolith-keycloak": {},
+      "core-monolith-webapi": {
+        "ConnectionStrings__core-monolith-db": "blzaiR6hMkqDU/WIDNmEZqBTUeMBdGz1/Zcnv0oQEthnExo2qCGye4T8ksG3a6iC2X2mUKBCRWTGCMpBEuTs24BG1KfKIaHh6yNiM3s1FRHW3MOOyf/JeHP0dvx81QOaZBnEts7KulnKNT4B9mYnhuF2Yl0TlS9gGyebN2Bc3CHBheXDbtQ4Drtv/VjyFA\u002BxeY\u002BAMsNq0m1/yU2AmU3ggnNH1uJVLjelVio=",
+        "ConnectionStrings__core-monolith-mq": "blzaiR6hMkqDU/WIbWon75f8kkir4gTLBB8JLmMSENxgX1onon66OYf8kMevavGam2\u002B2WrtJDDTFNetdQrSaoosb9YDpAYHx8hIeFXIlCF7Z2MuC4a\u002BKZAr2IahS83SKZgXFpIzVsQrcNj4a1AFywbk6LSBt",
+        "ConnectionStrings__core-monolith-redis": "blzaiR6hMkqDU/WIdugqaxIH0HLVpKDzwK/YemEQE8l3HRoqomC2YIK\u002BjM2navbIgD3lDg=="
+      },
+      "download-manager-webapp": {
+        "ConnectionStrings__core-monolith-redis": "blzaiR6hMkqDU/WIdugqaxIH0HLVpKDzwK/YemEQE8l3HRoqomC2YIK\u002BjM2navbIgD3lDg=="
+      }
     }
   },
   "processAllComponents": true

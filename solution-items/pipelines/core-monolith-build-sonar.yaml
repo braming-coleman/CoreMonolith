@@ -1,0 +1,65 @@
+trigger: 
+ - master
+
+jobs:
+- job: core_monolith_build_sonar
+  pool:
+    name: Default
+
+  workspace:
+    clean: all
+
+  variables:
+    buildPlatform: 'Any CPU'
+    buildConfiguration: 'Release'
+    SonarOrg: 'zeox115'
+    SonarProjectKey: 'zeox115_CoreMonolith'
+    SonarProjectName: 'CoreMonolith'
+
+  steps:
+  - checkout: self
+    displayName: 'Sync source'
+    clean: true
+    fetchTags: true
+    fetchDepth: 0
+
+  - task: UseDotNet@2
+    displayName: 'Enable .Net'
+    inputs:
+      packageType: 'sdk'
+      version: '9.0.x'
+      performMultiLevelLookup: true
+
+  - task: SonarCloudPrepare@3
+    displayName: 'Prepare analysis on SonarQube Cloud'
+    inputs:
+      SonarQube: 'SonarCloud'
+      organization: '$(SonarOrg)'
+      scannerMode: 'dotnet'
+      projectKey: '$(SonarProjectKey)'
+      projectName: '$(SonarProjectName)'
+      projectVersion: '$(Build.BuildNumber)'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Build solution'
+    inputs:
+      command: 'build'
+      projects: '**/*.csproj'
+      arguments: '--configuration $(buildConfiguration)'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Run unit tests with code coverage'
+    inputs:
+      command: 'test'
+      projects: '**/*tests/*.csproj'
+      arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
+
+  - task: SonarCloudAnalyze@3
+    displayName: 'Run Code Analysis'
+    inputs:
+      jdkversion: 'JAVA_HOME_21_X64'
+
+  - task: SonarCloudPublish@3
+    displayName: 'Publish Quality Gate Result'
+    inputs:
+      pollingTimeoutSec: '300'

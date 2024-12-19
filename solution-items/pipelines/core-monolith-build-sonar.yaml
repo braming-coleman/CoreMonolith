@@ -5,11 +5,10 @@ jobs:
 - job: core_monolith_build_sonar
   pool:
     name: Default
-
   workspace:
     clean: all
-
   steps:
+
   - checkout: self
     displayName: 'Sync source'
     clean: true

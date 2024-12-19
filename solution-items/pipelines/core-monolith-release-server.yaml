@@ -1,0 +1,20 @@
+trigger: none
+
+jobs:
+- job: core_monolith_release_server
+  pool:
+    name: Default
+
+  workspace:
+    clean: all
+
+  variables:
+    buildPlatform: 'Any CPU'
+    buildConfiguration: 'Release'
+
+  steps:
+  - checkout: self
+    displayName: 'Sync source'
+    clean: true
+    fetchTags: true
+    fetchDepth: 0

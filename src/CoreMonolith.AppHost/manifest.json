@@ -52,7 +52,7 @@
       "image": "docker.io/dpage/pgadmin4:8.12",
       "bindMounts": [
         {
-          "source": "C:/Users/faatus/AppData/Local/Temp/tmptbn5rs.tmp",
+          "source": "C:/Users/faatus/AppData/Local/Temp/tmpxorfva.tmp",
           "target": "/pgadmin4/servers.json",
           "readOnly": false
         }
@@ -85,9 +85,28 @@
       "type": "value.v0",
       "connectionString": "{core-monolith-postgres.connectionString};Database=core-monolith-db"
     },
+    "core-monolith-mq-username": {
+      "type": "parameter.v0",
+      "value": "{core-monolith-mq-username.inputs.value}",
+      "inputs": {
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "core-monolith-mq-password": {
+      "type": "parameter.v0",
+      "value": "{core-monolith-mq-password.inputs.value}",
+      "inputs": {
+        "value": {
+          "type": "string",
+          "secret": true
+        }
+      }
+    },
     "core-monolith-mq": {
       "type": "container.v0",
-      "connectionString": "amqp://guest:{core-monolith-mq-password.value}@{core-monolith-mq.bindings.tcp.host}:{core-monolith-mq.bindings.tcp.port}",
+      "connectionString": "amqp://{core-monolith-mq-username.value}:{core-monolith-mq-password.value}@{core-monolith-mq.bindings.tcp.host}:{core-monolith-mq.bindings.tcp.port}",
       "image": "docker.io/library/rabbitmq:4.0-management",
       "volumes": [
         {
@@ -97,7 +116,7 @@
         }
       ],
       "env": {
-        "RABBITMQ_DEFAULT_USER": "guest",
+        "RABBITMQ_DEFAULT_USER": "{core-monolith-mq-username.value}",
         "RABBITMQ_DEFAULT_PASS": "{core-monolith-mq-password.value}"
       },
       "bindings": {
@@ -142,6 +161,25 @@
         }
       }
     },
+    "core-monolith-keycloak-username": {
+      "type": "parameter.v0",
+      "value": "{core-monolith-keycloak-username.inputs.value}",
+      "inputs": {
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "core-monolith-keycloak-password": {
+      "type": "parameter.v0",
+      "value": "{core-monolith-keycloak-password.inputs.value}",
+      "inputs": {
+        "value": {
+          "type": "string",
+          "secret": true
+        }
+      }
+    },
     "core-monolith-keycloak": {
       "type": "container.v0",
       "image": "quay.io/keycloak/keycloak:26.0",
@@ -157,7 +195,7 @@
         }
       ],
       "env": {
-        "KEYCLOAK_ADMIN": "admin",
+        "KEYCLOAK_ADMIN": "{core-monolith-keycloak-username.value}",
         "KEYCLOAK_ADMIN_PASSWORD": "{core-monolith-keycloak-password.value}"
       },
       "bindings": {
@@ -258,37 +296,6 @@
           "protocol": "tcp",
           "transport": "http",
           "external": true
-        }
-      }
-    },
-    "core-monolith-mq-password": {
-      "type": "parameter.v0",
-      "value": "{core-monolith-mq-password.inputs.value}",
-      "inputs": {
-        "value": {
-          "type": "string",
-          "secret": true,
-          "default": {
-            "generate": {
-              "minLength": 22,
-              "special": false
-            }
-          }
-        }
-      }
-    },
-    "core-monolith-keycloak-password": {
-      "type": "parameter.v0",
-      "value": "{core-monolith-keycloak-password.inputs.value}",
-      "inputs": {
-        "value": {
-          "type": "string",
-          "secret": true,
-          "default": {
-            "generate": {
-              "minLength": 22
-            }
-          }
         }
       }
     }

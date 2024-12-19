@@ -124,6 +124,8 @@ public static class DependencyInjection
 
     public static IServiceCollection AddCustomHttpClients(this IServiceCollection services)
     {
+        services.AddTransient<KeycloakTokenHandler>();
+
         services.AddHttpClient<WeatherApiClient>(client =>
              {
                  client.BaseAddress = new($"https+http://{ConnectionNameConstants.WebApiConnectionName}");

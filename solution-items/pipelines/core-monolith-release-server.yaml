@@ -1,4 +1,5 @@
-trigger: none
+trigger: 
+  - master
 
 jobs:
 - deployment: core_monolith_release_server
@@ -15,3 +16,20 @@ jobs:
           clean: true
           fetchTags: true
           fetchDepth: 0
+
+        - task: PowerShell@2
+          displayName: 'Build and Deploy'
+          inputs:
+            targetType: 'inline'
+            script: |
+              #Move to Aspire project location
+              cd .\CoreMonolith\src\CoreMonolith.AppHost\
+              
+              #Build and push new containers, finally generate docker compose yaml.
+              aspirate generate --non-interactive --secret-password $(Aspir8-Secret-Password)--image-pull-policy Always --output-format compose --include-dashboard -o ./core-monolith -m ./manifest.json
+              
+              #Move to docker yaml file location
+              cd .\core-monolith\
+              
+              #Update contaioner setup based on compose yaml
+              docker compose up -d --pull always

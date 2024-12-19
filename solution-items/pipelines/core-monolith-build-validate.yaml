@@ -2,7 +2,6 @@ pool:
   name: Default
 
 variables:
-  solution: '**/*.sln'
   buildPlatform: 'Any CPU'
   buildConfiguration: 'Release'
 
@@ -17,7 +16,7 @@ steps:
   displayName: 'Build solution'
   inputs:
     command: 'build'
-    projects: $(solution)
+    projects: '**/*.csproj'
     arguments: '--configuration $(buildConfiguration)'
 
 - task: DotNetCoreCLI@2

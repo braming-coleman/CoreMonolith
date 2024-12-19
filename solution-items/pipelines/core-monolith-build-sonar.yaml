@@ -1,6 +1,18 @@
 trigger: 
  - master
 
+variables:
+- name: buildPlatform
+  value: 'Any CPU' 
+- name: buildConfiguration
+  value: 'Release' 
+- name: SonarOrg
+  value: 'zeox115' 
+- name: SonarProjectKey
+  value: 'zeox115_CoreMonolith' 
+- name: SonarProjectName
+  value: 'CoreMonolith' 
+
 jobs:
 - job: core_monolith_build_sonar
   pool:
@@ -8,13 +20,6 @@ jobs:
 
   workspace:
     clean: all
-
-  variables:
-    buildPlatform: 'Any CPU'
-    buildConfiguration: 'Release'
-    SonarOrg: 'zeox115'
-    SonarProjectKey: 'zeox115_CoreMonolith'
-    SonarProjectName: 'CoreMonolith'
 
   steps:
   - checkout: self

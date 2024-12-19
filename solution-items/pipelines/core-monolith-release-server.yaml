@@ -1,6 +1,9 @@
 trigger: 
   - master
 
+variables:
+- group: CoreMonolith-Secrets
+
 jobs:
 - deployment: core_monolith_release_server
   environment: Server

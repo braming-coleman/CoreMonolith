@@ -12,6 +12,9 @@ jobs:
   variables:
     buildPlatform: 'Any CPU'
     buildConfiguration: 'Release'
+    SonarOrg: 'zeox115'
+    SonarProjectKey: 'zeox115_CoreMonolith'
+    SonarProjectName: 'CoreMonolith'
 
   steps:
   - checkout: self
@@ -27,6 +30,16 @@ jobs:
       version: '9.0.x'
       performMultiLevelLookup: true
 
+  - task: SonarCloudPrepare@3
+    displayName: 'Prepare analysis on SonarQube Cloud'
+    inputs:
+      SonarQube: 'SonarCloud'
+      organization: '$(SonarOrg)'
+      scannerMode: 'dotnet'
+      projectKey: '$(SonarProjectKey)'
+      projectName: '$(SonarProjectName)'
+      projectVersion: '$(Build.BuildNumber)'
+
   - task: DotNetCoreCLI@2
     displayName: 'Build solution'
     inputs:
@@ -40,3 +53,13 @@ jobs:
       command: 'test'
       projects: '**/*tests/*.csproj'
       arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
+
+  - task: SonarCloudAnalyze@3
+    displayName: 'Run Code Analysis'
+    inputs:
+      jdkversion: 'JAVA_HOME_21_X64'
+
+  - task: SonarCloudPublish@3
+    displayName: 'Publish Quality Gate Result'
+    inputs:
+      pollingTimeoutSec: '300'

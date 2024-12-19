@@ -1,20 +1,21 @@
 trigger: none
 
 jobs:
-- job: core_monolith_release_server
+- deployment: core_monolith_release_server
+  environment: Server
   pool:
     name: Default
 
   workspace:
     clean: all
 
-  variables:
-    buildPlatform: 'Any CPU'
-    buildConfiguration: 'Release'
+  strategy:
+    runOnce:
+      deploy:
+        steps:
 
-  steps:
-  - checkout: self
-    displayName: 'Sync source'
-    clean: true
-    fetchTags: true
-    fetchDepth: 0
+        - checkout: self
+          displayName: 'Sync source'
+          clean: true
+          fetchTags: true
+          fetchDepth: 0

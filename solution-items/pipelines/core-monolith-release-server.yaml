@@ -5,10 +5,8 @@ jobs:
   environment: Server
   pool:
     name: Default
-
   workspace:
     clean: all
-
   strategy:
     runOnce:
       deploy:

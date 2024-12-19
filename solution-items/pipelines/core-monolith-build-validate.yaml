@@ -1,27 +1,41 @@
-pool:
-  name: Default
+trigger: none
 
-variables:
-  buildPlatform: 'Any CPU'
-  buildConfiguration: 'Release'
+jobs:
+- job: core_monolith_build_validate
+  pool:
+    name: Default
 
-steps:
-- task: UseDotNet@2
-  inputs:
-    packageType: 'sdk'
-    version: '9.0.x'
-    performMultiLevelLookup: true
+  workspace:
+    clean: all
 
-- task: DotNetCoreCLI@2
-  displayName: 'Build solution'
-  inputs:
-    command: 'build'
-    projects: '**/*.csproj'
-    arguments: '--configuration $(buildConfiguration)'
+  variables:
+    buildPlatform: 'Any CPU'
+    buildConfiguration: 'Release'
 
-- task: DotNetCoreCLI@2
-  displayName: 'Run unit tests with code coverage'
-  inputs:
-    command: 'test'
-    projects: '**/*tests/*.csproj'
-    arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'
+  steps:
+  - checkout: self
+    displayName: 'Sync source'
+    clean: true
+    fetchTags: true
+    fetchDepth: 0
+
+  - task: UseDotNet@2
+    displayName: 'Enable .Net'
+    inputs:
+      packageType: 'sdk'
+      version: '9.0.x'
+      performMultiLevelLookup: true
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Build solution'
+    inputs:
+      command: 'build'
+      projects: '**/*.csproj'
+      arguments: '--configuration $(buildConfiguration)'
+
+  - task: DotNetCoreCLI@2
+    displayName: 'Run unit tests with code coverage'
+    inputs:
+      command: 'test'
+      projects: '**/*tests/*.csproj'
+      arguments: '--configuration $(buildConfiguration) --collect "Code coverage"'

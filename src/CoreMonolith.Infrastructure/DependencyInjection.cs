@@ -11,9 +11,7 @@ using CoreMonolith.Infrastructure.Repositories.Access;
 using CoreMonolith.Infrastructure.Time;
 using CoreMonolith.ServiceDefaults.Constants;
 using CoreMonolith.SharedKernel.Abstractions;
-using CoreMonolith.SharedKernel.Infrastructure;
 using CoreMonolith.SharedKernel.OutputCaching;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -21,13 +19,32 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
-using System.Text;
 
 namespace CoreMonolith.Infrastructure;
 
 public static class DependencyInjection
 {
+    public static IServiceCollection AddAuthenticationContext(this IServiceCollection services)
+    {
+        services.AddHttpContextAccessor();
+
+        services.AddScoped<IUserContext, UserContext>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddApiAuthorization(this IServiceCollection services)
+    {
+        services.AddAuthorization();
+
+        services.AddScoped<PermissionProvider>();
+
+        services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
+        services.AddTransient<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+
+        return services;
+    }
+
     public static void ApplyMigrations(this IApplicationBuilder app)
     {
         using IServiceScope scope = app.ApplicationServices.CreateScope();
@@ -38,7 +55,83 @@ public static class DependencyInjection
         dbContext.Database.Migrate();
     }
 
-    public static WebApplicationBuilder AddRabbitMqClient(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddApiInfrastructure(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddApiServices();
+
+        builder.AddDatabase();
+
+        builder.AddRabbitMqClient();
+
+        builder.AddRedisClients();
+
+        builder.Services.AddHealthChecks(builder.Configuration);
+
+        return builder;
+    }
+
+    public static WebApplicationBuilder AddWebInfrastructure(this WebApplicationBuilder builder)
+    {
+        builder.AddRedisClients();
+
+        builder.Services.AddCustomHttpClients();
+
+        return builder;
+    }
+
+    private static IServiceCollection AddApiServices(this IServiceCollection services)
+    {
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        services.AddScoped<IAccessContainer, AccessContainer>();
+        services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IPermissionRepository, PermissionRepository>();
+        services.AddScoped<IUserPermissionRepository, UserPermissionRepository>();
+
+        services.AddSingleton<IPasswordHasher, PasswordHasher>();
+        services.AddSingleton<ITokenProvider, TokenProvider>();
+        services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+
+        return services;
+    }
+
+    private static WebApplicationBuilder AddDatabase(this WebApplicationBuilder builder)
+    {
+        string? connectionString = builder.Configuration
+            .GetConnectionString(ConnectionNameConstants.DbConnStringName);
+
+        builder.Services.AddDbContext<ApplicationDbContext>(
+            options => options
+                .UseNpgsql(connectionString, npgsqlOptions => npgsqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Default))
+                .UseSnakeCaseNamingConvention());
+
+        builder.Services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
+
+        builder.EnrichNpgsqlDbContext<ApplicationDbContext>(
+            configureSettings: settings =>
+            {
+                settings.DisableRetry = false;
+                settings.DisableMetrics = false;
+                settings.DisableTracing = false;
+                settings.DisableHealthChecks = false;
+            });
+
+        return builder;
+    }
+
+    private static IServiceCollection AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
+    {
+        services
+            .AddHealthChecks()
+            .AddNpgSql(configuration.GetConnectionString(ConnectionNameConstants.DbConnStringName)!)
+            .AddRedis(configuration.GetConnectionString(ConnectionNameConstants.RedisConnectionName)!)
+            .AddRabbitMQ(rabbitConnectionString: configuration.GetConnectionString(ConnectionNameConstants.RabbitMqConnectionName)!);
+
+        return services;
+    }
+
+    private static WebApplicationBuilder AddRabbitMqClient(this WebApplicationBuilder builder)
     {
         builder.AddRabbitMQClient(connectionName: ConnectionNameConstants.RabbitMqConnectionName, options =>
         {
@@ -49,7 +142,7 @@ public static class DependencyInjection
         return builder;
     }
 
-    public static WebApplicationBuilder AddRedisClients(this WebApplicationBuilder builder)
+    private static WebApplicationBuilder AddRedisClients(this WebApplicationBuilder builder)
     {
         builder.AddRedisClient(connectionName: ConnectionNameConstants.RedisConnectionName, options =>
         {
@@ -62,6 +155,8 @@ public static class DependencyInjection
             options.AddBasePolicy(b => b.AddPolicy<CustomPolicy>().SetCacheKeyPrefix("custom-"), true);
         });
 
+        builder.Services.AddOutputCache();
+
         builder.AddRedisOutputCache(connectionName: ConnectionNameConstants.RedisConnectionName, options =>
         {
             options.DisableTracing = false;
@@ -71,157 +166,15 @@ public static class DependencyInjection
         return builder;
     }
 
-    public static IServiceCollection AddPresentation(this IServiceCollection services)
+    private static IServiceCollection AddCustomHttpClients(this IServiceCollection services)
     {
-        services.AddEndpointsApiExplorer();
+        services.AddTransient<KeycloakTokenHandler>();
 
-        services.AddExceptionHandler<GlobalExceptionHandler>();
-        services.AddProblemDetails();
-
-        return services;
-    }
-
-    public static WebApplicationBuilder EnrichDbContext(this WebApplicationBuilder builder)
-    {
-        builder.EnrichNpgsqlDbContext<ApplicationDbContext>(
-            configureSettings: settings =>
-            {
-                settings.DisableRetry = false;
-                settings.DisableMetrics = false;
-                settings.DisableTracing = false;
-                settings.DisableHealthChecks = false;
-                settings.CommandTimeout = 30;
-            });
-
-        return builder;
-    }
-
-    public static IServiceCollection AddInfrastructure(
-        this IServiceCollection services,
-        IConfiguration configuration) =>
-        services
-            .AddServices()
-            .AddDatabase(configuration)
-            .AddHealthChecks(configuration)
-            .AddKeycloakAuth()
-            .AddAuthorizationInternal();
-
-    private static IServiceCollection AddServices(this IServiceCollection services)
-    {
-        services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-
-        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
-
-        services.AddScoped<IAccessContainer, AccessContainer>();
-        services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IPermissionRepository, PermissionRepository>();
-        services.AddScoped<IUserPermissionRepository, UserPermissionRepository>();
-
-        return services;
-    }
-
-    public static IServiceCollection AddCustomHttpClients(this IServiceCollection services)
-    {
         services.AddHttpClient<WeatherApiClient>(client =>
-             {
-                 client.BaseAddress = new($"https+http://{ConnectionNameConstants.WebApiConnectionName}");
-             });
-
-        return services;
-    }
-
-    public static IServiceCollection AddCustomOutputCache(this IServiceCollection services, IConfiguration configuration, string instanceName)
-    {
-        services
-            .AddOutputCache()
-            .AddStackExchangeRedisOutputCache(options =>
-            {
-                options.Configuration = configuration.GetConnectionString(ConnectionNameConstants.RedisConnectionName);
-
-                options.InstanceName = instanceName;
-            });
-
-        return services;
-    }
-
-    private static IServiceCollection AddDatabase(this IServiceCollection services, IConfiguration configuration)
-    {
-        string? connectionString = configuration.GetConnectionString(ConnectionNameConstants.DbConnStringName);
-
-        services.AddDbContext<ApplicationDbContext>(
-            options => options
-                .UseNpgsql(connectionString, npgsqlOptions => npgsqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Default))
-                .UseSnakeCaseNamingConvention());
-
-        services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
-
-        return services;
-    }
-
-    private static IServiceCollection AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
-    {
-        services
-            .AddHealthChecks()
-            .AddNpgSql(configuration.GetConnectionString(ConnectionNameConstants.DbConnStringName)!);
-
-        return services;
-    }
-
-    public static IServiceCollection AddKeycloakAuth(
-        this IServiceCollection services)
-    {
-        services.AddAuthorization();
-
-        services.AddAuthentication()
-            .AddKeycloakJwtBearer(ConnectionNameConstants.KeycloakConnectionName, realm: "core-monolith_webapi", options =>
-            {
-                options.RequireHttpsMetadata = false;
-                options.Audience = "webapi-test-client";
-            });
-
-        services.AddHttpContextAccessor();
-        services.AddScoped<IUserContext, UserContext>();
-        services.AddSingleton<IPasswordHasher, PasswordHasher>();
-        services.AddSingleton<ITokenProvider, TokenProvider>();
-
-        return services;
-    }
-
-    public static IServiceCollection AddCustomAuthentication(
-        this IServiceCollection services,
-        IConfiguration configuration)
-    {
-        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
-            .AddJwtBearer(o =>
-            {
-                o.RequireHttpsMetadata = false;
-                o.TokenValidationParameters = new TokenValidationParameters
-                {
-                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration[ConfigKeyConstants.JwtSecretKeyName]!)),
-                    ValidIssuer = configuration["Jwt:Issuer"],
-                    ValidAudience = configuration["Jwt:Audience"],
-                    ClockSkew = TimeSpan.Zero
-                };
-            });
-
-        services.AddHttpContextAccessor();
-        services.AddScoped<IUserContext, UserContext>();
-        services.AddSingleton<IPasswordHasher, PasswordHasher>();
-        services.AddSingleton<ITokenProvider, TokenProvider>();
-
-        return services;
-    }
-
-    private static IServiceCollection AddAuthorizationInternal(this IServiceCollection services)
-    {
-        services.AddAuthorization();
-
-        services.AddScoped<PermissionProvider>();
-
-        services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
-
-        services.AddTransient<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
+        {
+            client.BaseAddress = new($"https+http://{ConnectionNameConstants.WebApiConnectionName}");
+        })
+            .AddHttpMessageHandler<KeycloakTokenHandler>();
 
         return services;
     }

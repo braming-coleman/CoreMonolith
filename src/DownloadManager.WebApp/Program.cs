@@ -1,6 +1,6 @@
 using CoreMonolith.Infrastructure;
 using CoreMonolith.SharedKernel.Extensions;
-using CoreMonolith.SharedKernel.Infrastructure;
+using DownloadManager.WebApp;
 using DownloadManager.WebApp.Components;
 using Serilog;
 
@@ -15,14 +15,10 @@ builder.Services
     .AddRazorComponents()
     .AddInteractiveServerComponents();
 
-//Shared Services
-builder.Services
-    .AddCustomAuthentication(builder.Configuration)
-    .AddExceptionHandler<GlobalExceptionHandler>()
-    .AddProblemDetails()
-    .AddCustomHttpClients();
-
-builder.AddRedisClients();
+builder
+    .AddPresentation()
+    .AddAuth()
+    .AddWebInfrastructure();
 
 var app = builder.Build();
 
@@ -39,18 +35,22 @@ app.UseAntiforgery();
 
 app.MapStaticAssets();
 
-app.MapRazorComponents<App>()
+app
+    .MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
-app.MapDefaultEndpoints();
+app
+    .MapDefaultEndpoints()
+    .MapEndpoints();
 
-app.UseRequestContextLogging();
+app
+    .UseRequestContextLogging()
+    .UseSerilogRequestLogging()
+    .UseExceptionHandler();
 
-app.UseSerilogRequestLogging();
-
-app.UseExceptionHandler();
-
-app.UseAuthentication();
+app
+    .UseAuthentication()
+    .UseAuthorization();
 
 app.UseOutputCache();
 

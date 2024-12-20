@@ -25,8 +25,8 @@ public class UserPermissionRepository(
             .UserPermissions.AsNoTracking()
             .Include(i => i.Permission).AsNoTracking()
             .Include(i => i.User).AsNoTracking()
-            .Where(p => p.User.ExternalId == externalId)
-            .Select(s => $"{s.Permission.Key}")
+            .Where(p => p.User!.ExternalId == externalId)
+            .Select(s => $"{s.Permission!.Key}")
             .ToHashSetAsync(cancellationToken);
 
         HashSet<string> permissions = [];
@@ -43,7 +43,7 @@ public class UserPermissionRepository(
             .UserPermissions.AsNoTracking()
             .Include(i => i.Permission).AsNoTracking()
             .Where(p => p.UserId == id)
-            .Select(s => $"{s.Permission.Key}")
+            .Select(s => $"{s.Permission!.Key}")
             .ToHashSetAsync(cancellationToken);
 
         HashSet<string> permissions = [];

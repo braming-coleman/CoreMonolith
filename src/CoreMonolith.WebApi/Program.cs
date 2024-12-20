@@ -1,6 +1,7 @@
 using CoreMonolith.Application;
 using CoreMonolith.Infrastructure;
 using CoreMonolith.SharedKernel.Extensions;
+using CoreMonolith.WebApi;
 using Serilog;
 using System.Reflection;
 
@@ -10,17 +11,15 @@ builder.AddServiceDefaults();
 
 builder.AddAndConfigureSerilog();
 
+builder.AddApiInfrastructure();
+
 builder.Services
-    .AddInfrastructure(builder.Configuration)
     .AddApplication()
-    .AddPresentation()
     .AddEndpoints(Assembly.GetExecutingAssembly());
 
-builder
-    .EnrichDbContext()
-    .AddRabbitMqClient()
-    .AddRedisClients()
-    .AddDefaultOpenApi();
+builder.AddAuth();
+
+builder.AddPresentation();
 
 var app = builder.Build();
 

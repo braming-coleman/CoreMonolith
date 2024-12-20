@@ -67,12 +67,10 @@ var keycloak = builder.AddKeycloak(ConnectionNameConstants.KeycloakConnectionNam
 
 
 //Core WebApi
-var jwtSecret = builder.AddParameter(ConfigKeyConstants.JwtSecretKeyName, secret: true);
 var coreWebApiEnv = builder.AddParameter(ConfigKeyConstants.WebApiEnvKeyName, secret: false);
 
 var webApi = builder.AddProject<Projects.CoreMonolith_WebApi>(ConnectionNameConstants.WebApiConnectionName)
     .WithEnvironment("ASPNETCORE_ENVIRONMENT", coreWebApiEnv)
-    .WithEnvironment(ConfigKeyConstants.JwtSecretKeyName, jwtSecret)
     .WithExternalHttpEndpoints()
     .WithReference(postgressDb)
     .WaitFor(postgres)
@@ -86,11 +84,12 @@ var webApi = builder.AddProject<Projects.CoreMonolith_WebApi>(ConnectionNameCons
 
 
 //DownloadManager WebApp
+var clientSecret = builder.AddParameter(ConfigKeyConstants.WebAppClientSecret, secret: true);
 var downloadManagerEnv = builder.AddParameter(ConfigKeyConstants.WebAppEnvKeyName, secret: false);
 
 builder.AddProject<Projects.DownloadManager_WebApp>(ConnectionNameConstants.WebAppConnectionName)
     .WithEnvironment("ASPNETCORE_ENVIRONMENT", downloadManagerEnv)
-    .WithEnvironment(ConfigKeyConstants.JwtSecretKeyName, jwtSecret)
+    .WithEnvironment(ConfigKeyConstants.WebAppClientSecret, clientSecret)
     .WithExternalHttpEndpoints()
     .WithReference(redis)
     .WaitFor(redis)

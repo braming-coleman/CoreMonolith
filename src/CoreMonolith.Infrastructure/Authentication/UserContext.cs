@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace CoreMonolith.Infrastructure.Authentication;
 
-public sealed class UserContext(IHttpContextAccessor httpContextAccessor) : IUserContext
+internal sealed class UserContext(IHttpContextAccessor httpContextAccessor) : IUserContext
 {
     private readonly IHttpContextAccessor _httpContextAccessor = httpContextAccessor;
 

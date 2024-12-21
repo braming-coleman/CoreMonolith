@@ -9,7 +9,7 @@ public class PermissionTests
     public void Permission_ShouldSetPropertiesCorrectly()
     {
         // Arrange
-        var permissionId = Guid.NewGuid();
+        var permissionId = Guid.CreateVersion7();
         var key = "PermissionKey";
         var description = "Permission Description";
 
@@ -21,7 +21,7 @@ public class PermissionTests
             Description = description,
             UserPermissions =
             [
-                new() { Id = Guid.NewGuid(), UserId = Guid.NewGuid(), PermissionId = permissionId }
+                new() { Id = Guid.CreateVersion7(), UserId = Guid.CreateVersion7(), PermissionId = permissionId }
             ]
         };
 

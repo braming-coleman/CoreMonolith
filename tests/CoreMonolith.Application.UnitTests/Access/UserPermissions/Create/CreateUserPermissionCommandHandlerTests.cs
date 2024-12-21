@@ -10,8 +10,8 @@ namespace CoreMonolith.Application.UnitTests.Access.UserPermissions.Create;
 
 public class CreateUserPermissionCommandHandlerTests
 {
-    private static readonly Guid UserId = Guid.NewGuid();
-    private static readonly Guid PermissionId = Guid.NewGuid();
+    private static readonly Guid UserId = Guid.CreateVersion7();
+    private static readonly Guid PermissionId = Guid.CreateVersion7();
 
     private readonly IUnitOfWork _unitOfWork;
     private readonly CreateUserPermissionCommandHandler _handler;
@@ -26,7 +26,7 @@ public class CreateUserPermissionCommandHandlerTests
     public async Task Handle_ShouldReturnFailure_WhenUserDoesNotExist()
     {
         // Arrange
-        var command = new CreateUserPermissionCommand(Guid.NewGuid(), Guid.NewGuid());
+        var command = new CreateUserPermissionCommand(Guid.CreateVersion7(), Guid.CreateVersion7());
         _unitOfWork.Access.UserRepository
             .ExistsByIdAsync(command.UserId, Arg.Any<CancellationToken>())
             .Returns(false);
@@ -44,7 +44,7 @@ public class CreateUserPermissionCommandHandlerTests
     public async Task Handle_ShouldReturnFailure_WhenPermissionDoesNotExist()
     {
         // Arrange
-        var command = new CreateUserPermissionCommand(Guid.NewGuid(), Guid.NewGuid());
+        var command = new CreateUserPermissionCommand(Guid.CreateVersion7(), Guid.CreateVersion7());
         _unitOfWork.Access.UserRepository.ExistsByIdAsync(command.UserId, Arg.Any<CancellationToken>())
             .Returns(true);
         _unitOfWork.Access.PermissionRepository.ExistsByIdAsync(command.PermissionId, Arg.Any<CancellationToken>())
@@ -63,7 +63,7 @@ public class CreateUserPermissionCommandHandlerTests
     public async Task Handle_ShouldReturnFailure_WhenUserPermissionAlreadyExists()
     {
         // Arrange
-        var command = new CreateUserPermissionCommand(Guid.NewGuid(), Guid.NewGuid());
+        var command = new CreateUserPermissionCommand(Guid.CreateVersion7(), Guid.CreateVersion7());
         _unitOfWork.Access.UserRepository.ExistsByIdAsync(command.UserId, Arg.Any<CancellationToken>())
             .Returns(true);
         _unitOfWork.Access.PermissionRepository.ExistsByIdAsync(command.PermissionId, Arg.Any<CancellationToken>())
@@ -85,12 +85,12 @@ public class CreateUserPermissionCommandHandlerTests
     public async Task Handle_ShouldCreateUserPermission_WhenAllChecksPass()
     {
         // Arrange
-        var command = new CreateUserPermissionCommand(Guid.NewGuid(), Guid.NewGuid());
+        var command = new CreateUserPermissionCommand(Guid.CreateVersion7(), Guid.CreateVersion7());
         _unitOfWork.Access.UserRepository.ExistsByIdAsync(command.UserId, Arg.Any<CancellationToken>()).Returns(true);
         _unitOfWork.Access.PermissionRepository.ExistsByIdAsync(command.PermissionId, Arg.Any<CancellationToken>()).Returns(true);
         _unitOfWork.Access.UserPermissionRepository.ExistsByUserAndPermissionIdAsync(command.UserId, command.PermissionId, Arg.Any<CancellationToken>()).Returns(false);
 
-        var userPermissionId = Guid.NewGuid();
+        var userPermissionId = Guid.CreateVersion7();
 
         // Act
         var result = await _handler.Handle(command, CancellationToken.None);

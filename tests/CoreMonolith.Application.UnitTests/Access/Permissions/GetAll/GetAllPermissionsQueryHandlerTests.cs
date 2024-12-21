@@ -25,8 +25,8 @@ public class GetAllPermissionsQueryHandlerTests
         var query = new GetAllPermissionsQuery();
         var mockPermissions = new List<Permission>
         {
-            new() { Id = Guid.NewGuid(), Key = "Permission1", Description = "Description1" },
-            new() { Id = Guid.NewGuid(), Key = "Permission2", Description = "Description2" }
+            new() { Id = Guid.CreateVersion7(), Key = "Permission1", Description = "Description1" },
+            new() { Id = Guid.CreateVersion7(), Key = "Permission2", Description = "Description2" }
         };
 
         _unitOfWork.Access.PermissionRepository

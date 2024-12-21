@@ -18,7 +18,7 @@ public class GetPermissionsByExternalIdHandlerTests
     public async Task Handle_ShouldReturnPermissions_WhenUserExists()
     {
         // Arrange
-        var externalId = Guid.NewGuid();
+        var externalId = Guid.CreateVersion7();
         var expectedPermissions = new HashSet<string> { "permission1", "permission2" };
 
         _unitOfWork.Access.UserPermissionRepository
@@ -40,7 +40,7 @@ public class GetPermissionsByExternalIdHandlerTests
     public async Task Handle_ShouldReturnFailure_WhenUserDoesNotExist()
     {
         // Arrange
-        var externalId = Guid.NewGuid();
+        var externalId = Guid.CreateVersion7();
         var expectedPermissions = new HashSet<string>();
 
         _unitOfWork.Access.UserPermissionRepository

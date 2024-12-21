@@ -51,7 +51,7 @@ public class LoginUserCommandHandlerTests
         var command = new LoginUserCommand("test@example.com", "wrongpassword");
         var user = new User
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.CreateVersion7(),
             Email = command.Email,
             PasswordHash = "hashedpassword123"
         };
@@ -82,7 +82,7 @@ public class LoginUserCommandHandlerTests
         var command = new LoginUserCommand("test@example.com", "password123");
         var user = new User
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.CreateVersion7(),
             Email = command.Email,
             PasswordHash = "hashedpassword123"
         };

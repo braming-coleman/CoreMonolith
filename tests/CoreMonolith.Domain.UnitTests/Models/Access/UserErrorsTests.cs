@@ -9,7 +9,7 @@ public class UserErrorsTests
     [Fact]
     public void UserErrors_NotFound_CreatesErrorWithCorrectProperties()
     {
-        var userId = Guid.NewGuid();
+        var userId = Guid.CreateVersion7();
 
         var error = UserErrors.NotFound(userId);
 

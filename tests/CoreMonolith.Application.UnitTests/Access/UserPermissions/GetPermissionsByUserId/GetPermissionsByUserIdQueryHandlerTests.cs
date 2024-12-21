@@ -20,7 +20,7 @@ public class GetPermissionsByUserIdQueryHandlerTests
     public async Task Handle_ShouldReturnPermissions_WhenUserHasPermissions()
     {
         // Arrange
-        var userId = Guid.NewGuid();
+        var userId = Guid.CreateVersion7();
         var query = new GetPermissionsByUserIdQuery(userId);
         var expectedPermissions = new HashSet<string> { "Read", "Write", "Execute" };
 
@@ -44,7 +44,7 @@ public class GetPermissionsByUserIdQueryHandlerTests
     public async Task Handle_ShouldReturnEmptyPermissions_WhenUserHasNoPermissions()
     {
         // Arrange
-        var userId = Guid.NewGuid();
+        var userId = Guid.CreateVersion7();
         var query = new GetPermissionsByUserIdQuery(userId);
         var expectedPermissions = new HashSet<string>();
 

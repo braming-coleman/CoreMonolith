@@ -21,7 +21,7 @@ public class UserRegisteredDomainEventHandlerTests
     public async Task Handle_ShouldEvictCacheSuccessfully()
     {
         // Arrange
-        var domainEvent = new UserRegisteredDomainEvent(Guid.NewGuid());
+        var domainEvent = new UserRegisteredDomainEvent(Guid.CreateVersion7());
 
         // Act
         await _handler.Handle(domainEvent, CancellationToken.None);

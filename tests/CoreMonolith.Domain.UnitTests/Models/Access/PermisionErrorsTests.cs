@@ -10,7 +10,7 @@ public class PermisionErrorsTests
     public void NotFound_ShouldReturnNotFoundErrorWithCorrectDetails()
     {
         // Arrange
-        var id = Guid.NewGuid();
+        var id = Guid.CreateVersion7();
 
         // Act
         var error = PermissionErrors.NotFound(id);

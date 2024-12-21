@@ -12,13 +12,13 @@ public class UserPermissionTests
     public void UserPermission_ShouldSetPropertiesCorrectly()
     {
         // Arrange
-        var userId = Guid.NewGuid();
-        var permissionId = Guid.NewGuid();
+        var userId = Guid.CreateVersion7();
+        var permissionId = Guid.CreateVersion7();
 
         // Act
         var userPermission = new UserPermission
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.CreateVersion7(),
             UserId = userId,
             PermissionId = permissionId,
             User = new User { Id = userId, Email = "test@example.com" },
@@ -38,7 +38,7 @@ public class UserPermissionTests
     public void UserPermissionErrors_NotFound_ShouldReturnCorrectError()
     {
         // Arrange
-        var id = Guid.NewGuid();
+        var id = Guid.CreateVersion7();
 
         // Act
         var error = UserPermisionErrors.NotFound(id);

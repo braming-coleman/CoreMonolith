@@ -19,7 +19,7 @@ public class GetUserByIdQueryHandlerTests
     public async Task GetUserByIdQueryHandler_Handle_ReturnsNotFound_WhenUserIsNull()
     {
         // Arrange
-        var userId = Guid.NewGuid();
+        var userId = Guid.CreateVersion7();
         var query = new GetUserByIdQuery(userId);
 
         _unitOfWorkMock.Access.UserRepository.GetByIdAsync(userId, CancellationToken.None)
@@ -39,7 +39,7 @@ public class GetUserByIdQueryHandlerTests
     public async Task GetUserByIdQueryHandler_Handle_ReturnsUserResponse_WhenUserIsFound()
     {
         // Arrange
-        var userId = Guid.NewGuid();
+        var userId = Guid.CreateVersion7();
         var query = new GetUserByIdQuery(userId);
 
         var user = new User

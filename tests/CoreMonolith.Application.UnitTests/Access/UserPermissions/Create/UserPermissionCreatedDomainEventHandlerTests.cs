@@ -20,7 +20,7 @@ public class UserPermissionCreatedDomainEventHandlerTests
     public async Task Handle_ShouldEvictCache_WhenDomainEventHandled()
     {
         // Arrange
-        var domainEvent = new UserPermissionCreatedDomainEvent(Guid.NewGuid());
+        var domainEvent = new UserPermissionCreatedDomainEvent(Guid.CreateVersion7());
 
         // Act
         await _handler.Handle(domainEvent, CancellationToken.None);

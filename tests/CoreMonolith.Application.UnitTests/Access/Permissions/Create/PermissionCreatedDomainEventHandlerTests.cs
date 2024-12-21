@@ -14,7 +14,7 @@ public class PermissionCreatedDomainEventHandlerTests
         // Arrange
         var cacheStore = Substitute.For<IOutputCacheStore>();
         var handler = new PermissionCreatedDomainEventHandler(cacheStore);
-        var @event = new PermissionCreatedDomainEvent(Guid.NewGuid());
+        var @event = new PermissionCreatedDomainEvent(Guid.CreateVersion7());
 
         // Act
         await handler.Handle(@event, CancellationToken.None);

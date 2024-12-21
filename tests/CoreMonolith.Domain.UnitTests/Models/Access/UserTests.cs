@@ -11,7 +11,7 @@ public class UserTests
         // Arrange
         var user = new User
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.CreateVersion7(),
             Email = "test@example.com",
             FirstName = "John",
             LastName = "Doe",

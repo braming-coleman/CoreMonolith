@@ -27,7 +27,7 @@ internal sealed class CreateUserPermissionCommandHandler(IUnitOfWork _unitOfWork
 
         var userPermission = new UserPermission
         {
-            Id = Guid.NewGuid(),
+            Id = Guid.CreateVersion7(),
             UserId = command.UserId,
             PermissionId = command.PermissionId,
         };

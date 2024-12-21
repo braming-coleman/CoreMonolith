@@ -22,7 +22,7 @@ public class GetUserByEmailQueryHandlerTests
     {
         // Arrange
         var query = new GetUserByEmailQuery("test@example.com");
-        var user = new User { Id = Guid.NewGuid(), Email = "test@example.com" };
+        var user = new User { Id = Guid.CreateVersion7(), Email = "test@example.com" };
         _unitOfWorkMock.Access.UserRepository.GetByEmailAsync(query.Email, Arg.Any<CancellationToken>())
             .Returns(Task.FromResult<User?>(user));
 

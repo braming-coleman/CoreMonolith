@@ -1,4 +1,5 @@
 ﻿using CoreMonolith.SharedKernel.Abstractions;
+using CoreMonolith.SharedKernel.Models;
 using FluentAssertions;
 using NSubstitute;
 

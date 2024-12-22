@@ -1,7 +1,7 @@
 ﻿using CoreMonolith.Application.Abstractions.Messaging;
 using CoreMonolith.Domain.Abstractions.Repositories;
 using CoreMonolith.Domain.Models.Access.Permissions;
-using CoreMonolith.SharedKernel;
+using CoreMonolith.SharedKernel.ValueObjects;
 
 namespace CoreMonolith.Application.BusinessLogic.Access.Permissions.Create;
 

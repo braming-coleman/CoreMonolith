@@ -23,6 +23,131 @@ namespace CoreMonolith.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("CoreMonolith.Domain.Models.Access.PermissionGroupPermissions.PermissionGroupPermission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<Guid>("PermissionGroupId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("permission_group_id");
+
+                    b.Property<Guid>("PermissionId")
+                        .HasColumnType("uuid")
+                        .HasColumnName("permission_id");
+
+                    b.HasKey("Id")
+                        .HasName("pk_permission_group_permissions");
+
+                    b.HasIndex("PermissionGroupId")
+                        .HasDatabaseName("ix_permission_group_permissions_permission_group_id");
+
+                    b.HasIndex("PermissionId", "PermissionGroupId")
+                        .IsUnique()
+                        .HasDatabaseName("ix_permission_group_permissions_permission_id_permission_group");
+
+                    b.ToTable("permission_group_permissions", "access");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("0193ec2f-13a3-7c0c-af57-eaeab6d451d9"),
+                            PermissionGroupId = new Guid("0193ec1f-35c9-723c-a203-67c5e4e0eb75"),
+                            PermissionId = new Guid("0193eb73-d636-750a-a839-5571f30fd6b2")
+                        },
+                        new
+                        {
+                            Id = new Guid("0193ec2f-13a3-70f6-bba2-5e63aaa12173"),
+                            PermissionGroupId = new Guid("0193ec1f-35c9-723c-a203-67c5e4e0eb75"),
+                            PermissionId = new Guid("0193eb73-d636-7aed-bbbc-963672568d66")
+                        },
+                        new
+                        {
+                            Id = new Guid("0193ec2f-13a3-7a5c-83fb-d2b822708e25"),
+                            PermissionGroupId = new Guid("0193ec1f-35c9-723c-a203-67c5e4e0eb75"),
+                            PermissionId = new Guid("0193eb73-d636-770f-9d4d-6f2c6d9ccac3")
+                        },
+                        new
+                        {
+                            Id = new Guid("0193ec2f-13a3-7c6d-a09d-4948b5dc81e2"),
+                            PermissionGroupId = new Guid("0193ec1f-35c9-723c-a203-67c5e4e0eb75"),
+                            PermissionId = new Guid("0193eb73-d636-79e6-b669-87236dbbaa96")
+                        },
+                        new
+                        {
+                            Id = new Guid("0193ec2f-13a3-7c79-adfa-97611eac8222"),
+                            PermissionGroupId = new Guid("0193ec1f-35c9-723c-a203-67c5e4e0eb75"),
+                            PermissionId = new Guid("0193eb73-d636-72c1-b3fb-52c82f3593ac")
+                        },
+                        new
+                        {
+                            Id = new Guid("0193ec2f-13a3-70fd-8d28-2b103e51e8ae"),
+                            PermissionGroupId = new Guid("0193ec1f-35c9-723c-a203-67c5e4e0eb75"),
+                            PermissionId = new Guid("0193eb73-d636-7150-a2bc-13bde0f65734")
+                        },
+                        new
+                        {
+                            Id = new Guid("0193ec2f-13a3-79e7-acd9-861e9bf5d943"),
+                            PermissionGroupId = new Guid("0193ec1f-35c9-747a-91f1-5601ca02c36f"),
+                            PermissionId = new Guid("0193eb73-d636-750a-a839-5571f30fd6b2")
+                        },
+                        new
+                        {
+                            Id = new Guid("0193ec2f-13a3-77e6-9b8b-81e474ef00dc"),
+                            PermissionGroupId = new Guid("0193ec1f-35c9-747a-91f1-5601ca02c36f"),
+                            PermissionId = new Guid("0193eb73-d636-7aed-bbbc-963672568d66")
+                        },
+                        new
+                        {
+                            Id = new Guid("0193ec2f-13a3-7127-b499-fcef873fa5db"),
+                            PermissionGroupId = new Guid("0193ec1f-35c9-747a-91f1-5601ca02c36f"),
+                            PermissionId = new Guid("0193eb73-d636-72c1-b3fb-52c82f3593ac")
+                        });
+                });
+
+            modelBuilder.Entity("CoreMonolith.Domain.Models.Access.PermissionGroups.PermissionGroup", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid")
+                        .HasColumnName("id");
+
+                    b.Property<string>("Code")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("code");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("description");
+
+                    b.HasKey("Id")
+                        .HasName("pk_permission_groups");
+
+                    b.HasIndex("Code")
+                        .IsUnique()
+                        .HasDatabaseName("ix_permission_groups_code");
+
+                    b.ToTable("permission_groups", "access");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("0193ec1f-35c9-723c-a203-67c5e4e0eb75"),
+                            Code = "admin",
+                            Description = "Contains *all* permissions."
+                        },
+                        new
+                        {
+                            Id = new Guid("0193ec1f-35c9-747a-91f1-5601ca02c36f"),
+                            Code = "user",
+                            Description = "Contains non-admin permissions."
+                        });
+                });
+
             modelBuilder.Entity("CoreMonolith.Domain.Models.Access.Permissions.Permission", b =>
                 {
                     b.Property<Guid>("Id")
@@ -31,10 +156,12 @@ namespace CoreMonolith.Infrastructure.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Description")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("description");
 
                     b.Property<string>("Key")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("key");
 
@@ -50,178 +177,68 @@ namespace CoreMonolith.Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d6cbe40d-3f0b-4402-ba4a-9a2d89536f07"),
+                            Id = new Guid("0193eb73-d636-750a-a839-5571f30fd6b2"),
                             Description = "Read access to [user] resource",
                             Key = "user:read"
                         },
                         new
                         {
-                            Id = new Guid("87f797e2-92cb-4298-8ec8-1a0d0334837b"),
+                            Id = new Guid("0193eb73-d636-7aed-bbbc-963672568d66"),
                             Description = "Write access to [user] resource",
                             Key = "user:write"
                         },
                         new
                         {
-                            Id = new Guid("b057d9cd-ce76-4d0b-b79d-d10da140a8e8"),
-                            Description = "Read access to [todo] resource",
-                            Key = "todo:read"
+                            Id = new Guid("0193eb73-d636-770f-9d4d-6f2c6d9ccac3"),
+                            Description = "Read access to [permission-group] resource",
+                            Key = "permission-group:read"
                         },
                         new
                         {
-                            Id = new Guid("d69712b8-195b-4c62-ae66-d4b37702a23d"),
-                            Description = "Write access to [todo] resource",
-                            Key = "todo:write"
+                            Id = new Guid("0193eb73-d636-79e6-b669-87236dbbaa96"),
+                            Description = "Write access to [permission-group] resource",
+                            Key = "permission-group:write"
                         },
                         new
                         {
-                            Id = new Guid("122c9c3d-1ad2-4228-8d0c-53b3a55dcff6"),
-                            Description = "Read access to [user-permission] resource",
-                            Key = "user-permission:read"
-                        },
-                        new
-                        {
-                            Id = new Guid("c9a0b1be-391b-44aa-90d8-aca0757d18d6"),
-                            Description = "Write access to [user-permission] resource",
-                            Key = "user-permission:write"
-                        },
-                        new
-                        {
-                            Id = new Guid("86c9629c-c5e5-49ad-94b7-6981f921386b"),
+                            Id = new Guid("0193eb73-d636-72c1-b3fb-52c82f3593ac"),
                             Description = "Read access to [permission] resource",
                             Key = "permission:read"
                         },
                         new
                         {
-                            Id = new Guid("82fddd77-f662-4927-aae1-46ebb00c2c05"),
+                            Id = new Guid("0193eb73-d636-7150-a2bc-13bde0f65734"),
                             Description = "Write access to [permission] resource",
                             Key = "permission:write"
                         });
                 });
 
-            modelBuilder.Entity("CoreMonolith.Domain.Models.Access.UserPermissions.UserPermission", b =>
+            modelBuilder.Entity("CoreMonolith.Domain.Models.Access.UserPermissionGroups.UserPermissionGroup", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uuid")
                         .HasColumnName("id");
 
-                    b.Property<Guid>("PermissionId")
+                    b.Property<Guid>("PermissionGroupId")
                         .HasColumnType("uuid")
-                        .HasColumnName("permission_id");
+                        .HasColumnName("permission_group_id");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uuid")
                         .HasColumnName("user_id");
 
                     b.HasKey("Id")
-                        .HasName("pk_user_permissions");
+                        .HasName("pk_user_permission_groups");
 
-                    b.HasIndex("PermissionId")
-                        .HasDatabaseName("ix_user_permissions_permission_id");
+                    b.HasIndex("PermissionGroupId")
+                        .HasDatabaseName("ix_user_permission_groups_permission_group_id");
 
-                    b.HasIndex("UserId", "PermissionId")
+                    b.HasIndex("UserId", "PermissionGroupId")
                         .IsUnique()
-                        .HasDatabaseName("ix_user_permissions_user_id_permission_id");
+                        .HasDatabaseName("ix_user_permission_groups_user_id_permission_group_id");
 
-                    b.ToTable("user_permissions", "access");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("f4bf25be-1bfa-430e-8773-912ac312f2f8"),
-                            PermissionId = new Guid("d6cbe40d-3f0b-4402-ba4a-9a2d89536f07"),
-                            UserId = new Guid("a057e03a-2d3e-4958-9384-dbc529297d89")
-                        },
-                        new
-                        {
-                            Id = new Guid("633afe8b-fd9f-46d7-b94b-9036bdf9e83b"),
-                            PermissionId = new Guid("87f797e2-92cb-4298-8ec8-1a0d0334837b"),
-                            UserId = new Guid("a057e03a-2d3e-4958-9384-dbc529297d89")
-                        },
-                        new
-                        {
-                            Id = new Guid("1cd7916a-aff3-488d-bdc7-3d9de8877d26"),
-                            PermissionId = new Guid("b057d9cd-ce76-4d0b-b79d-d10da140a8e8"),
-                            UserId = new Guid("a057e03a-2d3e-4958-9384-dbc529297d89")
-                        },
-                        new
-                        {
-                            Id = new Guid("4a6dee70-f862-464f-b643-b90aeea50706"),
-                            PermissionId = new Guid("d69712b8-195b-4c62-ae66-d4b37702a23d"),
-                            UserId = new Guid("a057e03a-2d3e-4958-9384-dbc529297d89")
-                        },
-                        new
-                        {
-                            Id = new Guid("610f21e7-77e6-4398-8be2-0330c8111143"),
-                            PermissionId = new Guid("122c9c3d-1ad2-4228-8d0c-53b3a55dcff6"),
-                            UserId = new Guid("a057e03a-2d3e-4958-9384-dbc529297d89")
-                        },
-                        new
-                        {
-                            Id = new Guid("43b1a7d7-97fb-4b27-be30-a61724e6300c"),
-                            PermissionId = new Guid("c9a0b1be-391b-44aa-90d8-aca0757d18d6"),
-                            UserId = new Guid("a057e03a-2d3e-4958-9384-dbc529297d89")
-                        },
-                        new
-                        {
-                            Id = new Guid("03183e06-4c68-42a0-9752-a529a12b1936"),
-                            PermissionId = new Guid("86c9629c-c5e5-49ad-94b7-6981f921386b"),
-                            UserId = new Guid("a057e03a-2d3e-4958-9384-dbc529297d89")
-                        },
-                        new
-                        {
-                            Id = new Guid("468aec95-abc6-4522-a406-344c99ccac58"),
-                            PermissionId = new Guid("82fddd77-f662-4927-aae1-46ebb00c2c05"),
-                            UserId = new Guid("a057e03a-2d3e-4958-9384-dbc529297d89")
-                        },
-                        new
-                        {
-                            Id = new Guid("8fdfbd52-6f5b-40b0-a86b-2624478de3b6"),
-                            PermissionId = new Guid("d6cbe40d-3f0b-4402-ba4a-9a2d89536f07"),
-                            UserId = new Guid("b75e4ad1-0804-427b-abd9-a966e2d12266")
-                        },
-                        new
-                        {
-                            Id = new Guid("693c920b-dd14-4654-9c48-c0a6aa0df11c"),
-                            PermissionId = new Guid("87f797e2-92cb-4298-8ec8-1a0d0334837b"),
-                            UserId = new Guid("b75e4ad1-0804-427b-abd9-a966e2d12266")
-                        },
-                        new
-                        {
-                            Id = new Guid("1734a74d-14c1-4dc2-9332-4091ba9c7c56"),
-                            PermissionId = new Guid("b057d9cd-ce76-4d0b-b79d-d10da140a8e8"),
-                            UserId = new Guid("b75e4ad1-0804-427b-abd9-a966e2d12266")
-                        },
-                        new
-                        {
-                            Id = new Guid("354bdea6-7847-4a21-aeb7-52b39be4719a"),
-                            PermissionId = new Guid("d69712b8-195b-4c62-ae66-d4b37702a23d"),
-                            UserId = new Guid("b75e4ad1-0804-427b-abd9-a966e2d12266")
-                        },
-                        new
-                        {
-                            Id = new Guid("5c9b4ceb-0591-484f-8ffd-803deb266c7a"),
-                            PermissionId = new Guid("122c9c3d-1ad2-4228-8d0c-53b3a55dcff6"),
-                            UserId = new Guid("b75e4ad1-0804-427b-abd9-a966e2d12266")
-                        },
-                        new
-                        {
-                            Id = new Guid("8bbd1b7e-b91d-46bf-b746-3722376c8186"),
-                            PermissionId = new Guid("c9a0b1be-391b-44aa-90d8-aca0757d18d6"),
-                            UserId = new Guid("b75e4ad1-0804-427b-abd9-a966e2d12266")
-                        },
-                        new
-                        {
-                            Id = new Guid("c6373e0a-dae5-4c50-96ee-a785b8483a48"),
-                            PermissionId = new Guid("86c9629c-c5e5-49ad-94b7-6981f921386b"),
-                            UserId = new Guid("b75e4ad1-0804-427b-abd9-a966e2d12266")
-                        },
-                        new
-                        {
-                            Id = new Guid("b6d32088-4628-49ea-a2d3-01ba347f39a2"),
-                            PermissionId = new Guid("82fddd77-f662-4927-aae1-46ebb00c2c05"),
-                            UserId = new Guid("b75e4ad1-0804-427b-abd9-a966e2d12266")
-                        });
+                    b.ToTable("user_permission_groups", "access");
                 });
 
             modelBuilder.Entity("CoreMonolith.Domain.Models.Access.Users.User", b =>
@@ -232,6 +249,7 @@ namespace CoreMonolith.Infrastructure.Migrations
                         .HasColumnName("id");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("email");
 
@@ -240,16 +258,14 @@ namespace CoreMonolith.Infrastructure.Migrations
                         .HasColumnName("external_id");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("first_name");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("last_name");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("text")
-                        .HasColumnName("password_hash");
 
                     b.HasKey("Id")
                         .HasName("pk_users");
@@ -263,56 +279,65 @@ namespace CoreMonolith.Infrastructure.Migrations
                         .HasDatabaseName("ix_users_external_id");
 
                     b.ToTable("users", "access");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("a057e03a-2d3e-4958-9384-dbc529297d89"),
-                            Email = "test@test.com",
-                            ExternalId = new Guid("f286059b-bc48-4172-bb3f-23cac97dcdf6"),
-                            FirstName = "Braming",
-                            LastName = "Test",
-                            PasswordHash = "EC6553E28054BACDE70E7F693DE71E1B7F31AF6963F647B256F8C564DAE41080-9CD8286C7E114D85232224E079FE6E0C"
-                        },
-                        new
-                        {
-                            Id = new Guid("b75e4ad1-0804-427b-abd9-a966e2d12266"),
-                            Email = "service-account@download-manager.com",
-                            FirstName = "Download Manager",
-                            LastName = "Service Account",
-                            PasswordHash = "07BCEA2F74FA1473DFA7AD7262FA1AD768306227F639642F6D1251FF53FC1F56-B8C0BF57037CBBA35D3D9FDCDBC33B6D"
-                        });
                 });
 
-            modelBuilder.Entity("CoreMonolith.Domain.Models.Access.UserPermissions.UserPermission", b =>
+            modelBuilder.Entity("CoreMonolith.Domain.Models.Access.PermissionGroupPermissions.PermissionGroupPermission", b =>
                 {
+                    b.HasOne("CoreMonolith.Domain.Models.Access.PermissionGroups.PermissionGroup", "PermissionGroup")
+                        .WithMany("PermissionGroupPermissions")
+                        .HasForeignKey("PermissionGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_permission_group_permissions_permission_groups_permission_g");
+
                     b.HasOne("CoreMonolith.Domain.Models.Access.Permissions.Permission", "Permission")
-                        .WithMany("UserPermissions")
+                        .WithMany("PermissionGroupPermissions")
                         .HasForeignKey("PermissionId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_user_permissions_permissions_permission_id");
+                        .HasConstraintName("fk_permission_group_permissions_permissions_permission_id");
+
+                    b.Navigation("Permission");
+
+                    b.Navigation("PermissionGroup");
+                });
+
+            modelBuilder.Entity("CoreMonolith.Domain.Models.Access.UserPermissionGroups.UserPermissionGroup", b =>
+                {
+                    b.HasOne("CoreMonolith.Domain.Models.Access.PermissionGroups.PermissionGroup", "PermissionGroup")
+                        .WithMany("UserPermissionGroups")
+                        .HasForeignKey("PermissionGroupId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired()
+                        .HasConstraintName("fk_user_permission_groups_permission_groups_permission_group_id");
 
                     b.HasOne("CoreMonolith.Domain.Models.Access.Users.User", "User")
-                        .WithMany("UserPermissions")
+                        .WithMany("UserPermissionGroups")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired()
-                        .HasConstraintName("fk_user_permissions_users_user_id");
+                        .HasConstraintName("fk_user_permission_groups_users_user_id");
 
-                    b.Navigation("Permission");
+                    b.Navigation("PermissionGroup");
 
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("CoreMonolith.Domain.Models.Access.PermissionGroups.PermissionGroup", b =>
+                {
+                    b.Navigation("PermissionGroupPermissions");
+
+                    b.Navigation("UserPermissionGroups");
+                });
+
             modelBuilder.Entity("CoreMonolith.Domain.Models.Access.Permissions.Permission", b =>
                 {
-                    b.Navigation("UserPermissions");
+                    b.Navigation("PermissionGroupPermissions");
                 });
 
             modelBuilder.Entity("CoreMonolith.Domain.Models.Access.Users.User", b =>
                 {
-                    b.Navigation("UserPermissions");
+                    b.Navigation("UserPermissionGroups");
                 });
 #pragma warning restore 612, 618
         }

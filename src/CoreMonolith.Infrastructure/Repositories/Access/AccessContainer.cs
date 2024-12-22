@@ -5,10 +5,12 @@ namespace CoreMonolith.Infrastructure.Repositories.Access;
 public class AccessContainer(
     IUserRepository _userRepo,
     IPermissionRepository _permissionRepo,
-    IUserPermissionRepository _userPermissionRepo)
+    IPermissionGroupRepository _permissionGroupRepo,
+    IUserPermissionGroupRepository _userPermissionGroupRepo)
     : IAccessContainer
 {
     public IUserRepository UserRepository => _userRepo;
     public IPermissionRepository PermissionRepository => _permissionRepo;
-    public IUserPermissionRepository UserPermissionRepository => _userPermissionRepo;
+    public IPermissionGroupRepository PermissionGroupRepository => _permissionGroupRepo;
+    public IUserPermissionGroupRepository UserPermissionGroupRepository => _userPermissionGroupRepo;
 }

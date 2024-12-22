@@ -20,7 +20,7 @@ public class ApplicationDbContextTests
         var publisher = Substitute.For<IPublisher>();
         var dbContext = new ApplicationDbContext(options, publisher);
 
-        var user = new User { Email = "test@example.com", PasswordHash = "password-hash" };
+        var user = new User { Email = "test@example.com", FirstName = "first", LastName = "last" };
         user.Raise(Substitute.For<IDomainEvent>());
         dbContext.Users.Add(user);
 
@@ -80,6 +80,5 @@ public class ApplicationDbContextTests
         // Assert
         dbContext.Users.Should().NotBeNull();
         dbContext.Permissions.Should().NotBeNull();
-        dbContext.UserPermissions.Should().NotBeNull();
     }
 }

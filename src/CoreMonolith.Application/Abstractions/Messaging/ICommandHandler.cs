@@ -1,4 +1,4 @@
-﻿using CoreMonolith.SharedKernel;
+﻿using CoreMonolith.SharedKernel.ValueObjects;
 using MediatR;
 
 namespace CoreMonolith.Application.Abstractions.Messaging;

@@ -2,7 +2,7 @@
 using CoreMonolith.Application.BusinessLogic.Access.Users;
 using CoreMonolith.Domain.Abstractions.Repositories;
 using CoreMonolith.Domain.Models.Access.Users;
-using CoreMonolith.SharedKernel;
+using CoreMonolith.SharedKernel.ValueObjects;
 
 namespace CoreMonolith.Application.BusinessLogic.Access.Users.GetByEmail;
 

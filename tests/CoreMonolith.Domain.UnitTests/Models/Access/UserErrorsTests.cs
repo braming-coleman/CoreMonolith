@@ -1,5 +1,5 @@
 ﻿using CoreMonolith.Domain.Models.Access.Users;
-using CoreMonolith.SharedKernel;
+using CoreMonolith.SharedKernel.Errors;
 using FluentAssertions;
 
 namespace CoreMonolith.Domain.UnitTests.Models.Access;

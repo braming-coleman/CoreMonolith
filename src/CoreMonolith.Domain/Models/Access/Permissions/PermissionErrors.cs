@@ -1,4 +1,4 @@
-﻿using CoreMonolith.SharedKernel;
+﻿using CoreMonolith.SharedKernel.Errors;
 
 namespace CoreMonolith.Domain.Models.Access.Permissions;
 

@@ -4,5 +4,6 @@ public interface IAccessContainer
 {
     public IUserRepository UserRepository { get; }
     public IPermissionRepository PermissionRepository { get; }
-    public IUserPermissionRepository UserPermissionRepository { get; }
+    public IPermissionGroupRepository PermissionGroupRepository { get; }
+    public IUserPermissionGroupRepository UserPermissionGroupRepository { get; }
 }

@@ -17,8 +17,8 @@ builder.Services
 
 builder
     .AddPresentation()
-    .AddAuth()
-    .AddWebInfrastructure();
+    .AddWebInfrastructure()
+    .AddAuth();
 
 var app = builder.Build();
 

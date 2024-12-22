@@ -1,4 +1,4 @@
-﻿using CoreMonolith.SharedKernel;
+﻿using CoreMonolith.SharedKernel.ValueObjects;
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Serilog.Context;

@@ -6,7 +6,7 @@ using CoreMonolith.SharedKernel.Extensions;
 using CoreMonolith.SharedKernel.Infrastructure;
 using MediatR;
 
-namespace CoreMonolith.WebApi.Endpoints.V1.Access.Users;
+namespace CoreMonolith.Api.Endpoints.V1.Access.Users;
 
 internal sealed class AuthCallback : IEndpoint
 {

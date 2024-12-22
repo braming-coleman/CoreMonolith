@@ -69,7 +69,7 @@ var keycloak = builder.AddKeycloak(ConnectionNameConstants.KeycloakConnectionNam
 //Core WebApi
 var coreWebApiEnv = builder.AddParameter(ConfigKeyConstants.WebApiEnvKeyName, secret: false);
 
-var webApi = builder.AddProject<Projects.CoreMonolith_WebApi>(ConnectionNameConstants.WebApiConnectionName)
+var webApi = builder.AddProject<Projects.CoreMonolith_Api>(ConnectionNameConstants.WebApiConnectionName)
     .WithEnvironment("ASPNETCORE_ENVIRONMENT", coreWebApiEnv)
     .WithExternalHttpEndpoints()
     .WithReference(postgressDb)

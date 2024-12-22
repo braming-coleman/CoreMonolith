@@ -1,21 +1,22 @@
-﻿using CoreMonolith.Application.BusinessLogic.UserPermissionGroups.GetPermissionsByUserId;
+﻿using CoreMonolith.Application.BusinessLogic.Access.Permissions;
+using CoreMonolith.Application.BusinessLogic.Access.Permissions.GetAll;
 using CoreMonolith.SharedKernel.Abstractions;
 using CoreMonolith.SharedKernel.Constants;
 using CoreMonolith.SharedKernel.Extensions;
 using CoreMonolith.SharedKernel.Infrastructure;
 using MediatR;
 
-namespace CoreMonolith.WebApi.Endpoints.V1.Access.UserPermissionGroups;
+namespace CoreMonolith.Api.Endpoints.V1.Access.Permissions;
 
-internal sealed class GetPermissionsByUserId : IEndpoint
+internal sealed class GetAll : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app
-            .MapApiVersion("access/permission-group", Versions.V1)
-            .MapGet("/permissions/{userId}", async (Guid userId, ISender sender, CancellationToken cancellationToken) =>
+            .MapApiVersion("access/permission", Versions.V1)
+            .MapGet("/get-all", async (ISender sender, CancellationToken cancellationToken) =>
             {
-                var query = new GetPermissionsByUserIdQuery(userId);
+                var query = new GetAllPermissionsQuery();
 
                 var result = await sender.Send(query, cancellationToken);
 
@@ -23,8 +24,8 @@ internal sealed class GetPermissionsByUserId : IEndpoint
             })
             .HasPermission(ApiPermissions.PermissionRead)
             .RequireAuthorization()
-            .Produces<HashSet<string>>()
+            .Produces<List<PermissionReposnse>>()
             .WithTags(Tags.Access)
-            .CacheAuthedOutput(Tags.UserPermission);
+            .CacheAuthedOutput(Tags.Permission);
     }
 }

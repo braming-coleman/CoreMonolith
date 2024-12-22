@@ -31,7 +31,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\CoreMonolith.WebApi\CoreMonolith.WebApi.csproj" />
+		<ProjectReference Include="..\CoreMonolith.Api\CoreMonolith.Api.csproj" />
 		<ProjectReference Include="..\DownloadManager.WebApp\DownloadManager.WebApp.csproj" />
 	</ItemGroup>
 

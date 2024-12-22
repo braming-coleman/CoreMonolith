@@ -7,7 +7,7 @@ using CoreMonolith.SharedKernel.Infrastructure;
 using CoreMonolith.SharedKernel.ValueObjects;
 using MediatR;
 
-namespace CoreMonolith.WebApi.Endpoints.V1.Access.Users;
+namespace CoreMonolith.Api.Endpoints.V1.Access.Users;
 
 internal sealed class GetById : IEndpoint
 {

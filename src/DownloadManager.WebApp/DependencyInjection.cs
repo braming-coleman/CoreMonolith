@@ -59,7 +59,7 @@ internal static class DependencyInjection
                     OnTokenValidated = async context =>
                     {
                         var accessClient = context.HttpContext.RequestServices.GetRequiredService<AccessApiClient>();
-
+                        var token = context.TokenEndpointResponse!.AccessToken;
                         var principle = context.Principal!;
 
                         var callbackResult = await accessClient.AuthCallbackAsync(
@@ -70,7 +70,7 @@ internal static class DependencyInjection
                                 principle.FindFirstValue(CustomClaimNames.Surname)!,
                                 //TODO: Just for testing
                                 true),
-                            context.TokenEndpointResponse!.AccessToken,
+                            token,
                             default)!;
 
                         if (callbackResult!.UserId != Guid.Empty)

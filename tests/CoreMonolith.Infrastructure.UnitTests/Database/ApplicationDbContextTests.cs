@@ -20,7 +20,7 @@ public class ApplicationDbContextTests
         var publisher = Substitute.For<IPublisher>();
         var dbContext = new ApplicationDbContext(options, publisher);
 
-        var user = new User { Email = "test@example.com" };
+        var user = new User { Email = "test@example.com", FirstName = "first", LastName = "last" };
         user.Raise(Substitute.For<IDomainEvent>());
         dbContext.Users.Add(user);
 

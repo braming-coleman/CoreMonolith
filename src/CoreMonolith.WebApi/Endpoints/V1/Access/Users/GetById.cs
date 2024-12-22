@@ -1,10 +1,10 @@
 ﻿using CoreMonolith.Application.BusinessLogic.Access.Users;
 using CoreMonolith.Application.BusinessLogic.Access.Users.GetById;
-using CoreMonolith.SharedKernel;
 using CoreMonolith.SharedKernel.Abstractions;
 using CoreMonolith.SharedKernel.Constants;
 using CoreMonolith.SharedKernel.Extensions;
 using CoreMonolith.SharedKernel.Infrastructure;
+using CoreMonolith.SharedKernel.ValueObjects;
 using MediatR;
 
 namespace CoreMonolith.WebApi.Endpoints.V1.Access.Users;

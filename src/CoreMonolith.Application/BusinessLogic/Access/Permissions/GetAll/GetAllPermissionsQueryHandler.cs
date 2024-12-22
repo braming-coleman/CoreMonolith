@@ -1,7 +1,7 @@
 ﻿using CoreMonolith.Application.Abstractions.Messaging;
 using CoreMonolith.Application.BusinessLogic.Access.Permissions;
 using CoreMonolith.Domain.Abstractions.Repositories;
-using CoreMonolith.SharedKernel;
+using CoreMonolith.SharedKernel.ValueObjects;
 
 namespace CoreMonolith.Application.BusinessLogic.Access.Permissions.GetAll;
 

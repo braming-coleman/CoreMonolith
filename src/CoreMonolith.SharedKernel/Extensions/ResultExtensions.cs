@@ -1,4 +1,4 @@
-﻿using CoreMonolith.SharedKernel;
+﻿using CoreMonolith.SharedKernel.ValueObjects;
 
 namespace CoreMonolith.SharedKernel.Extensions;
 

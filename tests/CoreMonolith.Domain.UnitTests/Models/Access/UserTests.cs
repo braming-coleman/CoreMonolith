@@ -14,8 +14,7 @@ public class UserTests
             Id = Guid.CreateVersion7(),
             Email = "test@example.com",
             FirstName = "John",
-            LastName = "Doe",
-            PasswordHash = "hashed_password"
+            LastName = "Doe"
         };
 
         // Assert
@@ -23,6 +22,5 @@ public class UserTests
         user.Email.Should().Be("test@example.com");
         user.FirstName.Should().Be("John");
         user.LastName.Should().Be("Doe");
-        user.PasswordHash.Should().Be("hashed_password");
     }
 }

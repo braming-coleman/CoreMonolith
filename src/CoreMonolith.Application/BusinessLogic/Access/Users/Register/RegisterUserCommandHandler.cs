@@ -1,14 +1,12 @@
-﻿using CoreMonolith.Application.Abstractions.Authentication;
-using CoreMonolith.Application.Abstractions.Messaging;
+﻿using CoreMonolith.Application.Abstractions.Messaging;
 using CoreMonolith.Domain.Abstractions.Repositories;
 using CoreMonolith.Domain.Models.Access.Users;
-using CoreMonolith.SharedKernel;
+using CoreMonolith.SharedKernel.ValueObjects;
 
 namespace CoreMonolith.Application.BusinessLogic.Access.Users.Register;
 
 internal sealed class RegisterUserCommandHandler(
-    IUnitOfWork _unitOfWork,
-    IPasswordHasher _passwordHasher)
+    IUnitOfWork _unitOfWork)
     : ICommandHandler<RegisterUserCommand, Guid>
 {
     public async Task<Result<Guid>> Handle(RegisterUserCommand command, CancellationToken cancellationToken)
@@ -21,8 +19,7 @@ internal sealed class RegisterUserCommandHandler(
             Id = Guid.CreateVersion7(),
             Email = command.Email,
             FirstName = command.FirstName,
-            LastName = command.LastName,
-            PasswordHash = _passwordHasher.Hash(command.Password)
+            LastName = command.LastName
         };
 
         user.Raise(new UserRegisteredDomainEvent(user.Id));

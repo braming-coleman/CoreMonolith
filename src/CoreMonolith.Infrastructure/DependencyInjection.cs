@@ -86,8 +86,9 @@ public static class DependencyInjection
 
         services.AddScoped<IAccessContainer, AccessContainer>();
         services.AddScoped<IUserRepository, UserRepository>();
+        services.AddScoped<IPermissionGroupRepository, PermissionGroupRepository>();
+        services.AddScoped<IUserPermissionGroupRepository, UserPermissionGroupRepository>();
         services.AddScoped<IPermissionRepository, PermissionRepository>();
-        services.AddScoped<IUserPermissionRepository, UserPermissionRepository>();
 
         services.AddSingleton<IPasswordHasher, PasswordHasher>();
         services.AddSingleton<ITokenProvider, TokenProvider>();

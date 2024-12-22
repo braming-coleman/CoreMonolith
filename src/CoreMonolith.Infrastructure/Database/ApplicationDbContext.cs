@@ -1,9 +1,11 @@
 ﻿using CoreMonolith.Application.Abstractions.Data;
+using CoreMonolith.Domain.Models.Access.PermissionGroupPermissions;
+using CoreMonolith.Domain.Models.Access.PermissionGroups;
 using CoreMonolith.Domain.Models.Access.Permissions;
-using CoreMonolith.Domain.Models.Access.UserPermissions;
+using CoreMonolith.Domain.Models.Access.UserPermissionGroups;
 using CoreMonolith.Domain.Models.Access.Users;
-using CoreMonolith.SharedKernel;
 using CoreMonolith.SharedKernel.Abstractions;
+using CoreMonolith.SharedKernel.Models;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,8 +15,10 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     : DbContext(options), IApplicationDbContext
 {
     public DbSet<User> Users { get; set; }
+    public DbSet<UserPermissionGroup> UserPermissionGroups { get; set; }
+    public DbSet<PermissionGroup> PermissionGroups { get; set; }
+    public DbSet<PermissionGroupPermission> PermissionGroupPermissions { get; set; }
     public DbSet<Permission> Permissions { get; set; }
-    public DbSet<UserPermission> UserPermissions { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

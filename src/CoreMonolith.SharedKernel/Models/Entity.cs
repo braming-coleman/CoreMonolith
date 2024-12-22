@@ -1,6 +1,6 @@
 ﻿using CoreMonolith.SharedKernel.Abstractions;
 
-namespace CoreMonolith.SharedKernel;
+namespace CoreMonolith.SharedKernel.Models;
 
 public abstract class Entity
 {

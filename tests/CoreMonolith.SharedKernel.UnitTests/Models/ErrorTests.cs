@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using CoreMonolith.SharedKernel.Errors;
+using FluentAssertions;
 
 namespace CoreMonolith.SharedKernel.UnitTests.Models;
 

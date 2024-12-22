@@ -19,9 +19,9 @@ public class PermissionTests
             Id = permissionId,
             Key = key,
             Description = description,
-            UserPermissions =
+            PermissionGroupPermissions =
             [
-                new() { Id = Guid.CreateVersion7(), UserId = Guid.CreateVersion7(), PermissionId = permissionId }
+                new() { Id = Guid.CreateVersion7(), PermissionGroupId = Guid.CreateVersion7(), PermissionId = permissionId }
             ]
         };
 
@@ -29,6 +29,6 @@ public class PermissionTests
         permission.Id.Should().Be(permissionId);
         permission.Key.Should().Be(key);
         permission.Description.Should().Be(description);
-        permission.UserPermissions.Should().HaveCount(1);
+        permission.PermissionGroupPermissions.Should().HaveCount(1);
     }
 }

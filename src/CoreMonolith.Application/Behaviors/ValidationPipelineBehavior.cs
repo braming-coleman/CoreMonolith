@@ -1,4 +1,5 @@
-﻿using CoreMonolith.SharedKernel;
+﻿using CoreMonolith.SharedKernel.Errors;
+using CoreMonolith.SharedKernel.ValueObjects;
 using FluentValidation;
 using FluentValidation.Results;
 using MediatR;

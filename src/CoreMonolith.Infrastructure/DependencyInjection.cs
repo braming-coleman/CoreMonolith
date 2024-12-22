@@ -172,13 +172,13 @@ public static class DependencyInjection
 
         services.AddHttpClient<WeatherApiClient>(client =>
             {
-                client.BaseAddress = new($"https+http://{ConnectionNameConstants.WebApiConnectionName}");
+                client.BaseAddress = new($"https+http://{ConnectionNameConstants.ApiConnectionName}");
             })
             .AddHttpMessageHandler<KeycloakTokenHandler>();
 
         services.AddHttpClient<AccessApiClient>(client =>
             {
-                client.BaseAddress = new($"https+http://{ConnectionNameConstants.WebApiConnectionName}");
+                client.BaseAddress = new($"https+http://{ConnectionNameConstants.ApiConnectionName}");
             })
             .AddHttpMessageHandler<KeycloakTokenHandler>();
 

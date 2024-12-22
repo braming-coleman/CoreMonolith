@@ -2,7 +2,8 @@
 
 public static class ConfigKeyConstants
 {
-    public static string WebApiEnvKeyName => "core-monolith-webapi-env";
+    public static string ApiEnvKeyName => "core-monolith-api-env";
+    public static string ApiGatewayEnvKeyName => "core-monolith-api-gateway-env";
 
     public static string DbUsernameKeyName => "core-monolith-db-username";
     public static string DbPasswordKeyName => "core-monolith-db-password";

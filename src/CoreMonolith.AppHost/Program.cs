@@ -34,7 +34,6 @@ var rabbitMqPassword = builder.AddParameter(ConfigKeyConstants.RabbitMqPasswordK
 var rabbitMq = builder.AddRabbitMQ(ConnectionNameConstants.RabbitMqConnectionName, rabbitMqUser, rabbitMqPassword)
     .WithVolume($"{ConnectionNameConstants.RabbitMqConnectionName}-volume", @"/var/lib/rabbitmq")
     .WithManagementPlugin()
-    .WithExternalHttpEndpoints()
     .WithLifetime(ContainerLifetime.Persistent);
 //-----------------------------------------------------------------------------------------//
 
@@ -66,12 +65,11 @@ var keycloak = builder.AddKeycloak(ConnectionNameConstants.KeycloakConnectionNam
 //-----------------------------------------------------------------------------------------//
 
 
-//Core WebApi
-var coreWebApiEnv = builder.AddParameter(ConfigKeyConstants.WebApiEnvKeyName, secret: false);
+//Core Api
+var coreApiEnv = builder.AddParameter(ConfigKeyConstants.ApiEnvKeyName, secret: false);
 
-var webApi = builder.AddProject<Projects.CoreMonolith_Api>(ConnectionNameConstants.WebApiConnectionName)
-    .WithEnvironment("ASPNETCORE_ENVIRONMENT", coreWebApiEnv)
-    .WithExternalHttpEndpoints()
+var api = builder.AddProject<Projects.CoreMonolith_Api>(ConnectionNameConstants.ApiConnectionName)
+    .WithEnvironment("ASPNETCORE_ENVIRONMENT", coreApiEnv)
     .WithReference(postgressDb)
     .WaitFor(postgres)
     .WaitFor(postgressDb)
@@ -80,6 +78,21 @@ var webApi = builder.AddProject<Projects.CoreMonolith_Api>(ConnectionNameConstan
     .WaitFor(redis)
     .WithReference(keycloak)
     .WaitFor(keycloak);
+//-----------------------------------------------------------------------------------------//
+
+
+//Core ApiGateway
+var coreApiGatewayEnv = builder.AddParameter(ConfigKeyConstants.ApiGatewayEnvKeyName, secret: false);
+
+var apiGateway = builder.AddProject<Projects.CoreMonolith_ApiGateway>(ConnectionNameConstants.ApiGatewayConnectionName)
+    .WithEnvironment("ASPNETCORE_ENVIRONMENT", coreApiGatewayEnv)
+    .WithExternalHttpEndpoints()
+    .WithReference(redis)
+    .WaitFor(redis)
+    .WithReference(keycloak)
+    .WaitFor(keycloak)
+    .WithReference(api)
+    .WaitFor(api);
 //-----------------------------------------------------------------------------------------//
 
 
@@ -95,8 +108,8 @@ builder.AddProject<Projects.DownloadManager_WebApp>(ConnectionNameConstants.WebA
     .WaitFor(redis)
     .WithReference(keycloak)
     .WaitFor(keycloak)
-    .WithReference(webApi)
-    .WaitFor(webApi)
+    .WithReference(apiGateway)
+    .WaitFor(apiGateway)
     .WaitFor(keycloak);
 //-----------------------------------------------------------------------------------------//
 

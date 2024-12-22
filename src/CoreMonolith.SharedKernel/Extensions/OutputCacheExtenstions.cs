@@ -20,7 +20,7 @@ public static class OutputCacheExtenstions
                 {
                     return ValueTask.FromResult(new KeyValuePair<string, string>(
                         "userid",
-                        httpContext.User.GetUserId().ToString()));
+                        httpContext.User.GetExternalUserId().ToString()));
                 });
             }, true);
 

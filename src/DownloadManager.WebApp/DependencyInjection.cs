@@ -30,10 +30,7 @@ internal static class DependencyInjection
                 options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
             })
-            .AddCookie(options =>
-            {
-                options.Cookie.Name = builder.Configuration["OpenIdConnect:CookieName"];
-            })
+            .AddCookie()
             .AddKeycloakOpenIdConnect(
                 ConnectionNameConstants.KeycloakConnectionName,
                 builder.Configuration["OpenIdConnect:Realm"]!,

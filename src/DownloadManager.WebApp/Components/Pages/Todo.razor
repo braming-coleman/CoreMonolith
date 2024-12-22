@@ -1,4 +1,6 @@
 ﻿@page "/todo"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 @rendermode InteractiveServer
 
 <h3>Todo (@todos.Count(todo => !todo.IsDone))</h3>
@@ -28,5 +30,11 @@
             todos.Add(new TodoItem { Title = newTodo });
             newTodo = string.Empty;
         }
+    }
+
+    public class TodoItem
+    {
+        public string? Title { get; set; }
+        public bool IsDone { get; set; } = false;
     }
 }

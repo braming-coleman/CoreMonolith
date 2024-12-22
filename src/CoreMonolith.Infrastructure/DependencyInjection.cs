@@ -126,9 +126,7 @@ public static class DependencyInjection
     {
         services
             .AddHealthChecks()
-            .AddNpgSql(configuration.GetConnectionString(ConnectionNameConstants.DbConnStringName)!)
-            .AddRedis(configuration.GetConnectionString(ConnectionNameConstants.RedisConnectionName)!)
-            .AddRabbitMQ(rabbitConnectionString: configuration.GetConnectionString(ConnectionNameConstants.RabbitMqConnectionName)!);
+            .AddNpgSql(configuration.GetConnectionString(ConnectionNameConstants.DbConnStringName)!);
 
         return services;
     }

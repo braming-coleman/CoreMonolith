@@ -8,9 +8,6 @@ public static class ApiPermissions
     public const string PermissionRead = "permission:read";
     public const string PermissionWrite = "permission:write";
 
-    public const string UserPermissionRead = "user-permission:read";
-    public const string UserPermissionWrite = "user-permission:write";
-
-    public const string TodoRead = "todo:read";
-    public const string TodoWrite = "todo:write";
+    public const string PermissionGroupRead = "permission-group:read";
+    public const string PermissionGroupWrite = "permission-group:write";
 }

@@ -8,7 +8,7 @@ namespace CoreMonolith.Application.BusinessLogic.Access.Users.AuthCallback;
 
 internal sealed class UserRegisteredFromKeycloakDomainEventHandler(
     IOutputCacheStore _cacheStore,
-    ILogger<UserPermissionGroupChangedDomainEventHandler> _logger)
+    ILogger<UserRegisteredFromKeycloakDomainEventHandler> _logger)
     : INotificationHandler<UserRegisteredDomainEvent>
 {
     public async Task Handle(UserRegisteredDomainEvent notification, CancellationToken cancellationToken)

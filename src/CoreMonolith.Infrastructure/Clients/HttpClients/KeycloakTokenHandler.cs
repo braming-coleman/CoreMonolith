@@ -5,15 +5,10 @@ using System.Net.Http.Headers;
 
 namespace CoreMonolith.Infrastructure.Clients.HttpClients;
 
-internal sealed class KeycloakTokenHandler : DelegatingHandler
+internal sealed class KeycloakTokenHandler(
+    IHttpContextAccessor _httpContextAccessor)
+    : DelegatingHandler
 {
-    private readonly IHttpContextAccessor _httpContextAccessor;
-
-    public KeycloakTokenHandler(IHttpContextAccessor httpContextAccessor)
-    {
-        _httpContextAccessor = httpContextAccessor;
-    }
-
     protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
     {
         var token = await _httpContextAccessor.HttpContext!.GetTokenAsync(OpenIdConnectParameterNames.AccessToken);

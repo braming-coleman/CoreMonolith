@@ -2,14 +2,19 @@
 using CoreMonolith.SharedKernel.Constants;
 using MediatR;
 using Microsoft.AspNetCore.OutputCaching;
+using Microsoft.Extensions.Logging;
 
 namespace CoreMonolith.Application.BusinessLogic.Access.Permissions.Create;
 
-internal sealed class PermissionCreatedDomainEventHandler(IOutputCacheStore cacheStore)
+internal sealed class PermissionCreatedDomainEventHandler(
+    IOutputCacheStore _cacheStore,
+    ILogger<PermissionCreatedDomainEventHandler> _logger)
     : INotificationHandler<PermissionCreatedDomainEvent>
 {
     public async Task Handle(PermissionCreatedDomainEvent notification, CancellationToken cancellationToken)
     {
-        await cacheStore.EvictByTagAsync(Tags.Permission, cancellationToken);
+        _logger.LogInformation("Permission created - {notification}", notification);
+
+        await _cacheStore.EvictByTagAsync(Tags.Permission, cancellationToken);
     }
 }

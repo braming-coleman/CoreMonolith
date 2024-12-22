@@ -5,6 +5,7 @@ using CoreMonolith.Domain.Abstractions.Repositories.Access;
 using CoreMonolith.Infrastructure.Authentication;
 using CoreMonolith.Infrastructure.Authorization;
 using CoreMonolith.Infrastructure.Clients.HttpClients;
+using CoreMonolith.Infrastructure.Clients.HttpClients.Access;
 using CoreMonolith.Infrastructure.Database;
 using CoreMonolith.Infrastructure.Repositories;
 using CoreMonolith.Infrastructure.Repositories.Access;
@@ -172,9 +173,15 @@ public static class DependencyInjection
         services.AddTransient<KeycloakTokenHandler>();
 
         services.AddHttpClient<WeatherApiClient>(client =>
-        {
-            client.BaseAddress = new($"https+http://{ConnectionNameConstants.WebApiConnectionName}");
-        })
+            {
+                client.BaseAddress = new($"https+http://{ConnectionNameConstants.WebApiConnectionName}");
+            })
+            .AddHttpMessageHandler<KeycloakTokenHandler>();
+
+        services.AddHttpClient<AccessApiClient>(client =>
+            {
+                client.BaseAddress = new($"https+http://{ConnectionNameConstants.WebApiConnectionName}");
+            })
             .AddHttpMessageHandler<KeycloakTokenHandler>();
 
         return services;

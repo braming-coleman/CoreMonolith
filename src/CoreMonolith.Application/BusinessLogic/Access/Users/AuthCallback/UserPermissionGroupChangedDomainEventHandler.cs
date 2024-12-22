@@ -13,7 +13,7 @@ internal sealed class UserPermissionGroupChangedDomainEventHandler(
 {
     public async Task Handle(UserPermissionGroupChangedDomainEvent notification, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Permissions changed - {notification}", notification);
+        _logger.LogInformation("User permissions changed - {notification}", notification);
 
         await _cacheStore.EvictByTagAsync(Tags.UserPermission, cancellationToken);
     }

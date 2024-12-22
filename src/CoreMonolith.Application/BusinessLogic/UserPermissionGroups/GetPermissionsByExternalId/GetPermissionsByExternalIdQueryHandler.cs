@@ -10,6 +10,6 @@ internal sealed class GetPermissionsByExternalIdQueryHandler(IUnitOfWork _unitOf
     public async Task<Result<HashSet<string>>> Handle(GetPermissionsByExternalIdQuery request, CancellationToken cancellationToken)
     {
         return await _unitOfWork.Access
-            .UserPermissionGroupRepository.GetPermissionsByExternalId(request.ExternalId);
+            .UserPermissionGroupRepository.GetPermissionsByExternalId(request.ExternalId, cancellationToken);
     }
 }

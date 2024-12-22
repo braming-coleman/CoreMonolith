@@ -2,7 +2,7 @@
 using CoreMonolith.SharedKernel.ValueObjects;
 using FluentAssertions;
 
-namespace CoreMonolith.SharedKernel.UnitTests.Models;
+namespace CoreMonolith.SharedKernel.UnitTests.ValueObjects;
 
 public class ResultTests
 {

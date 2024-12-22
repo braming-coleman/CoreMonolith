@@ -13,7 +13,7 @@ internal sealed class UserRegisteredFromKeycloakDomainEventHandler(
 {
     public async Task Handle(UserRegisteredDomainEvent notification, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("User registered - {notification}", notification);
+        _logger.LogWarning("User registered - {notification}", notification);
 
         await _cacheStore.EvictByTagAsync(Tags.User, cancellationToken);
     }

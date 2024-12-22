@@ -1,4 +1,4 @@
-﻿using CoreMonolith.Application.BusinessLogic.UserPermissionGroups.GetPermissionsByUserId;
+﻿using CoreMonolith.Application.BusinessLogic.UserPermissionGroups.GetPermissionsByExternalId;
 using MediatR;
 
 namespace CoreMonolith.Infrastructure.Authorization;
@@ -8,7 +8,7 @@ internal sealed class PermissionProvider(
 {
     public async Task<HashSet<string>> GetForExternalIdAsync(Guid userId)
     {
-        var query = new GetPermissionsByUserIdQuery(userId);
+        var query = new GetPermissionsByExternalIdQuery(userId);
 
         var result = await _sender.Send(query, default);
 

@@ -1,10 +1,10 @@
-﻿using CoreMonolith.SharedKernel.Extensions;
+﻿using CoreMonolith.Domain.Abstractions.Repositories;
+using CoreMonolith.SharedKernel.Extensions;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace CoreMonolith.Infrastructure.Authorization;
 
-internal sealed class PermissionAuthorizationHandler(IServiceScopeFactory serviceScopeFactory)
+internal sealed class PermissionAuthorizationHandler(IUnitOfWork _unitOfWork)
     : AuthorizationHandler<PermissionRequirement>
 {
     protected override async Task HandleRequirementAsync(
@@ -14,13 +14,10 @@ internal sealed class PermissionAuthorizationHandler(IServiceScopeFactory servic
         if (context.User is not { Identity.IsAuthenticated: true } or { Identity.IsAuthenticated: false })
             return;
 
-        using IServiceScope scope = serviceScopeFactory.CreateScope();
+        var externalId = context.User.GetExternalUserId();
 
-        PermissionProvider permissionProvider = scope.ServiceProvider.GetRequiredService<PermissionProvider>();
-
-        Guid userId = context.User.GetUserId();
-
-        HashSet<string> permissions = await permissionProvider.GetForExternalIdAsync(userId);
+        var permissions = await _unitOfWork.Access
+            .UserPermissionGroupRepository.GetPermissionsByExternalId(externalId);
 
         if (permissions.Contains(requirement.Permission))
         {

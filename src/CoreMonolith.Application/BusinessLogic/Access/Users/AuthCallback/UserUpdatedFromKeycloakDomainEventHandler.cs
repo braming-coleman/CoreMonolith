@@ -13,7 +13,7 @@ internal sealed class UserUpdatedFromKeycloakDomainEventHandler(
 {
     public async Task Handle(UserUpdatedDomainEvent notification, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("User updated - {notification}", notification);
+        _logger.LogWarning("User updated - {notification}", notification);
 
         await _cacheStore.EvictByTagAsync(Tags.User, cancellationToken);
     }

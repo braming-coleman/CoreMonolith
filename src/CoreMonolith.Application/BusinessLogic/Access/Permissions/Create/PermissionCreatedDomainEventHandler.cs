@@ -13,7 +13,7 @@ internal sealed class PermissionCreatedDomainEventHandler(
 {
     public async Task Handle(PermissionCreatedDomainEvent notification, CancellationToken cancellationToken)
     {
-        _logger.LogInformation("Permission created - {notification}", notification);
+        _logger.LogWarning("Permission created - {notification}", notification);
 
         await _cacheStore.EvictByTagAsync(Tags.Permission, cancellationToken);
     }

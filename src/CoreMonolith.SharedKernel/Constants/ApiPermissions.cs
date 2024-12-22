@@ -10,4 +10,6 @@ public static class ApiPermissions
 
     public const string PermissionGroupRead = "permission-group:read";
     public const string PermissionGroupWrite = "permission-group:write";
+
+    public const string WeatherRead = "weather:read";
 }

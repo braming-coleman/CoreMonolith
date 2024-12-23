@@ -52,7 +52,7 @@
       "image": "docker.io/dpage/pgadmin4:8.12",
       "bindMounts": [
         {
-          "source": "C:/Users/faatus/AppData/Local/Temp/tmpxorfva.tmp",
+          "source": "C:/Users/faatus/AppData/Local/Temp/tmps5ev4h.tmp",
           "target": "/pgadmin4/servers.json",
           "readOnly": false
         }
@@ -130,8 +130,7 @@
           "scheme": "http",
           "protocol": "tcp",
           "transport": "http",
-          "targetPort": 15672,
-          "external": true
+          "targetPort": 15672
         }
       }
     },
@@ -184,7 +183,7 @@
       "type": "container.v0",
       "image": "quay.io/keycloak/keycloak:26.0",
       "args": [
-        "start-dev",
+        "start",
         "--import-realm"
       ],
       "volumes": [
@@ -209,40 +208,128 @@
         }
       }
     },
-    "core-monolith-webapi-jwt-secret": {
+    "core-monolith-api-env": {
       "type": "parameter.v0",
-      "value": "{core-monolith-webapi-jwt-secret.inputs.value}",
-      "inputs": {
-        "value": {
-          "type": "string",
-          "secret": true
-        }
-      }
-    },
-    "core-monolith-webapi-env": {
-      "type": "parameter.v0",
-      "value": "{core-monolith-webapi-env.inputs.value}",
+      "value": "{core-monolith-api-env.inputs.value}",
       "inputs": {
         "value": {
           "type": "string"
         }
       }
     },
-    "core-monolith-webapi": {
+    "core-monolith-api-01": {
       "type": "project.v0",
-      "path": "../CoreMonolith.WebApi/CoreMonolith.Api.csproj",
+      "path": "../CoreMonolith.Api/CoreMonolith.Api.csproj",
       "env": {
         "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
         "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
         "OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY": "in_memory",
         "ASPNETCORE_FORWARDEDHEADERS_ENABLED": "true",
-        "HTTP_PORTS": "{core-monolith-webapi.bindings.http.targetPort}",
-        "ASPNETCORE_ENVIRONMENT": "{core-monolith-webapi-env.value}",
-        "core-monolith-webapi-jwt-secret": "{core-monolith-webapi-jwt-secret.value}",
+        "HTTP_PORTS": "{core-monolith-api-01.bindings.http.targetPort}",
+        "ASPNETCORE_ENVIRONMENT": "{core-monolith-api-env.value}",
         "ConnectionStrings__core-monolith-db": "{core-monolith-db.connectionString}",
         "ConnectionStrings__core-monolith-mq": "{core-monolith-mq.connectionString}",
         "ConnectionStrings__core-monolith-redis": "{core-monolith-redis.connectionString}",
         "services__core-monolith-keycloak__http__0": "{core-monolith-keycloak.bindings.http.url}"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http"
+        },
+        "https": {
+          "scheme": "https",
+          "protocol": "tcp",
+          "transport": "http"
+        }
+      }
+    },
+    "core-monolith-api-02": {
+      "type": "project.v0",
+      "path": "../CoreMonolith.Api/CoreMonolith.Api.csproj",
+      "env": {
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY": "in_memory",
+        "ASPNETCORE_FORWARDEDHEADERS_ENABLED": "true",
+        "HTTP_PORTS": "{core-monolith-api-02.bindings.http.targetPort}",
+        "ASPNETCORE_ENVIRONMENT": "{core-monolith-api-env.value}",
+        "ConnectionStrings__core-monolith-db": "{core-monolith-db.connectionString}",
+        "ConnectionStrings__core-monolith-mq": "{core-monolith-mq.connectionString}",
+        "ConnectionStrings__core-monolith-redis": "{core-monolith-redis.connectionString}",
+        "services__core-monolith-keycloak__http__0": "{core-monolith-keycloak.bindings.http.url}"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http"
+        },
+        "https": {
+          "scheme": "https",
+          "protocol": "tcp",
+          "transport": "http"
+        }
+      }
+    },
+    "core-monolith-api-03": {
+      "type": "project.v0",
+      "path": "../CoreMonolith.Api/CoreMonolith.Api.csproj",
+      "env": {
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY": "in_memory",
+        "ASPNETCORE_FORWARDEDHEADERS_ENABLED": "true",
+        "HTTP_PORTS": "{core-monolith-api-03.bindings.http.targetPort}",
+        "ASPNETCORE_ENVIRONMENT": "{core-monolith-api-env.value}",
+        "ConnectionStrings__core-monolith-db": "{core-monolith-db.connectionString}",
+        "ConnectionStrings__core-monolith-mq": "{core-monolith-mq.connectionString}",
+        "ConnectionStrings__core-monolith-redis": "{core-monolith-redis.connectionString}",
+        "services__core-monolith-keycloak__http__0": "{core-monolith-keycloak.bindings.http.url}"
+      },
+      "bindings": {
+        "http": {
+          "scheme": "http",
+          "protocol": "tcp",
+          "transport": "http"
+        },
+        "https": {
+          "scheme": "https",
+          "protocol": "tcp",
+          "transport": "http"
+        }
+      }
+    },
+    "core-monolith-api-gateway-env": {
+      "type": "parameter.v0",
+      "value": "{core-monolith-api-gateway-env.inputs.value}",
+      "inputs": {
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "core-monolith-api-gateway": {
+      "type": "project.v0",
+      "path": "../CoreMonolith.ApiGateway/CoreMonolith.ApiGateway.csproj",
+      "env": {
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EXCEPTION_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_EMIT_EVENT_LOG_ATTRIBUTES": "true",
+        "OTEL_DOTNET_EXPERIMENTAL_OTLP_RETRY": "in_memory",
+        "ASPNETCORE_FORWARDEDHEADERS_ENABLED": "true",
+        "HTTP_PORTS": "{core-monolith-api-gateway.bindings.http.targetPort}",
+        "ASPNETCORE_ENVIRONMENT": "{core-monolith-api-gateway-env.value}",
+        "ConnectionStrings__core-monolith-db": "{core-monolith-db.connectionString}",
+        "ConnectionStrings__core-monolith-mq": "{core-monolith-mq.connectionString}",
+        "ConnectionStrings__core-monolith-redis": "{core-monolith-redis.connectionString}",
+        "services__core-monolith-keycloak__http__0": "{core-monolith-keycloak.bindings.http.url}",
+        "services__core-monolith-api-01__http__0": "{core-monolith-api-01.bindings.http.url}",
+        "services__core-monolith-api-01__https__0": "{core-monolith-api-01.bindings.https.url}",
+        "services__core-monolith-api-02__http__0": "{core-monolith-api-02.bindings.http.url}",
+        "services__core-monolith-api-02__https__0": "{core-monolith-api-02.bindings.https.url}",
+        "services__core-monolith-api-03__http__0": "{core-monolith-api-03.bindings.http.url}",
+        "services__core-monolith-api-03__https__0": "{core-monolith-api-03.bindings.https.url}"
       },
       "bindings": {
         "http": {
@@ -256,6 +343,16 @@
           "protocol": "tcp",
           "transport": "http",
           "external": true
+        }
+      }
+    },
+    "download-manager-webapp-client-secret": {
+      "type": "parameter.v0",
+      "value": "{download-manager-webapp-client-secret.inputs.value}",
+      "inputs": {
+        "value": {
+          "type": "string",
+          "secret": true
         }
       }
     },
@@ -278,11 +375,11 @@
         "ASPNETCORE_FORWARDEDHEADERS_ENABLED": "true",
         "HTTP_PORTS": "{download-manager-webapp.bindings.http.targetPort}",
         "ASPNETCORE_ENVIRONMENT": "{download-manager-webapp-env.value}",
-        "core-monolith-webapi-jwt-secret": "{core-monolith-webapi-jwt-secret.value}",
+        "download-manager-webapp-client-secret": "{download-manager-webapp-client-secret.value}",
         "ConnectionStrings__core-monolith-redis": "{core-monolith-redis.connectionString}",
         "services__core-monolith-keycloak__http__0": "{core-monolith-keycloak.bindings.http.url}",
-        "services__core-monolith-webapi__http__0": "{core-monolith-webapi.bindings.http.url}",
-        "services__core-monolith-webapi__https__0": "{core-monolith-webapi.bindings.https.url}"
+        "services__core-monolith-api-gateway__http__0": "{core-monolith-api-gateway.bindings.http.url}",
+        "services__core-monolith-api-gateway__https__0": "{core-monolith-api-gateway.bindings.https.url}"
       },
       "bindings": {
         "http": {

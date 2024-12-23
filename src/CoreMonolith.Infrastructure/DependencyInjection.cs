@@ -71,6 +71,17 @@ public static class DependencyInjection
         return builder;
     }
 
+    public static WebApplicationBuilder AddApiGatewayInfrastructure(this WebApplicationBuilder builder)
+    {
+        builder.Services.AddApiServices();
+
+        builder.AddDatabase();
+
+        builder.AddRedisClients();
+
+        return builder;
+    }
+
     public static WebApplicationBuilder AddWebInfrastructure(this WebApplicationBuilder builder)
     {
         builder.AddRedisClients();
@@ -172,13 +183,13 @@ public static class DependencyInjection
 
         services.AddHttpClient<WeatherApiClient>(client =>
             {
-                client.BaseAddress = new($"https+http://{ConnectionNameConstants.ApiConnectionName}");
+                client.BaseAddress = new($"https+http://{ConnectionNameConstants.ApiGatewayConnectionName}");
             })
             .AddHttpMessageHandler<KeycloakTokenHandler>();
 
         services.AddHttpClient<AccessApiClient>(client =>
             {
-                client.BaseAddress = new($"https+http://{ConnectionNameConstants.ApiConnectionName}");
+                client.BaseAddress = new($"https+http://{ConnectionNameConstants.ApiGatewayConnectionName}");
             })
             .AddHttpMessageHandler<KeycloakTokenHandler>();
 

@@ -49,6 +49,7 @@ internal static class DependencyInjection
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
                 options.Scope.Add("core-api-access");
+                options.Scope.Add("core-api-gateway-access");
                 options.Scope.Add("download-web-access");
 
                 options.Events = new OpenIdConnectEvents

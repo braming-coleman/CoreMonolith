@@ -68,7 +68,29 @@ var keycloak = builder.AddKeycloak(ConnectionNameConstants.KeycloakConnectionNam
 //Core Api
 var coreApiEnv = builder.AddParameter(ConfigKeyConstants.ApiEnvKeyName, secret: false);
 
-var api = builder.AddProject<Projects.CoreMonolith_Api>(ConnectionNameConstants.ApiConnectionName)
+var api01 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConstants.ApiConnectionName}-01", "core-api-01")
+    .WithEnvironment("ASPNETCORE_ENVIRONMENT", coreApiEnv)
+    .WithReference(postgressDb)
+    .WaitFor(postgres)
+    .WaitFor(postgressDb)
+    .WithReference(rabbitMq)
+    .WithReference(redis)
+    .WaitFor(redis)
+    .WithReference(keycloak)
+    .WaitFor(keycloak);
+
+var api02 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConstants.ApiConnectionName}-02", "core-api-02")
+    .WithEnvironment("ASPNETCORE_ENVIRONMENT", coreApiEnv)
+    .WithReference(postgressDb)
+    .WaitFor(postgres)
+    .WaitFor(postgressDb)
+    .WithReference(rabbitMq)
+    .WithReference(redis)
+    .WaitFor(redis)
+    .WithReference(keycloak)
+    .WaitFor(keycloak);
+
+var api03 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConstants.ApiConnectionName}-03", "core-api-03")
     .WithEnvironment("ASPNETCORE_ENVIRONMENT", coreApiEnv)
     .WithReference(postgressDb)
     .WaitFor(postgres)
@@ -91,8 +113,12 @@ var apiGateway = builder.AddProject<Projects.CoreMonolith_ApiGateway>(Connection
     .WaitFor(redis)
     .WithReference(keycloak)
     .WaitFor(keycloak)
-    .WithReference(api)
-    .WaitFor(api);
+    .WithReference(api01)
+    .WaitFor(api01)
+    .WithReference(api02)
+    .WaitFor(api02)
+    .WithReference(api03)
+    .WaitFor(api03);
 //-----------------------------------------------------------------------------------------//
 
 

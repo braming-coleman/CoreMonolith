@@ -1,8 +1,19 @@
+using CoreMonolith.ApiGateway;
+using CoreMonolith.Application;
+using CoreMonolith.Infrastructure;
+using CoreMonolith.SharedKernel.Extensions;
+using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.AddServiceDefaults();
 
-// Add services to the container.
+builder
+    .AddAndConfigureSerilog()
+    .AddApiGatewayInfrastructure();
+
+// Add services to the container
+builder.Services.AddApplication();
 
 // Add YARP configuration
 builder.Services
@@ -10,9 +21,9 @@ builder.Services
     .LoadFromConfig(builder.Configuration.GetSection("ReverseProxy"))
     .AddServiceDiscoveryDestinationResolver();
 
-builder.Services.AddAuthentication();
-
-builder.Services.AddAuthorization();
+builder
+    .AddAuth()
+    .AddPresentation();
 
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
@@ -28,10 +39,14 @@ if (app.Environment.IsDevelopment())
 }
 
 app
-    .UseHttpsRedirection()
+    .UseRequestContextLogging()
+    .UseSerilogRequestLogging()
+    .UseExceptionHandler()
     .UseAuthentication()
-    .UseAuthorization();
+    .UseAuthorization()
+    .UseOutputCache();
 
+// Enable YARP
 app.MapReverseProxy();
 
 app.Run();

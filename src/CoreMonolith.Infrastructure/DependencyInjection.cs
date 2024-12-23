@@ -36,7 +36,7 @@ public static class DependencyInjection
 
     public static IServiceCollection AddApiAuthorization(this IServiceCollection services)
     {
-        services.AddAuthorization();
+        services.AddAuthorizationBuilder();
 
         services.AddScoped<PermissionProvider>();
 
@@ -67,17 +67,6 @@ public static class DependencyInjection
         builder.AddRedisClients();
 
         builder.Services.AddHealthChecks(builder.Configuration);
-
-        return builder;
-    }
-
-    public static WebApplicationBuilder AddApiGatewayInfrastructure(this WebApplicationBuilder builder)
-    {
-        builder.Services.AddApiServices();
-
-        builder.AddDatabase();
-
-        builder.AddRedisClients();
 
         return builder;
     }

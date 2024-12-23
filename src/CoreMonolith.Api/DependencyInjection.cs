@@ -24,13 +24,13 @@ internal static class DependencyInjection
         builder.Services
             .AddAuthentication()
             .AddKeycloakJwtBearer(
-                ConnectionNameConstants.KeycloakConnectionName,
+                serviceName: ConnectionNameConstants.KeycloakConnectionName,
                 realm: builder.Configuration["OpenIdConnect:Realm"]!,
-                options =>
-            {
-                options.RequireHttpsMetadata = false;
-                options.Audience = builder.Configuration["OpenIdConnect:Audience"];
-            });
+                configureOptions: options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.Audience = builder.Configuration["OpenIdConnect:Audience"];
+                });
 
         builder.Services
             .AddAuthenticationContext()

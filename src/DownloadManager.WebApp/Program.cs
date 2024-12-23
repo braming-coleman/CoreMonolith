@@ -41,7 +41,7 @@ app
 
 app
     .MapDefaultEndpoints()
-    .MapEndpoints();
+    .MapLoginAndLogout();
 
 app
     .UseRequestContextLogging()

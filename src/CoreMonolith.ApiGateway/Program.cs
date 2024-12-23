@@ -2,6 +2,7 @@ using CoreMonolith.ApiGateway;
 using CoreMonolith.Application;
 using CoreMonolith.Infrastructure;
 using CoreMonolith.SharedKernel.Extensions;
+using Scalar.AspNetCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +11,7 @@ builder.AddServiceDefaults();
 
 builder
     .AddAndConfigureSerilog()
-    .AddApiGatewayInfrastructure();
+    .AddApiInfrastructure();
 
 // Add services to the container
 builder.Services.AddApplication();
@@ -30,12 +31,17 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-app.MapDefaultEndpoints();
+app
+    .MapDefaultEndpoints()
+    .MapEndpoints();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.ApplyMigrations();
+
     app.MapOpenApi();
+    app.MapScalarApiReference();
 }
 
 app
@@ -49,4 +55,4 @@ app
 // Enable YARP
 app.MapReverseProxy();
 
-app.Run();
+await app.RunAsync();

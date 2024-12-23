@@ -23,6 +23,7 @@ internal sealed class PermissionConfiguration : IEntityTypeConfiguration<Permiss
             new Permission { Id = AccessSeedDataConstants.PermissionId_PermissionGroupWrite, Key = ApiPermissions.PermissionGroupWrite, Description = "Write access to [permission-group] resource" },
             new Permission { Id = AccessSeedDataConstants.PermissionId_PermissionRead, Key = ApiPermissions.PermissionRead, Description = "Read access to [permission] resource" },
             new Permission { Id = AccessSeedDataConstants.PermissionId_PermissionWrite, Key = ApiPermissions.PermissionWrite, Description = "Write access to [permission] resource" },
-            new Permission { Id = AccessSeedDataConstants.PermissionId_WeatherRead, Key = ApiPermissions.WeatherRead, Description = "Read access to [weather] resource" });
+            new Permission { Id = AccessSeedDataConstants.PermissionId_WeatherRead, Key = ApiPermissions.WeatherRead, Description = "Read access to [weather] resource" },
+            new Permission { Id = AccessSeedDataConstants.PermissionId_ApiGatewayAccess, Key = ApiPermissions.ApiGatewayAccess, Description = "Access via [api-gateway]" });
     }
 }

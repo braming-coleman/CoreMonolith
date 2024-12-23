@@ -3,8 +3,11 @@ using CoreMonolith.Infrastructure.Clients.HttpClients.Access;
 using CoreMonolith.ServiceDefaults.Constants;
 using CoreMonolith.SharedKernel.Constants;
 using CoreMonolith.SharedKernel.Infrastructure;
+using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
+using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.IdentityModel.JsonWebTokens;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using System.Security.Claims;
 
@@ -23,28 +26,27 @@ internal static class DependencyInjection
 
     public static WebApplicationBuilder AddAuth(this WebApplicationBuilder builder)
     {
+        var oidcScheme = OpenIdConnectDefaults.AuthenticationScheme;
+
         builder.Services
             .AddAuthenticationContext()
-            .AddAuthentication(options =>
-            {
-                options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = OpenIdConnectDefaults.AuthenticationScheme;
-            })
-            .AddCookie()
+            .AddAuthentication(oidcScheme)
             .AddKeycloakOpenIdConnect(
-                ConnectionNameConstants.KeycloakConnectionName,
-                builder.Configuration["OpenIdConnect:Realm"]!,
-                options =>
+                serviceName: ConnectionNameConstants.KeycloakConnectionName,
+                realm: builder.Configuration["OpenIdConnect:Realm"]!,
+                authenticationScheme: oidcScheme,
+                configureOptions: options =>
             {
                 options.ClientId = builder.Configuration["OpenIdConnect:ClientId"];
                 options.ClientSecret = builder.Configuration[ConfigKeyConstants.WebAppClientSecret];
                 options.ResponseType = OpenIdConnectResponseType.Code;
-                options.CallbackPath = builder.Configuration["OpenIdConnect:CallbackPath"];
+                options.TokenValidationParameters.NameClaimType = JwtRegisteredClaimNames.Name;
+                options.SignInScheme = CookieAuthenticationDefaults.AuthenticationScheme;
 
+                options.RequireHttpsMetadata = false;
                 options.SaveTokens = true;
                 options.GetClaimsFromUserInfoEndpoint = true;
                 options.DisableTelemetry = false;
-                options.RequireHttpsMetadata = false;
 
                 options.Scope.Add("openid");
                 options.Scope.Add("profile");
@@ -71,7 +73,8 @@ internal static class DependencyInjection
                             token,
                             default)!;
 
-                        if (callbackResult!.UserId != Guid.Empty)
+                        if (callbackResult is not null
+                        && callbackResult!.UserId != Guid.Empty)
                         {
                             var claimsIdentity = ((ClaimsIdentity)principle.Identity!);
 
@@ -82,10 +85,39 @@ internal static class DependencyInjection
                         }
                     }
                 };
-            });
 
-        builder.Services.AddAuthorization();
+            })
+            .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme);
+
+        builder.Services.AddCascadingAuthenticationState();
 
         return builder;
     }
+
+    internal static IEndpointConventionBuilder MapLoginAndLogout(
+        this IEndpointRouteBuilder endpoints)
+    {
+        var group = endpoints.MapGroup("authentication");
+
+        group.MapGet(pattern: "/login", OnLogin).AllowAnonymous();
+        group.MapPost(pattern: "/logout", OnLogout);
+
+        return group;
+    }
+
+    static ChallengeHttpResult OnLogin() =>
+        TypedResults.Challenge(properties: new AuthenticationProperties
+        {
+            RedirectUri = "/"
+        });
+
+    static SignOutHttpResult OnLogout() =>
+        TypedResults.SignOut(properties: new AuthenticationProperties
+        {
+            RedirectUri = "/"
+        },
+        [
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            OpenIdConnectDefaults.AuthenticationScheme
+        ]);
 }

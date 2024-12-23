@@ -29,8 +29,6 @@ app.MapEndpoints();
 
 if (app.Environment.IsDevelopment())
 {
-    //app.ApplyMigrations();
-
     app.UseDefaultOpenApi();
 }
 

@@ -8,8 +8,12 @@ internal static class DependencyInjection
 {
     public static WebApplicationBuilder AddPresentation(this WebApplicationBuilder builder)
     {
+        builder.Services.AddEndpointsApiExplorer();
+
         builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
         builder.Services.AddProblemDetails();
+
+        builder.Services.AddOpenApi();
 
         return builder;
     }
@@ -19,9 +23,9 @@ internal static class DependencyInjection
         builder.Services
             .AddAuthentication()
             .AddKeycloakJwtBearer(
-                ConnectionNameConstants.KeycloakConnectionName,
+                serviceName: ConnectionNameConstants.KeycloakConnectionName,
                 realm: builder.Configuration["OpenIdConnect:Realm"]!,
-                options =>
+                configureOptions: options =>
                 {
                     options.RequireHttpsMetadata = false;
                     options.Audience = builder.Configuration["OpenIdConnect:Audience"];

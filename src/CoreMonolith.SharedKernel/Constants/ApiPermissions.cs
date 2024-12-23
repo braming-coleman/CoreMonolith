@@ -12,4 +12,6 @@ public static class ApiPermissions
     public const string PermissionGroupWrite = "permission-group:write";
 
     public const string WeatherRead = "weather:read";
+
+    public const string ApiGatewayAccess = "core-api-gateway-access";
 }

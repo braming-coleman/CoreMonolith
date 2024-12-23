@@ -23,15 +23,18 @@
 		<PackageReference Include="Aspire.Hosting.PostgreSQL" Version="*" />
 		<PackageReference Include="Aspire.Hosting.RabbitMQ" Version="9.0.0" />
 		<PackageReference Include="Aspire.Hosting.Redis" Version="9.0.0" />
+		<PackageReference Include="Microsoft.Extensions.ServiceDiscovery.Yarp" Version="9.0.0" />
 		<PackageReference Include="Serilog.Sinks.OpenTelemetry" Version="4.1.1" />
 		<PackageReference Include="SonarAnalyzer.CSharp" Version="10.3.0.106239">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Yarp.ReverseProxy" Version="2.2.0" />
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\CoreMonolith.WebApi\CoreMonolith.WebApi.csproj" />
+		<ProjectReference Include="..\CoreMonolith.ApiGateway\CoreMonolith.ApiGateway.csproj" />
+		<ProjectReference Include="..\CoreMonolith.Api\CoreMonolith.Api.csproj" />
 		<ProjectReference Include="..\DownloadManager.WebApp\DownloadManager.WebApp.csproj" />
 	</ItemGroup>
 

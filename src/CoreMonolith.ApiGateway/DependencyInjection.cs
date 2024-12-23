@@ -1,9 +1,8 @@
 ﻿using CoreMonolith.Infrastructure;
 using CoreMonolith.ServiceDefaults.Constants;
-using CoreMonolith.SharedKernel.Extensions;
 using CoreMonolith.SharedKernel.Infrastructure;
 
-namespace CoreMonolith.WebApi;
+namespace CoreMonolith.ApiGateway;
 
 internal static class DependencyInjection
 {
@@ -14,7 +13,7 @@ internal static class DependencyInjection
         builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
         builder.Services.AddProblemDetails();
 
-        builder.AddDefaultOpenApi();
+        builder.Services.AddOpenApi();
 
         return builder;
     }
@@ -24,13 +23,13 @@ internal static class DependencyInjection
         builder.Services
             .AddAuthentication()
             .AddKeycloakJwtBearer(
-                ConnectionNameConstants.KeycloakConnectionName,
+                serviceName: ConnectionNameConstants.KeycloakConnectionName,
                 realm: builder.Configuration["OpenIdConnect:Realm"]!,
-                options =>
-            {
-                options.RequireHttpsMetadata = false;
-                options.Audience = builder.Configuration["OpenIdConnect:Audience"];
-            });
+                configureOptions: options =>
+                {
+                    options.RequireHttpsMetadata = false;
+                    options.Audience = builder.Configuration["OpenIdConnect:Audience"];
+                });
 
         builder.Services
             .AddAuthenticationContext()

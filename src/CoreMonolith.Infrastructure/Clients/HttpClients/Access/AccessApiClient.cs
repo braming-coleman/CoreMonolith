@@ -10,8 +10,7 @@ public class AccessApiClient(HttpClient _httpClient)
     {
         _httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", token);
 
-        var response = await _httpClient.PostAsJsonAsync(
-            "/v1/access/user/auth-callback",
+        var response = await _httpClient.PostAsJsonAsync("/core-api/v1/access/user/auth-callback",
             request,
             cancellationToken);
 

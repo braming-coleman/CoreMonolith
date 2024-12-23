@@ -1,0 +1,21 @@
+@startuml
+!include <c4/C4_Container>
+
+SHOW_LEGEND()
+
+System_Boundary("CoreMonolith", "CoreMonolith") {
+    Container(core_monolith_web_app, "Web App", "C#, ASP.NET Core, Blazor", "User interface.", "443")
+    ContainerDb(core_monolith_database, "Database", "Postgres", "Stores information.", "5432")
+    Container(core_monolith_public_api, "Public Api", "C#, ASP.NET Core, Minimal API", "Internal services.", "80")
+    Container(core_monolith_cache, "Cache", "Redis", "Cache data.", "6379")
+    Container(core_monolith_message_bus, "Message Bus", "RabbitMQ", "Message bus.", "5672")
+    Container(core_monolith_api_gateway, "Api Gateway", "C#, YARP", "Api Gateway.", "8080")
+}
+
+Rel(core_monolith_web_app, core_monolith_api_gateway, "Uses", "HTTPS")
+Rel(core_monolith_api_gateway, core_monolith_public_api, "Uses", "HTTPS")
+Rel(core_monolith_public_api, core_monolith_database, "Reads/Writes", "TCP")
+Rel(core_monolith_public_api, core_monolith_cache, "Reads/Writes", "TCP")
+Rel(core_monolith_public_api, core_monolith_message_bus, "Sends/Receives", "AMQP")
+
+@enduml

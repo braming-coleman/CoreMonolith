@@ -2,7 +2,7 @@
 using CoreMonolith.SharedKernel.Constants;
 using CoreMonolith.SharedKernel.Extensions;
 
-namespace CoreMonolith.WebApi.Endpoints.V1.Weather;
+namespace CoreMonolith.Api.Endpoints.V2.Weather;
 
 internal sealed class Forecast : IEndpoint
 {
@@ -28,7 +28,7 @@ internal sealed class Forecast : IEndpoint
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app
-            .MapApiVersion("weather", Versions.V1)
+            .MapApiVersion("weather", Versions.V2)
             .MapGet("/forecast", () =>
             {
                 var forecast = Enumerable.Range(1, 5).Select(index =>
@@ -36,7 +36,7 @@ internal sealed class Forecast : IEndpoint
                     (
                         DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
                         Random.Shared.Next(-20, 55),
-                        summaries[Random.Shared.Next(summaries.Length)]
+                        $"V2 - {summaries[Random.Shared.Next(summaries.Length)]}"
                     ))
                     .ToArray();
                 return forecast;

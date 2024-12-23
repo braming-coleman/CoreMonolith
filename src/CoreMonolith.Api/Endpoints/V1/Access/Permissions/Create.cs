@@ -6,7 +6,7 @@ using CoreMonolith.SharedKernel.Infrastructure;
 using CoreMonolith.SharedKernel.ValueObjects;
 using MediatR;
 
-namespace CoreMonolith.WebApi.Endpoints.V1.Access.Permissions;
+namespace CoreMonolith.Api.Endpoints.V1.Access.Permissions;
 
 internal sealed class Create : IEndpoint
 {

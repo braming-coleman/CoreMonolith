@@ -36,7 +36,7 @@ public static class DependencyInjection
 
     public static IServiceCollection AddApiAuthorization(this IServiceCollection services)
     {
-        services.AddAuthorization();
+        services.AddAuthorizationBuilder();
 
         services.AddScoped<PermissionProvider>();
 
@@ -172,13 +172,13 @@ public static class DependencyInjection
 
         services.AddHttpClient<WeatherApiClient>(client =>
             {
-                client.BaseAddress = new($"https+http://{ConnectionNameConstants.WebApiConnectionName}");
+                client.BaseAddress = new($"https+http://{ConnectionNameConstants.ApiGatewayConnectionName}");
             })
             .AddHttpMessageHandler<KeycloakTokenHandler>();
 
         services.AddHttpClient<AccessApiClient>(client =>
             {
-                client.BaseAddress = new($"https+http://{ConnectionNameConstants.WebApiConnectionName}");
+                client.BaseAddress = new($"https+http://{ConnectionNameConstants.ApiGatewayConnectionName}");
             })
             .AddHttpMessageHandler<KeycloakTokenHandler>();
 

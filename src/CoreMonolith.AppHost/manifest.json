@@ -52,7 +52,7 @@
       "image": "docker.io/dpage/pgadmin4:8.12",
       "bindMounts": [
         {
-          "source": "C:/Users/faatus/AppData/Local/Temp/tmps5ev4h.tmp",
+          "source": "C:/Users/faatus/AppData/Local/Temp/tmp1bxp13.tmp",
           "target": "/pgadmin4/servers.json",
           "readOnly": false
         }
@@ -301,6 +301,16 @@
         }
       }
     },
+    "download-manager-webapp-client-secret": {
+      "type": "parameter.v0",
+      "value": "{download-manager-webapp-client-secret.inputs.value}",
+      "inputs": {
+        "value": {
+          "type": "string",
+          "secret": true
+        }
+      }
+    },
     "core-monolith-api-gateway-env": {
       "type": "parameter.v0",
       "value": "{core-monolith-api-gateway-env.inputs.value}",
@@ -320,6 +330,7 @@
         "ASPNETCORE_FORWARDEDHEADERS_ENABLED": "true",
         "HTTP_PORTS": "{core-monolith-api-gateway.bindings.http.targetPort}",
         "ASPNETCORE_ENVIRONMENT": "{core-monolith-api-gateway-env.value}",
+        "download-manager-webapp-client-secret": "{download-manager-webapp-client-secret.value}",
         "ConnectionStrings__core-monolith-db": "{core-monolith-db.connectionString}",
         "ConnectionStrings__core-monolith-mq": "{core-monolith-mq.connectionString}",
         "ConnectionStrings__core-monolith-redis": "{core-monolith-redis.connectionString}",
@@ -346,19 +357,18 @@
         }
       }
     },
-    "download-manager-webapp-client-secret": {
-      "type": "parameter.v0",
-      "value": "{download-manager-webapp-client-secret.inputs.value}",
-      "inputs": {
-        "value": {
-          "type": "string",
-          "secret": true
-        }
-      }
-    },
     "download-manager-webapp-env": {
       "type": "parameter.v0",
       "value": "{download-manager-webapp-env.inputs.value}",
+      "inputs": {
+        "value": {
+          "type": "string"
+        }
+      }
+    },
+    "core-monolith-keycloak-authority": {
+      "type": "parameter.v0",
+      "value": "{core-monolith-keycloak-authority.inputs.value}",
       "inputs": {
         "value": {
           "type": "string"
@@ -376,6 +386,7 @@
         "HTTP_PORTS": "{download-manager-webapp.bindings.http.targetPort}",
         "ASPNETCORE_ENVIRONMENT": "{download-manager-webapp-env.value}",
         "download-manager-webapp-client-secret": "{download-manager-webapp-client-secret.value}",
+        "core-monolith-keycloak-authority": "{core-monolith-keycloak-authority.value}",
         "ConnectionStrings__core-monolith-redis": "{core-monolith-redis.connectionString}",
         "services__core-monolith-keycloak__http__0": "{core-monolith-keycloak.bindings.http.url}",
         "services__core-monolith-api-gateway__http__0": "{core-monolith-api-gateway.bindings.http.url}",

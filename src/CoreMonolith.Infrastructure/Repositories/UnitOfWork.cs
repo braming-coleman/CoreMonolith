@@ -1,5 +1,6 @@
 ﻿using CoreMonolith.Domain.Abstractions.Repositories;
 using CoreMonolith.Domain.Abstractions.Repositories.Access;
+using CoreMonolith.Domain.Abstractions.Repositories.Idempotency;
 using CoreMonolith.Infrastructure.Database;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -13,6 +14,7 @@ public class UnitOfWork(
     private bool _disposed = false;
 
     public IAccessContainer Access => _serviceProvider.GetRequiredService<IAccessContainer>();
+    public IIdempotentRequestRepository IdempotencyRepository => _serviceProvider.GetRequiredService<IIdempotentRequestRepository>();
 
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
     {

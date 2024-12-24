@@ -4,6 +4,7 @@ using CoreMonolith.Domain.Models.Access.PermissionGroups;
 using CoreMonolith.Domain.Models.Access.Permissions;
 using CoreMonolith.Domain.Models.Access.UserPermissionGroups;
 using CoreMonolith.Domain.Models.Access.Users;
+using CoreMonolith.Domain.Models.Idempotency;
 using CoreMonolith.SharedKernel.Abstractions;
 using CoreMonolith.SharedKernel.Models;
 using MediatR;
@@ -19,6 +20,7 @@ public sealed class ApplicationDbContext(DbContextOptions<ApplicationDbContext> 
     public DbSet<PermissionGroup> PermissionGroups { get; set; }
     public DbSet<PermissionGroupPermission> PermissionGroupPermissions { get; set; }
     public DbSet<Permission> Permissions { get; set; }
+    public DbSet<IdempotentRequest> IdempotentRequests { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

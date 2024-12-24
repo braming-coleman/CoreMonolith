@@ -46,13 +46,10 @@ app
 app
     .UseRequestContextLogging()
     .UseSerilogRequestLogging()
-    .UseExceptionHandler();
-
-app
+    .UseExceptionHandler()
     .UseAuthentication()
-    .UseAuthorization();
-
-app.UseOutputCache();
+    .UseAuthorization()
+    .UseOutputCache();
 
 await app.RunAsync();
 

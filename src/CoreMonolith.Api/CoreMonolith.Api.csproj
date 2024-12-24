@@ -13,21 +13,20 @@
 		<PackageReference Include="Aspire.RabbitMQ.Client" Version="9.0.0" />
 		<PackageReference Include="Aspire.StackExchange.Redis" Version="9.0.0" />
 		<PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" Version="9.0.0" />
-		<PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="8.0.1" />
+		<PackageReference Include="AspNetCore.HealthChecks.UI.Client" Version="9.0.0" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.0" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.Extensions.Http" Version="9.0.0" />
-		<PackageReference Include="Scalar.AspNetCore" Version="1.2.61" />
 		<PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
 		<PackageReference Include="Serilog.Sinks.OpenTelemetry" Version="4.1.1" />
-		<PackageReference Include="Serilog.Sinks.Seq" Version="8.0.0" />
-		<PackageReference Include="SonarAnalyzer.CSharp" Version="10.3.0.106239">
+		<PackageReference Include="SonarAnalyzer.CSharp" Version="10.4.0.108396">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="7.2.0" />
 	</ItemGroup>
 
 	<ItemGroup>

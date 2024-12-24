@@ -2,7 +2,6 @@ using CoreMonolith.ApiGateway;
 using CoreMonolith.Application;
 using CoreMonolith.Infrastructure;
 using CoreMonolith.SharedKernel.Extensions;
-using Scalar.AspNetCore;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -23,11 +22,8 @@ builder.Services
     .AddServiceDiscoveryDestinationResolver();
 
 builder
-    .AddAuth()
-    .AddPresentation();
-
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
-builder.Services.AddOpenApi();
+    .AddPresentation()
+    .AddAuth();
 
 var app = builder.Build();
 
@@ -40,8 +36,7 @@ if (app.Environment.IsDevelopment())
 {
     app.ApplyMigrations();
 
-    app.MapOpenApi();
-    app.MapScalarApiReference();
+    app.UseSwaggerDocs(builder.Configuration);
 }
 
 app

@@ -2,6 +2,8 @@
 
 public static class ConfigKeyConstants
 {
+    public static string AspCoreEnvVarKeyName => "ASPNETCORE_ENVIRONMENT";
+
     public static string ApiEnvKeyName => "core-monolith-api-env";
     public static string ApiGatewayEnvKeyName => "core-monolith-api-gateway-env";
 

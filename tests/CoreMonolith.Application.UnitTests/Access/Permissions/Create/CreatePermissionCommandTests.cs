@@ -13,7 +13,7 @@ public class CreatePermissionCommandTests
         var description = "permission description";
 
         // Act
-        var command = new CreatePermissionCommand(key, description);
+        var command = new CreatePermissionCommand(Guid.CreateVersion7(), key, description);
 
         // Assert
         command.Key.Should().Be(key);

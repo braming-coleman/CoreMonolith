@@ -14,6 +14,7 @@ public static class DependencyInjection
 
             config.AddOpenBehavior(typeof(RequestLoggingPipelineBehavior<,>));
             config.AddOpenBehavior(typeof(ValidationPipelineBehavior<,>));
+            config.AddOpenBehavior(typeof(IdempotentCommandPipelineBehaviour<,>));
         });
 
         services.AddValidatorsFromAssembly(typeof(DependencyInjection).Assembly, includeInternalTypes: true);

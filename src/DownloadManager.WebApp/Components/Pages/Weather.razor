@@ -1,11 +1,13 @@
 ﻿@page "/weather"
 @using CoreMonolith.Infrastructure.Clients.HttpClients
+@using CoreMonolith.Infrastructure.Clients.HttpClients.Access
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
 @attribute [StreamRendering]
 @attribute [OutputCache(Duration = 5)]
 
 @inject WeatherApiClient WeatherApi
+@inject AccessApiClient AccessApi
 
 <PageTitle>Weather</PageTitle>
 
@@ -47,6 +49,10 @@ else
 
     protected override async Task OnInitializedAsync()
     {
+        var result = await AccessApi.PermissionCreateAsync(new CreatePermissionRequest(
+            "Test", "Test Description"
+        ));
+
         forecasts = await WeatherApi.GetWeatherAsync();
     }
 }

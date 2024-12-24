@@ -1,4 +1,4 @@
-﻿namespace CoreMonolith.Application.Abstractions.Services.Idempotency;
+﻿namespace CoreMonolith.Application.Abstractions.Idempotency.Services;
 
 public interface IIdempotencyService
 {

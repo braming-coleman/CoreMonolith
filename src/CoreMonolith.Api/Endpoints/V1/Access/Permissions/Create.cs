@@ -3,8 +3,8 @@ using CoreMonolith.SharedKernel.Abstractions;
 using CoreMonolith.SharedKernel.Constants;
 using CoreMonolith.SharedKernel.Extensions;
 using CoreMonolith.SharedKernel.Infrastructure;
-using CoreMonolith.SharedKernel.ValueObjects;
 using MediatR;
+using Microsoft.AspNetCore.Mvc;
 
 namespace CoreMonolith.Api.Endpoints.V1.Access.Permissions;
 
@@ -16,13 +16,21 @@ internal sealed class Create : IEndpoint
     {
         app
             .MapApiVersion("access/permission", Versions.V1)
-            .MapPost("/create", async (PermissionCreateRequest request, ISender sender, CancellationToken cancellationToken) =>
+            .MapPost("/create", async (
+                [FromHeader(Name = EndpointConstants.IdempotencyHeaderKeyName)] string requestId,
+                PermissionCreateRequest request,
+                ISender sender,
+                CancellationToken cancellationToken) =>
             {
+                if (!Guid.TryParse(requestId, out var parsedRequestId))
+                    return Results.BadRequest();
+
                 var command = new CreatePermissionCommand(
+                    parsedRequestId,
                     request.Key,
                     request.Description);
 
-                Result<Guid> result = await sender.Send(command, cancellationToken);
+                var result = await sender.Send(command, cancellationToken);
 
                 return result.Match(Results.Ok, CustomResults.Problem);
             })

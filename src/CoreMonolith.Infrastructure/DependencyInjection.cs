@@ -1,7 +1,9 @@
 ﻿using CoreMonolith.Application.Abstractions.Authentication;
 using CoreMonolith.Application.Abstractions.Data;
+using CoreMonolith.Application.Abstractions.Idempotency.Services;
 using CoreMonolith.Domain.Abstractions.Repositories;
 using CoreMonolith.Domain.Abstractions.Repositories.Access;
+using CoreMonolith.Domain.Abstractions.Repositories.Idempotency;
 using CoreMonolith.Infrastructure.Authentication;
 using CoreMonolith.Infrastructure.Authorization;
 using CoreMonolith.Infrastructure.Clients.HttpClients;
@@ -9,6 +11,8 @@ using CoreMonolith.Infrastructure.Clients.HttpClients.Access;
 using CoreMonolith.Infrastructure.Database;
 using CoreMonolith.Infrastructure.Repositories;
 using CoreMonolith.Infrastructure.Repositories.Access;
+using CoreMonolith.Infrastructure.Repositories.Idempotency;
+using CoreMonolith.Infrastructure.Services.Idempotency;
 using CoreMonolith.Infrastructure.Time;
 using CoreMonolith.ServiceDefaults.Constants;
 using CoreMonolith.SharedKernel.Abstractions;
@@ -91,6 +95,10 @@ public static class DependencyInjection
         services.AddScoped<IUserPermissionGroupRepository, UserPermissionGroupRepository>();
         services.AddScoped<IPermissionRepository, PermissionRepository>();
 
+        services.AddScoped<IIdempotentRequestRepository, IdempotentRequestRepository>();
+
+        services.AddScoped<IIdempotencyService, IdempotencyService>();
+
         services.AddSingleton<IPasswordHasher, PasswordHasher>();
         services.AddSingleton<ITokenProvider, TokenProvider>();
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
@@ -170,17 +178,10 @@ public static class DependencyInjection
     {
         services.AddTransient<KeycloakTokenHandler>();
 
-        services.AddHttpClient<WeatherApiClient>(client =>
-            {
-                client.BaseAddress = new($"https+http://{ConnectionNameConstants.ApiGatewayConnectionName}");
-            })
-            .AddHttpMessageHandler<KeycloakTokenHandler>();
+        var apiGatewayUri = new Uri($"https+http://{ConnectionNameConstants.ApiGatewayConnectionName}");
 
-        services.AddHttpClient<AccessApiClient>(client =>
-            {
-                client.BaseAddress = new($"https+http://{ConnectionNameConstants.ApiGatewayConnectionName}");
-            })
-            .AddHttpMessageHandler<KeycloakTokenHandler>();
+        services.AddHttpClient<WeatherApiClient>(c => { c.BaseAddress = apiGatewayUri; }).AddHttpMessageHandler<KeycloakTokenHandler>();
+        services.AddHttpClient<AccessApiClient>(c => { c.BaseAddress = apiGatewayUri; }).AddHttpMessageHandler<KeycloakTokenHandler>();
 
         return services;
     }

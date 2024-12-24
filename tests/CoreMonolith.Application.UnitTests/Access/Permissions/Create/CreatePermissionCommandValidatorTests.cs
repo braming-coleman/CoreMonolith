@@ -11,7 +11,7 @@ public class CreatePermissionCommandValidatorTests
     public void ShouldHaveError_WhenKeyIsEmpty()
     {
         // Arrange
-        var command = new CreatePermissionCommand("", "description");
+        var command = new CreatePermissionCommand(Guid.CreateVersion7(), "", "description");
 
         // Act
         var result = _validator.TestValidate(command);
@@ -24,7 +24,7 @@ public class CreatePermissionCommandValidatorTests
     public void ShouldHaveError_WhenDescriptionIsEmpty()
     {
         // Arrange
-        var command = new CreatePermissionCommand("key", "");
+        var command = new CreatePermissionCommand(Guid.CreateVersion7(), "key", "");
 
         // Act
         var result = _validator.TestValidate(command);
@@ -37,7 +37,7 @@ public class CreatePermissionCommandValidatorTests
     public void ShouldNotHaveError_WhenBothKeyAndDescriptionAreNotEmpty()
     {
         // Arrange
-        var command = new CreatePermissionCommand("key", "description");
+        var command = new CreatePermissionCommand(Guid.CreateVersion7(), "key", "description");
 
         // Act
         var result = _validator.TestValidate(command);

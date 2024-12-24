@@ -18,7 +18,10 @@ public class CreatePermissionCommandHandlerTests
         unitOfWork.Access.PermissionRepository.Returns(Substitute.For<IPermissionRepository>());
         unitOfWork.Access.PermissionRepository.ExistsByKeyAsync("existing-key", CancellationToken.None).Returns(true);
         var handler = new CreatePermissionCommandHandler(unitOfWork);
-        var command = new CreatePermissionCommand("existing-key", "description");
+        var command = new CreatePermissionCommand(
+            Guid.CreateVersion7(),
+            "existing-key",
+            "description");
 
         // Act
         var result = await handler.Handle(command, CancellationToken.None);
@@ -37,7 +40,10 @@ public class CreatePermissionCommandHandlerTests
         unitOfWork.Access.PermissionRepository.Returns(Substitute.For<IPermissionRepository>());
         unitOfWork.Access.PermissionRepository.ExistsByKeyAsync("new-key", CancellationToken.None).Returns(false);
         var handler = new CreatePermissionCommandHandler(unitOfWork);
-        var command = new CreatePermissionCommand("new-key", "description");
+        var command = new CreatePermissionCommand(
+            Guid.CreateVersion7(),
+            "existing-key",
+            "description");
 
         // Act
         var result = await handler.Handle(command, CancellationToken.None);

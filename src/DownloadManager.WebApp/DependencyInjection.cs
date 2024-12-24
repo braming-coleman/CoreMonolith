@@ -37,6 +37,7 @@ internal static class DependencyInjection
                 authenticationScheme: oidcScheme,
                 configureOptions: options =>
             {
+                options.Authority = builder.Configuration[ConfigKeyConstants.KeycloakAuthorityKeyName];
                 options.ClientId = builder.Configuration["OpenIdConnect:ClientId"];
                 options.ClientSecret = builder.Configuration[ConfigKeyConstants.WebAppClientSecret];
                 options.ResponseType = OpenIdConnectResponseType.Code;

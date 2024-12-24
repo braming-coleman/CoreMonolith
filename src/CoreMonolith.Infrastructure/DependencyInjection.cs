@@ -1,5 +1,6 @@
 ﻿using CoreMonolith.Application.Abstractions.Authentication;
 using CoreMonolith.Application.Abstractions.Data;
+using CoreMonolith.Application.Abstractions.Services.Idempotency;
 using CoreMonolith.Domain.Abstractions.Repositories;
 using CoreMonolith.Domain.Abstractions.Repositories.Access;
 using CoreMonolith.Domain.Abstractions.Repositories.Idempotency;
@@ -11,6 +12,7 @@ using CoreMonolith.Infrastructure.Database;
 using CoreMonolith.Infrastructure.Repositories;
 using CoreMonolith.Infrastructure.Repositories.Access;
 using CoreMonolith.Infrastructure.Repositories.Idempotency;
+using CoreMonolith.Infrastructure.Services.Idempotency;
 using CoreMonolith.Infrastructure.Time;
 using CoreMonolith.ServiceDefaults.Constants;
 using CoreMonolith.SharedKernel.Abstractions;
@@ -94,6 +96,8 @@ public static class DependencyInjection
         services.AddScoped<IPermissionRepository, PermissionRepository>();
 
         services.AddScoped<IIdempotentRequestRepository, IdempotentRequestRepository>();
+
+        services.AddScoped<IIdempotencyService, IdempotencyService>();
 
         services.AddSingleton<IPasswordHasher, PasswordHasher>();
         services.AddSingleton<ITokenProvider, TokenProvider>();

@@ -130,10 +130,12 @@ var apiGateway = builder.AddProject<Projects.CoreMonolith_ApiGateway>(Connection
 
 //DownloadManager WebApp
 var downloadManagerEnv = builder.AddParameter(ConfigKeyConstants.WebAppEnvKeyName, secret: false);
+var keycloakAuthority = builder.AddParameter(ConfigKeyConstants.KeycloakAuthorityKeyName, secret: false);
 
 builder.AddProject<Projects.DownloadManager_WebApp>(ConnectionNameConstants.WebAppConnectionName)
     .WithEnvironment(ConfigKeyConstants.AspCoreEnvVarKeyName, downloadManagerEnv)
     .WithEnvironment(ConfigKeyConstants.WebAppClientSecret, clientSecret)
+    .WithEnvironment(ConfigKeyConstants.KeycloakAuthorityKeyName, keycloakAuthority)
     .WithExternalHttpEndpoints()
     .WithReference(redis)
     .WaitFor(redis)

@@ -15,7 +15,9 @@ public static class ConfigKeyConstants
 
     public static string KeycloakUsernameKeyName => "core-monolith-keycloak-username";
     public static string KeycloakPasswordKeyName => "core-monolith-keycloak-password";
+    public static string KeycloakAuthorityKeyName => "core-monolith-keycloak-authority";
 
     public static string WebAppEnvKeyName => "download-manager-webapp-env";
     public static string WebAppClientSecret => "download-manager-webapp-client-secret";
+
 }

@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Scalar.AspNetCore;
 
 namespace CoreMonolith.SharedKernel.Extensions;
 
@@ -25,11 +24,11 @@ public static partial class Extensions
 
         if (app.Environment.IsDevelopment())
         {
-            app.MapScalarApiReference(options =>
-            {
-                // Disable default fonts to avoid download unnecessary fonts
-                options.DefaultFonts = false;
-            });
+            //app.MapScalarApiReference(options =>
+            //{
+            //    // Disable default fonts to avoid download unnecessary fonts
+            //    options.DefaultFonts = false;
+            //});
             app.MapGet("/", () => Results.Redirect("/scalar/v1")).ExcludeFromDescription();
         }
 

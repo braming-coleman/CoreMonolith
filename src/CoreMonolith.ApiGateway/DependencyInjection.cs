@@ -8,12 +8,12 @@ internal static class DependencyInjection
 {
     public static WebApplicationBuilder AddPresentation(this WebApplicationBuilder builder)
     {
-        builder.Services.AddEndpointsApiExplorer();
+        builder.Services
+            .AddEndpointsApiExplorer()
+            .AddExceptionHandler<GlobalExceptionHandler>()
+            .AddProblemDetails();
 
-        builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
-        builder.Services.AddProblemDetails();
-
-        builder.Services.AddOpenApi();
+        builder.Services.AddSwaggerGen();
 
         return builder;
     }
@@ -36,5 +36,19 @@ internal static class DependencyInjection
             .AddApiAuthorization();
 
         return builder;
+    }
+
+    public static WebApplication UseSwaggerDocs(this WebApplication app, IConfiguration config)
+    {
+        var baseUrl = config[$"{ConnectionNameConstants.ApiConnectionName}-01:https:0"];
+
+        app.UseSwagger();
+        app.UseSwaggerUI(c =>
+        {
+            c.SwaggerEndpoint($"{baseUrl}/core-api/swagger/v1/swagger.json", "V1 Documentation");
+            c.SwaggerEndpoint($"{baseUrl}/core-api/swagger/v2/swagger.json", "V2 Documentation");
+        });
+
+        return app;
     }
 }

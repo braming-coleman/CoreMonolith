@@ -69,7 +69,7 @@ var keycloak = builder.AddKeycloak(ConnectionNameConstants.KeycloakConnectionNam
 var coreApiEnv = builder.AddParameter(ConfigKeyConstants.ApiEnvKeyName, secret: false);
 
 var api01 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConstants.ApiConnectionName}-01", "core-api-01")
-    .WithEnvironment("ASPNETCORE_ENVIRONMENT", coreApiEnv)
+    .WithEnvironment(ConfigKeyConstants.AspCoreEnvVarKeyName, coreApiEnv)
     .WithReference(postgressDb)
     .WaitFor(postgres)
     .WaitFor(postgressDb)
@@ -80,7 +80,7 @@ var api01 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConst
     .WaitFor(keycloak);
 
 var api02 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConstants.ApiConnectionName}-02", "core-api-02")
-    .WithEnvironment("ASPNETCORE_ENVIRONMENT", coreApiEnv)
+    .WithEnvironment(ConfigKeyConstants.AspCoreEnvVarKeyName, coreApiEnv)
     .WithReference(postgressDb)
     .WaitFor(postgres)
     .WaitFor(postgressDb)
@@ -91,7 +91,7 @@ var api02 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConst
     .WaitFor(keycloak);
 
 var api03 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConstants.ApiConnectionName}-03", "core-api-03")
-    .WithEnvironment("ASPNETCORE_ENVIRONMENT", coreApiEnv)
+    .WithEnvironment(ConfigKeyConstants.AspCoreEnvVarKeyName, coreApiEnv)
     .WithReference(postgressDb)
     .WaitFor(postgres)
     .WaitFor(postgressDb)
@@ -104,10 +104,12 @@ var api03 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConst
 
 
 //Core ApiGateway
+var clientSecret = builder.AddParameter(ConfigKeyConstants.WebAppClientSecret, secret: true);
 var coreApiGatewayEnv = builder.AddParameter(ConfigKeyConstants.ApiGatewayEnvKeyName, secret: false);
 
 var apiGateway = builder.AddProject<Projects.CoreMonolith_ApiGateway>(ConnectionNameConstants.ApiGatewayConnectionName)
-    .WithEnvironment("ASPNETCORE_ENVIRONMENT", coreApiGatewayEnv)
+    .WithEnvironment(ConfigKeyConstants.AspCoreEnvVarKeyName, coreApiGatewayEnv)
+    .WithEnvironment(ConfigKeyConstants.WebAppClientSecret, clientSecret)
     .WithExternalHttpEndpoints()
     .WithReference(postgressDb)
     .WaitFor(postgres)
@@ -127,11 +129,10 @@ var apiGateway = builder.AddProject<Projects.CoreMonolith_ApiGateway>(Connection
 
 
 //DownloadManager WebApp
-var clientSecret = builder.AddParameter(ConfigKeyConstants.WebAppClientSecret, secret: true);
 var downloadManagerEnv = builder.AddParameter(ConfigKeyConstants.WebAppEnvKeyName, secret: false);
 
 builder.AddProject<Projects.DownloadManager_WebApp>(ConnectionNameConstants.WebAppConnectionName)
-    .WithEnvironment("ASPNETCORE_ENVIRONMENT", downloadManagerEnv)
+    .WithEnvironment(ConfigKeyConstants.AspCoreEnvVarKeyName, downloadManagerEnv)
     .WithEnvironment(ConfigKeyConstants.WebAppClientSecret, clientSecret)
     .WithExternalHttpEndpoints()
     .WithReference(redis)

@@ -36,7 +36,7 @@ if (app.Environment.IsDevelopment())
 {
     app.ApplyMigrations();
 
-    app.UseSwaggerDocs(builder.Configuration);
+    app.UseSwaggerDocs();
 }
 
 app

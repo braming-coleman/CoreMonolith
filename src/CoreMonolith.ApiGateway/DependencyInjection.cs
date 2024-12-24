@@ -11,9 +11,8 @@ internal static class DependencyInjection
         builder.Services
             .AddEndpointsApiExplorer()
             .AddExceptionHandler<GlobalExceptionHandler>()
-            .AddProblemDetails();
-
-        builder.Services.AddSwaggerGen();
+            .AddProblemDetails()
+            .AddSwaggerGen();
 
         return builder;
     }
@@ -29,6 +28,7 @@ internal static class DependencyInjection
                 {
                     options.RequireHttpsMetadata = false;
                     options.Audience = builder.Configuration["OpenIdConnect:Audience"];
+                    options.TokenValidationParameters.ValidateIssuer = false;
                 });
 
         builder.Services
@@ -38,15 +38,13 @@ internal static class DependencyInjection
         return builder;
     }
 
-    public static WebApplication UseSwaggerDocs(this WebApplication app, IConfiguration config)
+    public static WebApplication UseSwaggerDocs(this WebApplication app)
     {
-        var baseUrl = config[$"{ConnectionNameConstants.ApiConnectionName}-01:https:0"];
-
         app.UseSwagger();
         app.UseSwaggerUI(c =>
         {
-            c.SwaggerEndpoint($"{baseUrl}/core-api/swagger/v1/swagger.json", "V1 Documentation");
-            c.SwaggerEndpoint($"{baseUrl}/core-api/swagger/v2/swagger.json", "V2 Documentation");
+            c.SwaggerEndpoint($"/core-api/swagger/v1/swagger.json", "V1 Documentation");
+            c.SwaggerEndpoint($"/core-api/swagger/v2/swagger.json", "V2 Documentation");
         });
 
         return app;

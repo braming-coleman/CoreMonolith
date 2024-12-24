@@ -28,7 +28,7 @@ app
 
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwaggerDocs(builder.Configuration);
+    app.UseSwaggerDocs();
 }
 
 app

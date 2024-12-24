@@ -94,8 +94,7 @@ internal static class DependencyInjection
         return builder;
     }
 
-    internal static IEndpointConventionBuilder MapLoginAndLogout(
-        this IEndpointRouteBuilder endpoints)
+    internal static IEndpointConventionBuilder MapLoginAndLogout(this IEndpointRouteBuilder endpoints)
     {
         var group = endpoints.MapGroup("authentication");
 

@@ -72,6 +72,7 @@ internal static class DependencyInjection
                 {
                     options.RequireHttpsMetadata = false;
                     options.Audience = builder.Configuration["OpenIdConnect:Audience"];
+                    options.TokenValidationParameters.ValidateIssuer = false;
                 });
 
         builder.Services
@@ -81,18 +82,16 @@ internal static class DependencyInjection
         return builder;
     }
 
-    public static WebApplication UseSwaggerDocs(this WebApplication app, IConfiguration config)
+    public static WebApplication UseSwaggerDocs(this WebApplication app)
     {
-        var baseUrl = config[$"{ConnectionNameConstants.ApiConnectionName}-01:https:0"];
-
         app.UseSwagger(options =>
         {
             options.PreSerializeFilters.Add((swagger, httpReq) =>
             {
                 swagger.Servers =
                 [
-                    new OpenApiServer { Url = $"{baseUrl}/core-api", Description = "Api GateWay" },
-                    new OpenApiServer { Url = $"{baseUrl}/", Description = "Api Direct" }
+                    new OpenApiServer { Url = $"/core-api", Description = "Api Gateway" },
+                    new OpenApiServer { Url = $"/", Description = "Api Direct" }
                 ];
             });
         });

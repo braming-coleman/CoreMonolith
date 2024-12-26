@@ -5,7 +5,7 @@
 | core-monolith-build-sonar      | [![Build Status](https://dev.azure.com/zeox115/CoreMonolith/_apis/build/status%2Fcore-monolith-build-sonar?branchName=master&jobName=core_monolith_build_sonar)](https://dev.azure.com/zeox115/CoreMonolith/_build/latest?definitionId=4&branchName=master)      |
 | core-monolith-release-server   | [![Build Status](https://dev.azure.com/zeox115/CoreMonolith/_apis/build/status%2Fcore-monolith-release-server?branchName=master&jobName=core_monolith_release_server)](https://dev.azure.com/zeox115/CoreMonolith/_build/latest?definitionId=5&branchName=master) |
 
-**CoreMonolith** is a .NET 9 based solution designed to orchestrate file transfers between various download clients (peer-to-peer and Newshosting) on a cloud server and file management software (Sonarr, Radarr, Plex) on an on-premise server. The project leverages a **modular monolith** architecture for enhanced maintainability, scalability, and a clear separation of concerns.
+**CoreMonolith** is a .NET 9 based solution designed to orchestrate file transfers between various download clients on a cloud server and file management software on an on-premise server. The project leverages a **modular monolith** architecture for enhanced maintainability, scalability, and a clear separation of concerns.
 
 ## Features
 

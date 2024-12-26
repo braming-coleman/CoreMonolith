@@ -48,7 +48,7 @@ jobs:
     displayName: 'Run unit tests with code coverage'
     inputs:
       command: 'test'
-      projects: '**/*tests/*.csproj'
+      projects: '**/tests/**/*.csproj'
       arguments: '--configuration $(BuildConfiguration) --collect "Code coverage"'
 
   - task: SonarCloudAnalyze@3

@@ -32,5 +32,5 @@ jobs:
     displayName: 'Run unit tests with code coverage'
     inputs:
       command: 'test'
-      projects: '**/*.csproj'
+      projects: '**/tests/**/*.csproj'
       arguments: '--configuration $(BuildConfiguration) --collect "Code coverage"'

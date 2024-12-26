@@ -25,12 +25,12 @@ jobs:
     displayName: 'Build solution'
     inputs:
       command: 'build'
-      projects: '**/*src/*.csproj'
+      projects: '**/src/**/*.csproj'
       arguments: '--configuration $(BuildConfiguration)'
 
   - task: DotNetCoreCLI@2
     displayName: 'Run unit tests with code coverage'
     inputs:
       command: 'test'
-      projects: '**/*tests/*.csproj'
+      projects: '**/*.csproj'
       arguments: '--configuration $(BuildConfiguration) --collect "Code coverage"'

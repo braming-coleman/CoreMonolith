@@ -16,6 +16,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="UserService.Infrastructure.UnitTests" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\CoreMonolith.ServiceDefaults\CoreMonolith.ServiceDefaults.csproj" />
     <ProjectReference Include="..\Modules.UserService.Api\Modules.UserService.Api.csproj" />
     <ProjectReference Include="..\Modules.UserService.Application\Modules.UserService.Application.csproj" />

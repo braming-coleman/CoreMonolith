@@ -1,24 +1,24 @@
-﻿using CoreMonolith.Domain.Models.Access.Users;
-using CoreMonolith.Infrastructure.Database;
-using CoreMonolith.SharedKernel.Abstractions;
+﻿using CoreMonolith.Domain.Abstractions.Messaging;
 using FluentAssertions;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Modules.UserService.Domain.Models.Users;
+using Modules.UserService.Infrastructure.Database;
 using NSubstitute;
 
 namespace CoreMonolith.Infrastructure.UnitTests.Database;
 
-public class ApplicationDbContextTests
+public class UserServiceDbContextTests
 {
     [Fact]
     public async Task SaveChangesAsync_ShouldPublishDomainEvents()
     {
         // Arrange
-        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+        var options = new DbContextOptionsBuilder<UserServiceDbContext>()
             .UseInMemoryDatabase(databaseName: "TestDatabase")
             .Options;
         var publisher = Substitute.For<IPublisher>();
-        var dbContext = new ApplicationDbContext(options, publisher);
+        var dbContext = new UserServiceDbContext(options, publisher);
 
         var user = new User { Email = "test@example.com", FirstName = "first", LastName = "last" };
         user.Raise(Substitute.For<IDomainEvent>());
@@ -35,11 +35,11 @@ public class ApplicationDbContextTests
     public void OnModelCreating_ShouldApplyConfigurationsFromAssembly()
     {
         // Arrange
-        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+        var options = new DbContextOptionsBuilder<UserServiceDbContext>()
             .UseInMemoryDatabase(databaseName: "TestDatabase")
             .Options;
         var publisher = Substitute.For<IPublisher>();
-        var dbContext = new ApplicationDbContext(options, publisher);
+        var dbContext = new UserServiceDbContext(options, publisher);
         var modelBuilder = Substitute.For<ModelBuilder>();
 
         // Act
@@ -53,11 +53,11 @@ public class ApplicationDbContextTests
     public void OnModelCreating_ShouldSetDefaultSchema()
     {
         // Arrange
-        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+        var options = new DbContextOptionsBuilder<UserServiceDbContext>()
             .UseInMemoryDatabase(databaseName: "TestDatabase")
             .Options;
         var publisher = Substitute.For<IPublisher>();
-        var dbContext = new ApplicationDbContext(options, publisher);
+        var dbContext = new UserServiceDbContext(options, publisher);
         var modelBuilder = Substitute.For<ModelBuilder>();
 
         // Act
@@ -71,11 +71,11 @@ public class ApplicationDbContextTests
     public void DbSetProperties_ShouldNotBeNull()
     {
         // Arrange
-        var options = new DbContextOptionsBuilder<ApplicationDbContext>()
+        var options = new DbContextOptionsBuilder<UserServiceDbContext>()
             .UseInMemoryDatabase(databaseName: "TestDatabase")
             .Options;
         var publisher = Substitute.For<IPublisher>();
-        var dbContext = new ApplicationDbContext(options, publisher);
+        var dbContext = new UserServiceDbContext(options, publisher);
 
         // Assert
         dbContext.Users.Should().NotBeNull();

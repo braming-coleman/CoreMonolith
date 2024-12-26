@@ -1,5 +1,5 @@
-﻿using CoreMonolith.Domain.Models.Access.Permissions;
-using FluentAssertions;
+﻿using FluentAssertions;
+using Modules.UserService.Domain.Models.Permissions;
 
 namespace CoreMonolith.Domain.UnitTests.Models.Access;
 

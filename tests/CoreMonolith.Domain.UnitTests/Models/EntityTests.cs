@@ -1,15 +1,14 @@
-﻿using CoreMonolith.SharedKernel.Abstractions;
-using CoreMonolith.SharedKernel.Models;
+﻿using CoreMonolith.Domain.Abstractions.Messaging;
+using CoreMonolith.Domain.Models;
 using FluentAssertions;
 using NSubstitute;
 
-namespace CoreMonolith.SharedKernel.UnitTests.Models;
+namespace CoreMonolith.Domain.UnitTests.Models;
 
 public class EntityTests
 {
     private class TestEntity : Entity { }
 
-    private class TestDomainEvent : IDomainEvent { }
 
     private readonly TestEntity _entity;
 

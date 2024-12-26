@@ -1,3 +1,7 @@
 {
-    "csharp.preview.improvedLaunchExperience": true
+    "csharp.preview.improvedLaunchExperience": true,
+    "sonarlint.connectedMode.project": {
+        "connectionId": "zeox115",
+        "projectKey": "zeox115_CoreMonolith"
+    }
 }

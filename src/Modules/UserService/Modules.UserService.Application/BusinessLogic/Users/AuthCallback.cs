@@ -148,7 +148,7 @@ internal sealed class UserPermissionGroupChangedDomainEventHandler(
 {
     public async Task Handle(UserPermissionGroupChangedDomainEvent notification, CancellationToken cancellationToken)
     {
-        _logger.LogWarning("User permissions changed - {notification}", notification);
+        _logger.LogWarning("User permissions changed - {Notification}", notification);
 
         await _cacheStore.EvictByTagAsync(Tags.UserPermission, cancellationToken);
     }
@@ -161,7 +161,7 @@ internal sealed class UserRegisteredFromKeycloakDomainEventHandler(
 {
     public async Task Handle(UserRegisteredDomainEvent notification, CancellationToken cancellationToken)
     {
-        _logger.LogWarning("User registered - {notification}", notification);
+        _logger.LogWarning("User registered - {Notification}", notification);
 
         await _cacheStore.EvictByTagAsync(Tags.User, cancellationToken);
     }
@@ -174,7 +174,7 @@ internal sealed class UserUpdatedFromKeycloakDomainEventHandler(
 {
     public async Task Handle(UserUpdatedDomainEvent notification, CancellationToken cancellationToken)
     {
-        _logger.LogWarning("User updated - {notification}", notification);
+        _logger.LogWarning("User updated - {Notification}", notification);
 
         await _cacheStore.EvictByTagAsync(Tags.User, cancellationToken);
     }

@@ -25,6 +25,13 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.4.0.108396">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\CoreMonolith.Domain\CoreMonolith.Domain.csproj" />
   </ItemGroup>
 

@@ -14,7 +14,14 @@
     <InternalsVisibleTo Include="UserService.Domain.UnitTests" />
     <InternalsVisibleTo Include="UserService.Application.UnitTests" />
     <InternalsVisibleTo Include="UserService.Infrastructure.UnitTests" />
-    <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.4.0.108396">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>

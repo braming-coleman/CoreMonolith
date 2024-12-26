@@ -1,13 +1,13 @@
 ﻿@page "/weather"
 @using CoreMonolith.Infrastructure.Clients.HttpClients
-@using CoreMonolith.Infrastructure.Clients.HttpClients.Access
+@using CoreMonolith.Infrastructure.Clients.HttpClients.UserService
 @using Microsoft.AspNetCore.Authorization
 @attribute [Authorize]
 @attribute [StreamRendering]
 @attribute [OutputCache(Duration = 5)]
 
 @inject WeatherApiClient WeatherApi
-@inject AccessApiClient AccessApi
+@inject UserServiceApiClient AccessApi
 
 <PageTitle>Weather</PageTitle>
 

@@ -14,6 +14,8 @@
     <PackageReference Include="Aspire.StackExchange.Redis.OutputCaching" Version="9.0.0" />
     <PackageReference Include="AspNetCore.HealthChecks.NpgSql" Version="9.0.0" />
     <PackageReference Include="EFCore.NamingConventions" Version="9.0.0" />
+    <PackageReference Include="Mapster" Version="7.4.0" />
+    <PackageReference Include="Mapster.DependencyInjection" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.0">
       <PrivateAssets>all</PrivateAssets>
@@ -31,6 +33,8 @@
     <ProjectReference Include="..\CoreMonolith.Application\CoreMonolith.Application.csproj" />
     <ProjectReference Include="..\CoreMonolith.ServiceDefaults\CoreMonolith.ServiceDefaults.csproj" />
     <ProjectReference Include="..\CoreMonolith.SharedKernel\CoreMonolith.SharedKernel.csproj" />
+    <ProjectReference Include="..\Modules\UserService\Modules.UserService.Api\Modules.UserService.Api.csproj" />
+    <ProjectReference Include="..\Modules\UserService\Modules.UserService.Infrastructure\Modules.UserService.Infrastructure.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +42,10 @@
     <InternalsVisibleTo Include="CoreMonolith.Domain.UnitTests" />
     <InternalsVisibleTo Include="CoreMonolith.SharedKernel.UnitTests" />
     <InternalsVisibleTo Include="CoreMonolith.Infrastructure.UnitTests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

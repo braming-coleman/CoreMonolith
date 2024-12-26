@@ -1,21 +1,27 @@
-﻿using CoreMonolith.Domain.Abstractions.Repositories;
-using CoreMonolith.SharedKernel.Extensions;
+﻿using CoreMonolith.SharedKernel.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
+using Modules.UserService.Api;
 
 namespace CoreMonolith.Infrastructure.Authorization;
 
-internal sealed class PermissionAuthorizationHandler(IUnitOfWork _unitOfWork)
+internal sealed class PermissionAuthorizationHandler(IUserServiceApi _userService)
     : AuthorizationHandler<PermissionRequirement>
 {
+    private readonly string[] _overridePaths = ["swagger", "auth-callback"];
+
     protected override async Task HandleRequirementAsync(
         AuthorizationHandlerContext context,
         PermissionRequirement requirement)
     {
-        //swagger short circuit
-        if (((DefaultHttpContext)context.Resource!).Request.Path.Value!.Contains("swagger"))
+        var pathValue = ((DefaultHttpContext)context.Resource!).Request.Path.Value!;
+
+        if (pathValue.Contains(_overridePaths[0]) ||
+            pathValue.Contains(_overridePaths[1]))
         {
-            context.Succeed(requirement); return;
+            context.Succeed(requirement);
+
+            return;
         }
 
         if (context.User is not { Identity.IsAuthenticated: true } or { Identity.IsAuthenticated: false })
@@ -23,10 +29,9 @@ internal sealed class PermissionAuthorizationHandler(IUnitOfWork _unitOfWork)
 
         var externalId = context.User.GetExternalUserId();
 
-        var permissions = await _unitOfWork.Access
-            .UserPermissionGroupRepository.GetPermissionsByExternalId(externalId);
+        var permissions = await _userService.PermissionsGetByExternalIdAsync(externalId);
 
-        if (permissions.Contains(requirement.Permission))
+        if (permissions.Value.Contains(requirement.Permission))
         {
             context.Succeed(requirement);
 

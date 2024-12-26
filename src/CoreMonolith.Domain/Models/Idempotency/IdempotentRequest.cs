@@ -1,6 +1,4 @@
-﻿using CoreMonolith.SharedKernel.Models;
-
-namespace CoreMonolith.Domain.Models.Idempotency;
+﻿namespace CoreMonolith.Domain.Models.Idempotency;
 
 public class IdempotentRequest : Entity
 {

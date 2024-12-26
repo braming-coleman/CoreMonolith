@@ -30,4 +30,8 @@
     <InternalsVisibleTo Include="CoreMonolith.Infrastructure.UnitTests" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Models\" />
+  </ItemGroup>
+
 </Project>

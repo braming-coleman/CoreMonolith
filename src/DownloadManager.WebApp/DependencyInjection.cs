@@ -1,5 +1,5 @@
 ﻿using CoreMonolith.Infrastructure;
-using CoreMonolith.Infrastructure.Clients.HttpClients.Access;
+using CoreMonolith.Infrastructure.Clients.HttpClients.UserService;
 using CoreMonolith.ServiceDefaults.Constants;
 using CoreMonolith.SharedKernel.Constants;
 using CoreMonolith.SharedKernel.Infrastructure;
@@ -37,7 +37,7 @@ internal static class DependencyInjection
                 authenticationScheme: oidcScheme,
                 configureOptions: options =>
             {
-                options.Authority = builder.Configuration[ConfigKeyConstants.KeycloakAuthorityKeyName];
+                //options.Authority = builder.Configuration[ConfigKeyConstants.KeycloakAuthorityKeyName];
                 options.ClientId = builder.Configuration["OpenIdConnect:ClientId"];
                 options.ClientSecret = builder.Configuration[ConfigKeyConstants.WebAppClientSecret];
                 options.ResponseType = OpenIdConnectResponseType.Code;
@@ -59,7 +59,7 @@ internal static class DependencyInjection
                 {
                     OnTokenValidated = async context =>
                     {
-                        var accessClient = context.HttpContext.RequestServices.GetRequiredService<AccessApiClient>();
+                        var accessClient = context.HttpContext.RequestServices.GetRequiredService<UserServiceApiClient>();
                         var token = context.TokenEndpointResponse!.AccessToken;
                         var principle = context.Principal!;
 

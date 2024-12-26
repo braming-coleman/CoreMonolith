@@ -3,14 +3,20 @@ using CoreMonolith.Application;
 using CoreMonolith.Infrastructure;
 using CoreMonolith.SharedKernel.Extensions;
 using Serilog;
+using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddServiceDefaults();
+var assemblies = Directory
+    .GetFiles(AppContext.BaseDirectory, "*.dll")
+    .Select(Assembly.LoadFrom)
+    .Where(assembly => assembly.FullName!.StartsWith("Modules."))
+    .ToArray();
 
 builder
+    .AddServiceDefaults()
     .AddAndConfigureSerilog()
-    .AddApiInfrastructure();
+    .AddApiInfrastructure(assemblies);
 
 // Add services to the container
 builder.Services.AddApplication();
@@ -34,7 +40,7 @@ app
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.ApplyMigrations();
+    app.ApplyMigrations(assemblies);
 
     app.UseSwaggerDocs();
 }

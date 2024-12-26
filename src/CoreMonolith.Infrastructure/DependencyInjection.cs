@@ -1,29 +1,19 @@
 ﻿using CoreMonolith.Application.Abstractions.Authentication;
-using CoreMonolith.Application.Abstractions.Data;
-using CoreMonolith.Application.Abstractions.Idempotency.Services;
-using CoreMonolith.Domain.Abstractions.Repositories;
-using CoreMonolith.Domain.Abstractions.Repositories.Access;
-using CoreMonolith.Domain.Abstractions.Repositories.Idempotency;
+using CoreMonolith.Application.Abstractions.Modules;
 using CoreMonolith.Infrastructure.Authentication;
 using CoreMonolith.Infrastructure.Authorization;
 using CoreMonolith.Infrastructure.Clients.HttpClients;
-using CoreMonolith.Infrastructure.Clients.HttpClients.Access;
-using CoreMonolith.Infrastructure.Database;
-using CoreMonolith.Infrastructure.Repositories;
-using CoreMonolith.Infrastructure.Repositories.Access;
-using CoreMonolith.Infrastructure.Repositories.Idempotency;
-using CoreMonolith.Infrastructure.Services.Idempotency;
+using CoreMonolith.Infrastructure.Clients.HttpClients.UserService;
 using CoreMonolith.Infrastructure.Time;
 using CoreMonolith.ServiceDefaults.Constants;
 using CoreMonolith.SharedKernel.Abstractions;
 using CoreMonolith.SharedKernel.OutputCaching;
+using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System.Reflection;
 
 namespace CoreMonolith.Infrastructure;
 
@@ -42,35 +32,23 @@ public static class DependencyInjection
     {
         services.AddAuthorizationBuilder();
 
-        services.AddScoped<PermissionProvider>();
-
         services.AddTransient<IAuthorizationHandler, PermissionAuthorizationHandler>();
         services.AddTransient<IAuthorizationPolicyProvider, PermissionAuthorizationPolicyProvider>();
 
         return services;
     }
 
-    public static void ApplyMigrations(this IApplicationBuilder app)
-    {
-        using IServiceScope scope = app.ApplicationServices.CreateScope();
-
-        using ApplicationDbContext dbContext =
-            scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-
-        dbContext.Database.Migrate();
-    }
-
-    public static WebApplicationBuilder AddApiInfrastructure(this WebApplicationBuilder builder)
+    public static WebApplicationBuilder AddApiInfrastructure(
+        this WebApplicationBuilder builder,
+        params Assembly[] assemblies)
     {
         builder.Services.AddApiServices();
 
-        builder.AddDatabase();
+        builder.InstallModuleInfrastructure(assemblies);
 
         builder.AddRabbitMqClient();
 
         builder.AddRedisClients();
-
-        builder.Services.AddHealthChecks(builder.Configuration);
 
         return builder;
     }
@@ -84,57 +62,54 @@ public static class DependencyInjection
         return builder;
     }
 
-    private static IServiceCollection AddApiServices(this IServiceCollection services)
+    public static WebApplicationBuilder InstallModuleInfrastructure(
+        this WebApplicationBuilder builder,
+        params Assembly[] assemblies)
     {
-        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        var installers = GetInstallers(assemblies);
 
-        services.AddScoped<IAccessContainer, AccessContainer>();
-        services.AddScoped<IUserRepository, UserRepository>();
-        services.AddScoped<IPermissionGroupRepository, PermissionGroupRepository>();
-        services.AddScoped<IUserPermissionGroupRepository, UserPermissionGroupRepository>();
-        services.AddScoped<IPermissionRepository, PermissionRepository>();
+        foreach (var installer in installers)
+        {
+            installer.InstallServices(builder.Services, builder.Configuration);
 
-        services.AddScoped<IIdempotentRequestRepository, IdempotentRequestRepository>();
-
-        services.AddScoped<IIdempotencyService, IdempotencyService>();
-
-        services.AddSingleton<IPasswordHasher, PasswordHasher>();
-        services.AddSingleton<ITokenProvider, TokenProvider>();
-        services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
-
-        return services;
-    }
-
-    private static WebApplicationBuilder AddDatabase(this WebApplicationBuilder builder)
-    {
-        string? connectionString = builder.Configuration
-            .GetConnectionString(ConnectionNameConstants.DbConnStringName);
-
-        builder.Services.AddDbContext<ApplicationDbContext>(
-            options => options
-                .UseNpgsql(connectionString, npgsqlOptions => npgsqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Default))
-                .UseSnakeCaseNamingConvention());
-
-        builder.Services.AddScoped<IApplicationDbContext>(sp => sp.GetRequiredService<ApplicationDbContext>());
-
-        builder.EnrichNpgsqlDbContext<ApplicationDbContext>(
-            configureSettings: settings =>
-            {
-                settings.DisableRetry = false;
-                settings.DisableMetrics = false;
-                settings.DisableTracing = false;
-                settings.DisableHealthChecks = false;
-            });
+            installer.InstallDatabase(builder);
+        }
 
         return builder;
     }
 
-    private static IServiceCollection AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
+    public static void ApplyMigrations(
+        this IApplicationBuilder app,
+        params Assembly[] assemblies)
     {
-        services
-            .AddHealthChecks()
-            .AddNpgSql(configuration.GetConnectionString(ConnectionNameConstants.DbConnStringName)!);
+        var installers = GetInstallers(assemblies);
+
+        foreach (var installer in installers)
+            installer.ApplyMigrations(app);
+    }
+
+    private static IEnumerable<IModuleServicesInstaller> GetInstallers(params Assembly[] assemblies)
+    {
+        var results = assemblies
+            .SelectMany(x => x.DefinedTypes)
+            .Where(IsAssignableToType<IModuleServicesInstaller>)
+            .Select(Activator.CreateInstance)
+            .Cast<IModuleServicesInstaller>();
+
+        return results;
+
+        static bool IsAssignableToType<T>(TypeInfo typeInfo) =>
+            typeof(T).IsAssignableFrom(typeInfo) &&
+            !typeInfo.IsInterface &&
+            !typeInfo.IsAbstract;
+    }
+
+    private static IServiceCollection AddApiServices(this IServiceCollection services)
+    {
+        services.AddMapster();
+
+        services.AddSingleton<IPasswordHasher, PasswordHasher>();
+        services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
 
         return services;
     }
@@ -181,7 +156,7 @@ public static class DependencyInjection
         var apiGatewayUri = new Uri($"https+http://{ConnectionNameConstants.ApiGatewayConnectionName}");
 
         services.AddHttpClient<WeatherApiClient>(c => { c.BaseAddress = apiGatewayUri; }).AddHttpMessageHandler<KeycloakTokenHandler>();
-        services.AddHttpClient<AccessApiClient>(c => { c.BaseAddress = apiGatewayUri; }).AddHttpMessageHandler<KeycloakTokenHandler>();
+        services.AddHttpClient<UserServiceApiClient>(c => { c.BaseAddress = apiGatewayUri; }).AddHttpMessageHandler<KeycloakTokenHandler>();
 
         return services;
     }

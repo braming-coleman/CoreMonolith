@@ -7,10 +7,16 @@ using System.Reflection;
 
 var builder = WebApplication.CreateBuilder(args);
 
+var assemblies = Directory
+    .GetFiles(AppContext.BaseDirectory, "*.dll")
+    .Select(Assembly.LoadFrom)
+    .Where(assembly => assembly.FullName!.StartsWith("Modules."))
+    .ToArray();
+
 builder
     .AddServiceDefaults()
     .AddAndConfigureSerilog()
-    .AddApiInfrastructure();
+    .AddApiInfrastructure(assemblies);
 
 builder.Services
     .AddApplication()
@@ -42,7 +48,7 @@ app
 await app.RunAsync();
 
 // REMARK: Required for functional and integration tests to work.
-namespace CoreMonolith.WebApi
+namespace CoreMonolith.Api
 {
     public partial class Program;
 }

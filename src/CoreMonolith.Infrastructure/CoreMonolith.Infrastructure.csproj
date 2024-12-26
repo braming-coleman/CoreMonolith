@@ -7,6 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Services\**" />
+    <EmbeddedResource Remove="Services\**" />
+    <None Remove="Services\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Aspire.Keycloak.Authentication" Version="9.0.0-preview.5.24551.3" />
     <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0" />
     <PackageReference Include="Aspire.RabbitMQ.Client" Version="9.0.0" />
@@ -45,10 +51,6 @@
     <ProjectReference Include="..\CoreMonolith.SharedKernel\CoreMonolith.SharedKernel.csproj" />
     <ProjectReference Include="..\Modules\UserService\Modules.UserService.Api\Modules.UserService.Api.csproj" />
     <ProjectReference Include="..\Modules\UserService\Modules.UserService.Infrastructure\Modules.UserService.Infrastructure.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Services\" />
   </ItemGroup>
 
 </Project>

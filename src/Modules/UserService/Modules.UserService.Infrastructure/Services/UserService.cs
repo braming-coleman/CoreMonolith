@@ -62,7 +62,7 @@ internal sealed class UserServiceApi(ISender _sender) : IUserServiceApi
         return result;
     }
 
-    public async Task<Result<HashSet<string>>> PermissionsGetByUserIdAsync(Guid userId, CancellationToken cancellationToken)
+    public async Task<Result<HashSet<string>>> PermissionsGetByUserIdAsync(Guid userId, CancellationToken cancellationToken = default)
     {
         var query = new GetPermissionsByUserIdQuery(userId);
 

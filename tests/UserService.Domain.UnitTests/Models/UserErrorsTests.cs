@@ -13,7 +13,7 @@ public class UserErrorsTests
 
         var error = UserErrors.NotFound(userId);
 
-        error.Code.Should().Be("Users.NotFound");
+        error.Code.Should().Be("User.NotFound");
         error.Description.Should().Be($"The user with the Id = '{userId}' was not found.");
         error.Type.Should().Be(ErrorType.NotFound);
     }
@@ -21,10 +21,12 @@ public class UserErrorsTests
     [Fact]
     public void UserErrors_NotFoundByEmail_ReturnsPredefinedError()
     {
-        var error = UserErrors.NotFoundByEmail;
+        var mail = "t@t.com";
 
-        error.Code.Should().Be("Users.NotFoundByEmail");
-        error.Description.Should().Be("The user with the specified email was not found.");
+        var error = UserErrors.NotFoundByEmail(mail);
+
+        error.Code.Should().Be("User.NotFoundByEmail");
+        error.Description.Should().Be($"The user with the specified email '{mail}' was not found.");
         error.Type.Should().Be(ErrorType.NotFound);
     }
 
@@ -33,7 +35,7 @@ public class UserErrorsTests
     {
         var error = UserErrors.EmailNotUnique;
 
-        error.Code.Should().Be("Users.EmailNotUnique");
+        error.Code.Should().Be("User.EmailNotUnique");
         error.Description.Should().Be("The provided email is not unique.");
         error.Type.Should().Be(ErrorType.Conflict);
     }

@@ -46,8 +46,12 @@ internal sealed class ProcessKeycloakAuthCallbackCommandHandler(
     public async Task<Result<UserResult>> Handle(ProcessKeycloakAuthCallbackCommand request, CancellationToken cancellationToken)
     {
         var result = await EnsureUserAsync(request, cancellationToken);
-        if (!result.IsSuccess)
+
+        if (result.IsFailure)
             return result;
+
+        if (result.Value.User is null)
+            return Result.Failure<UserResult>(UserErrors.CreationFailed);
 
         //retreive permissions
         var permissions = await _userGroupRepo.GetPermissionsByUserId(result.Value.User.Id, cancellationToken);

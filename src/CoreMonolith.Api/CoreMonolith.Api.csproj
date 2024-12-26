@@ -33,7 +33,7 @@
 		<ProjectReference Include="..\CoreMonolith.Infrastructure\CoreMonolith.Infrastructure.csproj" />
 		<ProjectReference Include="..\CoreMonolith.ServiceDefaults\CoreMonolith.ServiceDefaults.csproj" />
 		<ProjectReference Include="..\CoreMonolith.SharedKernel\CoreMonolith.SharedKernel.csproj" />
-		<PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="*" />
+		<PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0" />
 	</ItemGroup>
 
 	<ItemGroup>

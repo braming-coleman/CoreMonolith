@@ -12,7 +12,7 @@ public interface IUserServiceApi
 
     Task<Result<List<PermissionResponse>>> PermissionsGetAll(CancellationToken cancellationToken = default);
 
-    Task<Result<Guid>> PermissionCreateAsync(Guid RequestId, PermissionRequest request, CancellationToken cancellationToken = default);
+    Task<Result<Guid>> PermissionCreateAsync(Guid requestId, PermissionRequest request, CancellationToken cancellationToken = default);
 
     Task<Result<UserResponse?>> UserGetByEmailAsync(string email, CancellationToken cancellationToken = default);
 

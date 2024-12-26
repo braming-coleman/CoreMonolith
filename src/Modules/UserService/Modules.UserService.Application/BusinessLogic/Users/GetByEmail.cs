@@ -17,7 +17,7 @@ internal sealed class GetUserByEmailQueryHandler(
         var user = await _userRepo.GetByEmailAsync(query.Email, cancellationToken);
 
         if (user is null)
-            return Result.Failure<UserResult>(UserErrors.NotFoundByEmail);
+            return Result.Failure<UserResult>(UserErrors.NotFoundByEmail(query.Email));
 
         var permissions = await _userGroupRepo.GetPermissionsByUserId(user.Id, cancellationToken);
 

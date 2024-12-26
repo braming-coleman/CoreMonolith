@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="CoreMonolith.Application.UnitTests" />
+    <InternalsVisibleTo Include="CoreMonolith.Domain.UnitTests" />
+    <InternalsVisibleTo Include="CoreMonolith.SharedKernel.UnitTests" />
+    <InternalsVisibleTo Include="CoreMonolith.Infrastructure.UnitTests" />
+    <InternalsVisibleTo Include="UserService.Domain.UnitTests" />
+    <InternalsVisibleTo Include="UserService.Application.UnitTests" />
+    <InternalsVisibleTo Include="UserService.Infrastructure.UnitTests" />
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2"/>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\CoreMonolith.Application\CoreMonolith.Application.csproj" />
     <ProjectReference Include="..\..\..\CoreMonolith.Domain\CoreMonolith.Domain.csproj" />
     <ProjectReference Include="..\Modules.UserService.Api\Modules.UserService.Api.csproj" />

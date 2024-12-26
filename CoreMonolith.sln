@@ -41,6 +41,7 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution-items", "solution-items", "{81F1CBB7-938A-47F8-AE64-10B6823DD7F4}"
 	ProjectSection(SolutionItems) = preProject
 		solution-items\api-interactions.mdpuml = solution-items\api-interactions.mdpuml
+		readme.md = readme.md
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "pipelines", "pipelines", "{2C89531F-F707-47A6-A181-06B04928720D}"

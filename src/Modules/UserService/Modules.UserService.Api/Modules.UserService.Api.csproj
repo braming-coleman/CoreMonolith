@@ -7,6 +7,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="CoreMonolith.Application.UnitTests" />
+    <InternalsVisibleTo Include="CoreMonolith.Domain.UnitTests" />
+    <InternalsVisibleTo Include="CoreMonolith.SharedKernel.UnitTests" />
+    <InternalsVisibleTo Include="CoreMonolith.Infrastructure.UnitTests" />
+    <InternalsVisibleTo Include="UserService.Domain.UnitTests" />
+    <InternalsVisibleTo Include="UserService.Application.UnitTests" />
+    <InternalsVisibleTo Include="UserService.Infrastructure.UnitTests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.4.0.108396">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\..\..\CoreMonolith.SharedKernel\CoreMonolith.SharedKernel.csproj" />
   </ItemGroup>
 

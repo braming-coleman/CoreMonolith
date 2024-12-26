@@ -13,9 +13,19 @@
     <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.0" />
     <PackageReference Include="EFCore.NamingConventions" Version="9.0.0" />
     <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.2" />
+    <PackageReference Include="SonarAnalyzer.CSharp" Version="10.4.0.108396">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
+    <InternalsVisibleTo Include="CoreMonolith.Application.UnitTests" />
+    <InternalsVisibleTo Include="CoreMonolith.Domain.UnitTests" />
+    <InternalsVisibleTo Include="CoreMonolith.SharedKernel.UnitTests" />
+    <InternalsVisibleTo Include="CoreMonolith.Infrastructure.UnitTests" />
+    <InternalsVisibleTo Include="UserService.Domain.UnitTests" />
+    <InternalsVisibleTo Include="UserService.Application.UnitTests" />
     <InternalsVisibleTo Include="UserService.Infrastructure.UnitTests" />
   </ItemGroup>
 

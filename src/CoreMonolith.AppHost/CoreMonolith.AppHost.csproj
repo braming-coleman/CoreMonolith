@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<Sdk Name="Aspire.AppHost.Sdk" Version="9.0.0" />
 
@@ -18,18 +18,18 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Aspire.Hosting.AppHost" Version="9.0.0" />
-		<PackageReference Include="Aspire.Hosting.Keycloak" Version="9.0.0-preview.5.24551.3" />
-		<PackageReference Include="Aspire.Hosting.PostgreSQL" Version="9.0.0" />
-		<PackageReference Include="Aspire.Hosting.RabbitMQ" Version="9.0.0" />
-		<PackageReference Include="Aspire.Hosting.Redis" Version="9.0.0" />
-		<PackageReference Include="Microsoft.Extensions.ServiceDiscovery.Yarp" Version="9.0.0" />
-		<PackageReference Include="Serilog.Sinks.OpenTelemetry" Version="4.1.1" />
-		<PackageReference Include="SonarAnalyzer.CSharp" Version="10.4.0.108396">
+		<PackageReference Include="Aspire.Hosting.AppHost" />
+		<PackageReference Include="Aspire.Hosting.Keycloak" />
+		<PackageReference Include="Aspire.Hosting.PostgreSQL" />
+		<PackageReference Include="Aspire.Hosting.RabbitMQ" />
+		<PackageReference Include="Aspire.Hosting.Redis" />
+		<PackageReference Include="Microsoft.Extensions.ServiceDiscovery.Yarp" />
+		<PackageReference Include="Serilog.Sinks.OpenTelemetry" />
+		<PackageReference Include="SonarAnalyzer.CSharp">
 		  <PrivateAssets>all</PrivateAssets>
 		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Yarp.ReverseProxy" Version="2.2.0" />
+		<PackageReference Include="Yarp.ReverseProxy" />
 	</ItemGroup>
 
 	<ItemGroup>

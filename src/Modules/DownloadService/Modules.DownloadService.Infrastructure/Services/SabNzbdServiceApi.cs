@@ -1,6 +1,6 @@
 ﻿using CoreMonolith.SharedKernel.ValueObjects;
-using Modules.DownloadService.Api.Usenet;
-using Modules.DownloadService.Api.Usenet.Models;
+using Modules.DownloadService.Api.Usenet.SabNzbd;
+using Modules.DownloadService.Api.Usenet.SabNzbd.Models;
 using Modules.DownloadService.Application.Clients.SabNzbd;
 
 namespace Modules.DownloadService.Infrastructure.Services;

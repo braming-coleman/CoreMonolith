@@ -1,6 +1,6 @@
 ﻿using CoreMonolith.SharedKernel.ValueObjects;
 using Microsoft.Extensions.Options;
-using Modules.DownloadService.Api.Usenet.Models;
+using Modules.DownloadService.Api.Usenet.SabNzbd.Models;
 using Modules.DownloadService.Application.Clients.SabNzbd;
 using Modules.DownloadService.Infrastructure.Clients.SabNzbd.Models;
 using System.Text.Json;
@@ -12,16 +12,21 @@ internal sealed class SabNzbdClient(
     IOptions<SabNzbdClientSettings> _options)
     : ISabNzbdClient
 {
-    public async Task<Result<UploadReponse>> UploadNzbAsync(NzbUploadRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<UploadReponse>> UploadNzbAsync(
+        Guid downloadClientId,
+        NzbUploadRequest request,
+        CancellationToken cancellationToken = default)
     {
         var mode = "addfile";
         var settings = _options.Value;
 
-        var message = new HttpRequestMessage(HttpMethod.Post, settings.ApiPath)
+        _httpClient.BaseAddress = new(settings.BaseAddress);
+
+        var message = new HttpRequestMessage(HttpMethod.Post, SabNzbdClientSettings.BasePath)
         {
             Content = new MultipartFormDataContent
             {
-                { new StringContent(settings.Output), "output" },
+                { new StringContent(SabNzbdClientSettings.Output), "output" },
                 { new StringContent(settings.ApiKey), "apikey" },
                 { new StringContent(mode), "mode" },
                 { new StreamContent(new MemoryStream(request.File)), "name" },

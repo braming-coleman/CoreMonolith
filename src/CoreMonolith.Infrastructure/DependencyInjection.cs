@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Serilog;
 using System.Reflection;
 
 namespace CoreMonolith.Infrastructure;
@@ -45,6 +46,8 @@ public static class DependencyInjection
         builder.Services.AddApiServices();
 
         builder.InstallModuleInfrastructure(assemblies);
+
+        builder.AddHealthChecks();
 
         builder.AddRabbitMqClient();
 
@@ -88,6 +91,17 @@ public static class DependencyInjection
             installer.ApplyMigrations(app);
     }
 
+    public static WebApplicationBuilder AddAndConfigureSerilog(this WebApplicationBuilder builder)
+    {
+        builder.Host.UseSerilog((hostContext, config) =>
+        {
+            config.WriteTo.Console();
+            config.WriteTo.OpenTelemetry();
+        });
+
+        return builder;
+    }
+
     private static IEnumerable<IModuleServicesInstaller> GetInstallers(params Assembly[] assemblies)
     {
         var results = assemblies
@@ -121,6 +135,15 @@ public static class DependencyInjection
             options.DisableTracing = false;
             options.DisableHealthChecks = false;
         });
+
+        return builder;
+    }
+
+    private static WebApplicationBuilder AddHealthChecks(this WebApplicationBuilder builder)
+    {
+        builder.Services
+            .AddHealthChecks()
+            .AddNpgSql();
 
         return builder;
     }

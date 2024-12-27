@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -15,16 +15,19 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="SonarAnalyzer.CSharp">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
+    <PackageReference Include="AspNetCore.HealthChecks.NpgSql" />
+    <PackageReference Include="Aspire.Npgsql.EntityFrameworkCore.PostgreSQL" />
+    <PackageReference Include="EFCore.NamingConventions" />
+    <PackageReference Include="Mapster" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\CoreMonolith.Application\CoreMonolith.Application.csproj" />
+    <ProjectReference Include="..\..\..\CoreMonolith.ServiceDefaults\CoreMonolith.ServiceDefaults.csproj" />
     <ProjectReference Include="..\Modules.DownloadService.Api\Modules.DownloadService.Api.csproj" />
     <ProjectReference Include="..\Modules.DownloadService.Application\Modules.DownloadService.Application.csproj" />
+    <ProjectReference Include="..\Modules.DownloadService.Domain\Modules.DownloadService.Domain.csproj" />
   </ItemGroup>
 
 </Project>

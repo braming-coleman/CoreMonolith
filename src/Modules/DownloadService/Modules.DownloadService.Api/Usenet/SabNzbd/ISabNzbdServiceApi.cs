@@ -1,7 +1,7 @@
 ﻿using CoreMonolith.SharedKernel.ValueObjects;
-using Modules.DownloadService.Api.Usenet.Models;
+using Modules.DownloadService.Api.Usenet.SabNzbd.Models;
 
-namespace Modules.DownloadService.Api.Usenet;
+namespace Modules.DownloadService.Api.Usenet.SabNzbd;
 
 public interface ISabNzbdServiceApi
 {

@@ -1,4 +1,4 @@
-﻿namespace Modules.DownloadService.Api.Usenet.Models;
+﻿namespace Modules.DownloadService.Api.Usenet.SabNzbd.Models;
 public enum PostProcessingOptions
 {
     Default = -1,

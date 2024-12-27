@@ -15,6 +15,7 @@ public interface IUserServiceDbContext
     DbSet<PermissionGroup> PermissionGroups { get; }
     DbSet<PermissionGroupPermission> PermissionGroupPermissions { get; }
     DbSet<Permission> Permissions { get; }
+
     DbSet<IdempotentRequest> IdempotentRequests { get; }
 
     Task<int> SaveChangesAsync(CancellationToken cancellationToken = default);

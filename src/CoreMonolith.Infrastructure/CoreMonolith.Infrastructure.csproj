@@ -49,6 +49,7 @@
     <ProjectReference Include="..\CoreMonolith.Application\CoreMonolith.Application.csproj" />
     <ProjectReference Include="..\CoreMonolith.ServiceDefaults\CoreMonolith.ServiceDefaults.csproj" />
     <ProjectReference Include="..\CoreMonolith.SharedKernel\CoreMonolith.SharedKernel.csproj" />
+    <ProjectReference Include="..\Modules\DownloadService\Modules.DownloadService.Infrastructure\Modules.DownloadService.Infrastructure.csproj" />
     <ProjectReference Include="..\Modules\UserService\Modules.UserService.Api\Modules.UserService.Api.csproj" />
     <ProjectReference Include="..\Modules\UserService\Modules.UserService.Infrastructure\Modules.UserService.Infrastructure.csproj" />
   </ItemGroup>

@@ -54,10 +54,6 @@ public class ModuleServicesInstaller : IModuleServicesInstaller
                 settings.DisableTracing = false;
                 settings.DisableHealthChecks = false;
             });
-
-        builder.Services
-            .AddHealthChecks()
-            .AddNpgSql(connectionString);
     }
 
     public void InstallServices(IServiceCollection services, IConfiguration config)

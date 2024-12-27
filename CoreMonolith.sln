@@ -40,7 +40,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DownloadManager.WebApp", "s
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "solution-items", "solution-items", "{81F1CBB7-938A-47F8-AE64-10B6823DD7F4}"
 	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
 		solution-items\api-interactions.mdpuml = solution-items\api-interactions.mdpuml
+		Directory.Packages.props = Directory.Packages.props
 		readme.md = readme.md
 	EndProjectSection
 EndProject

@@ -12,9 +12,6 @@ internal sealed class IdempotentCommandPipelineBehaviour<TRequest, TResponse>(
 {
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        var r = typeof(TRequest);
-        var resp = typeof(TResponse);
-
         if (typeof(TRequest).BaseType == typeof(IdempotentCommand<Guid>))
         {
             var internalRequest = (request as IdempotentCommand<Guid>)!;

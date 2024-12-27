@@ -22,7 +22,9 @@ var postgres = builder.AddPostgres(ResourceNameConstants.DbServerName, postgresU
         .WithLifetime(ContainerLifetime.Persistent);
     });
 
+var loggingDb = postgres.AddDatabase(ConnectionNameConstants.LoggingDbName);
 var userServiceDb = postgres.AddDatabase(ConnectionNameConstants.UserServiceDbName);
+var downloadServiceDb = postgres.AddDatabase(ConnectionNameConstants.DownloadServiceDbName);
 //-----------------------------------------------------------------------------------------//
 
 
@@ -69,9 +71,12 @@ var coreApiEnv = builder.AddParameter(ConfigKeyConstants.ApiEnvKeyName, secret: 
 
 var api01 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConstants.ApiConnectionName}-01", "core-api-01")
     .WithEnvironment(ConfigKeyConstants.AspCoreEnvVarKeyName, coreApiEnv)
+    .WithReference(loggingDb)
     .WithReference(userServiceDb)
-    .WaitFor(postgres)
+    .WithReference(downloadServiceDb)
+    .WaitFor(loggingDb)
     .WaitFor(userServiceDb)
+    .WaitFor(downloadServiceDb)
     .WithReference(rabbitMq)
     .WithReference(redis)
     .WaitFor(redis)
@@ -80,9 +85,12 @@ var api01 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConst
 
 var api02 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConstants.ApiConnectionName}-02", "core-api-02")
     .WithEnvironment(ConfigKeyConstants.AspCoreEnvVarKeyName, coreApiEnv)
+    .WithReference(loggingDb)
     .WithReference(userServiceDb)
-    .WaitFor(postgres)
+    .WithReference(downloadServiceDb)
+    .WaitFor(loggingDb)
     .WaitFor(userServiceDb)
+    .WaitFor(downloadServiceDb)
     .WithReference(rabbitMq)
     .WithReference(redis)
     .WaitFor(redis)
@@ -91,9 +99,12 @@ var api02 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConst
 
 var api03 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConstants.ApiConnectionName}-03", "core-api-03")
     .WithEnvironment(ConfigKeyConstants.AspCoreEnvVarKeyName, coreApiEnv)
+    .WithReference(loggingDb)
     .WithReference(userServiceDb)
-    .WaitFor(postgres)
+    .WithReference(downloadServiceDb)
+    .WaitFor(loggingDb)
     .WaitFor(userServiceDb)
+    .WaitFor(downloadServiceDb)
     .WithReference(rabbitMq)
     .WithReference(redis)
     .WaitFor(redis)
@@ -110,19 +121,22 @@ var apiGateway = builder.AddProject<Projects.CoreMonolith_ApiGateway>(Connection
     .WithEnvironment(ConfigKeyConstants.AspCoreEnvVarKeyName, coreApiGatewayEnv)
     .WithEnvironment(ConfigKeyConstants.WebAppClientSecret, clientSecret)
     .WithExternalHttpEndpoints()
+    .WithReference(loggingDb)
     .WithReference(userServiceDb)
-    .WaitFor(postgres)
+    .WithReference(downloadServiceDb)
+    .WaitFor(loggingDb)
     .WaitFor(userServiceDb)
+    .WaitFor(downloadServiceDb)
     .WithReference(rabbitMq)
     .WithReference(redis)
     .WaitFor(redis)
     .WithReference(keycloak)
     .WaitFor(keycloak)
     .WithReference(api01)
-    .WaitFor(api01)
     .WithReference(api02)
-    .WaitFor(api02)
     .WithReference(api03)
+    .WaitFor(api02)
+    .WaitFor(api01)
     .WaitFor(api03);
 //-----------------------------------------------------------------------------------------//
 

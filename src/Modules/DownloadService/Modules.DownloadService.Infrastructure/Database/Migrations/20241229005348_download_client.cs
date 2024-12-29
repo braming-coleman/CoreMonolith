@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Modules.DownloadService.Infrastructure.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class download_client_creation : Migration
+    public partial class download_client : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -25,7 +25,7 @@ namespace Modules.DownloadService.Infrastructure.Database.Migrations
                     id = table.Column<Guid>(type: "uuid", nullable: false),
                     type = table.Column<int>(type: "integer", nullable: false),
                     name = table.Column<string>(type: "text", nullable: false),
-                    config_string = table.Column<string>(type: "text", nullable: false),
+                    config_string = table.Column<string>(type: "jsonb", nullable: false),
                     enabled = table.Column<bool>(type: "boolean", nullable: false)
                 },
                 constraints: table =>

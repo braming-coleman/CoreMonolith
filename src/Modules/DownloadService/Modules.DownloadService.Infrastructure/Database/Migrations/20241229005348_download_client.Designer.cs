@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Modules.DownloadService.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(DownloadServiceDbContext))]
-    [Migration("20241227030853_download_client_creation")]
-    partial class download_client_creation
+    [Migration("20241229005348_download_client")]
+    partial class download_client
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -57,7 +57,7 @@ namespace Modules.DownloadService.Infrastructure.Database.Migrations
 
                     b.Property<string>("ConfigString")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("jsonb")
                         .HasColumnName("config_string");
 
                     b.Property<bool>("Enabled")

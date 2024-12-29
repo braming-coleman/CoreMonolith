@@ -54,7 +54,7 @@ namespace Modules.DownloadService.Infrastructure.Database.Migrations
 
                     b.Property<string>("ConfigString")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("jsonb")
                         .HasColumnName("config_string");
 
                     b.Property<bool>("Enabled")

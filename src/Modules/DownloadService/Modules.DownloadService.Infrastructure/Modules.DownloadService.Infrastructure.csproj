@@ -30,4 +30,8 @@
     <ProjectReference Include="..\Modules.DownloadService.Domain\Modules.DownloadService.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Database\Migrations\" />
+  </ItemGroup>
+
 </Project>

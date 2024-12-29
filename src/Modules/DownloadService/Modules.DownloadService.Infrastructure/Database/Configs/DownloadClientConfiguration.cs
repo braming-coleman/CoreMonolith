@@ -11,5 +11,7 @@ internal sealed class DownloadClientConfiguration : IEntityTypeConfiguration<Dow
         builder.ToTable("download_clients", Schemas.DownloadService);
 
         builder.HasKey(u => u.Id);
+
+        builder.Property(u => u.ConfigString).HasColumnType("jsonb");
     }
 }

@@ -3,6 +3,7 @@
 public static class Tags
 {
     public const string UserService = "UserService";
+    public const string DownloadService = "DownloadService";
     public const string User = "User";
     public const string UserPermission = "UserPermission";
     public const string Permission = "Permission";

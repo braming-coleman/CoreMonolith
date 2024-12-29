@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Modules.DownloadService.Application.Clients.SabNzbd;
+namespace Modules.DownloadService.Application.Clients.SabNzbd.Models;
 
 public class UploadReponse
 {

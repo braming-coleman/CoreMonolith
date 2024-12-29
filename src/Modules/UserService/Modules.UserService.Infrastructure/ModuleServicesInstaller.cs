@@ -1,4 +1,5 @@
-﻿using CoreMonolith.Application.Abstractions.Idempotency.Services;
+﻿using CoreMonolith.Application;
+using CoreMonolith.Application.Abstractions.Idempotency.Services;
 using CoreMonolith.Application.Abstractions.Modules;
 using CoreMonolith.Domain.Abstractions.Repositories;
 using CoreMonolith.ServiceDefaults.Constants;
@@ -71,6 +72,6 @@ public class ModuleServicesInstaller : IModuleServicesInstaller
 
         services.AddScoped<IUserServiceApi, UserServiceApi>();
 
-        services.AddUserServiceApplication();
+        services.AddUserServiceApplication(typeof(IUserServiceApplication).Assembly);
     }
 }

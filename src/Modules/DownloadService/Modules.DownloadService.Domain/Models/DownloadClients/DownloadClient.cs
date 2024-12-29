@@ -1,4 +1,5 @@
 ﻿using CoreMonolith.Domain.Models;
+using Modules.DownloadService.Api.Models;
 
 namespace Modules.DownloadService.Domain.Models.DownloadClients;
 

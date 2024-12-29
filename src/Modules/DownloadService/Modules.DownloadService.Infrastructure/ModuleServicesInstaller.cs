@@ -1,4 +1,6 @@
-﻿using CoreMonolith.Application.Abstractions.Modules;
+﻿using CoreMonolith.Application;
+using CoreMonolith.Application.Abstractions.Modules;
+using CoreMonolith.Domain.Abstractions.Repositories;
 using CoreMonolith.ServiceDefaults.Constants;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -7,10 +9,13 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Modules.DownloadService.Api.Usenet.SabNzbd;
+using Modules.DownloadService.Application;
 using Modules.DownloadService.Application.Abstractions.Data;
 using Modules.DownloadService.Application.Clients.SabNzbd;
+using Modules.DownloadService.Domain.Abstractions.Repositories;
 using Modules.DownloadService.Infrastructure.Clients.SabNzbd;
 using Modules.DownloadService.Infrastructure.Database;
+using Modules.DownloadService.Infrastructure.Repositories;
 using Modules.DownloadService.Infrastructure.Services;
 
 namespace Modules.DownloadService.Infrastructure;
@@ -54,7 +59,15 @@ public class ModuleServicesInstaller : IModuleServicesInstaller
 
     public void InstallServices(IServiceCollection services, IConfiguration config)
     {
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+
         services.AddScoped<ISabNzbdServiceApi, SabNzbdServiceApi>();
         services.AddScoped<ISabNzbdClient, SabNzbdClient>();
+
+        services.AddScoped<IDownloadClientRepository, DownloadClientRepository>();
+
+        services.AddHttpClient<SabNzbdClient>();
+
+        services.AddUserServiceApplication(typeof(IDownloadServiceApplication).Assembly);
     }
 }

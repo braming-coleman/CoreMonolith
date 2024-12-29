@@ -1,11 +1,11 @@
 ﻿using Modules.DownloadService.Api.Usenet.SabNzbd.Models;
 
-namespace Modules.DownloadService.Infrastructure.Clients.SabNzbd.Models;
+namespace Modules.DownloadService.Application.Clients.SabNzbd.Models;
 
-internal class SabNzbdClientSettings
+public class SabNzbdClientSettings
 {
-    public static string BasePath => "/sabnzbd/api";
-    public static string Output => "jsonrpc";
+    public string BasePath => "/sabnzbd/api";
+    public string Output => "jsonrpc";
     public string BaseAddress => $"{Host}:{Port}";
 
     public string Host { get; set; }

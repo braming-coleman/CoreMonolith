@@ -16,9 +16,11 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" />
+    <PackageReference Include="Mapster" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\CoreMonolith.Application\CoreMonolith.Application.csproj" />
     <ProjectReference Include="..\Modules.DownloadService.Api\Modules.DownloadService.Api.csproj" />
     <ProjectReference Include="..\Modules.DownloadService.Domain\Modules.DownloadService.Domain.csproj" />
   </ItemGroup>

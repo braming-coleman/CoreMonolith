@@ -23,21 +23,13 @@ public static class CustomResults
         static string GetTitle(Error error) =>
             error.Type switch
             {
-                ErrorType.Validation => error.Code,
-                ErrorType.Problem => error.Code,
-                ErrorType.NotFound => error.Code,
-                ErrorType.Conflict => error.Code,
-                _ => "Server failure"
+                ErrorType => error.Code
             };
 
         static string GetDetail(Error error) =>
             error.Type switch
             {
-                ErrorType.Validation => error.Description,
-                ErrorType.Problem => error.Description,
-                ErrorType.NotFound => error.Description,
-                ErrorType.Conflict => error.Description,
-                _ => "An unexpected error occurred"
+                ErrorType => error.Description
             };
 
         static string GetType(ErrorType errorType) =>

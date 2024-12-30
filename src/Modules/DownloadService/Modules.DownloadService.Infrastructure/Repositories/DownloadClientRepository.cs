@@ -11,10 +11,17 @@ public class DownloadClientRepository(DownloadServiceDbContext _dbContext) :
 {
     private readonly DownloadServiceDbContext _dbContext = _dbContext;
 
-    public Task<DownloadClient?> SabNzbdGetClientDetailsAsync(CancellationToken cancellationToken = default)
+    public async Task<bool> ExistsByType(DownloadClientType type, CancellationToken cancellationToken = default)
     {
-        return _dbContext
+        return await _dbContext
             .DownloadClients.AsNoTracking()
-            .FirstOrDefaultAsync(p => p.Type == DownloadClientType.SabNzbd, cancellationToken);
+            .AnyAsync(p => p.Type == type, cancellationToken);
+    }
+
+    public async Task<DownloadClient?> GetByTypeAsync(DownloadClientType type, CancellationToken cancellationToken = default)
+    {
+        return await _dbContext
+            .DownloadClients.AsNoTracking()
+            .FirstOrDefaultAsync(p => p.Type == type, cancellationToken);
     }
 }

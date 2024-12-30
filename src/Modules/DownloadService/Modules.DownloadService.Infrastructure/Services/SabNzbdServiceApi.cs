@@ -1,5 +1,4 @@
 ﻿using CoreMonolith.SharedKernel.ValueObjects;
-using Mapster;
 using MediatR;
 using Modules.DownloadService.Api.Usenet.SabNzbd;
 using Modules.DownloadService.Api.Usenet.SabNzbd.Models;
@@ -19,6 +18,6 @@ internal sealed class SabNzbdServiceApi(ISender _sender)
         if (result.IsFailure)
             return Result.Failure<NzbUploadResponse>(result.Error);
 
-        return result.Value.Adapt<NzbUploadResponse>();
+        return result.Value.UploadResult;
     }
 }

@@ -4,6 +4,7 @@ using FluentValidation;
 using Mapster;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using Modules.DownloadService.Api.Models;
 using Modules.DownloadService.Api.Usenet.SabNzbd;
 using Modules.DownloadService.Api.Usenet.SabNzbd.Models;
 using Modules.DownloadService.Application.Clients.SabNzbd;
@@ -34,11 +35,11 @@ internal sealed class UploadNewNzbCommandHandler(
 {
     public async Task<Result<UploadNewNzbCommandResult>> Handle(UploadNewNzbCommand request, CancellationToken cancellationToken)
     {
-        var clientDetail = await _downloadClientRepo.SabNzbdGetClientDetailsAsync(cancellationToken);
+        var clientDetail = await _downloadClientRepo.GetByTypeAsync(DownloadClientType.SabNzbd, cancellationToken);
         if (clientDetail is null)
             return Result.Failure<UploadNewNzbCommandResult>(SabNzbdClientErrors.ConfigNotFound);
 
-        var clientSettings = await clientDetail.GetConfigAsync(cancellationToken);
+        var clientSettings = await clientDetail.GetConfigAsync();
         if (clientSettings is null)
             return Result.Failure<UploadNewNzbCommandResult>(SabNzbdClientErrors.ConfigNotFound);
 
@@ -68,7 +69,7 @@ internal sealed class UploadNewNzbCommandHandler(
         if (clientResponse.Value is null)
             return Result.Failure<UploadNewNzbCommandResult>(SabNzbdClientErrors.NullClientResponse);
 
-        await _publisher.Publish(new NewNzbUploadedToSabNzbdDomainEvent(clientResponse.Value.UploadIds.FirstOrDefault()!), cancellationToken);
+        await _publisher.Publish(new NewNzbUploadedToSabNzbdDomainEvent(clientResponse.Value.UploadIds.FirstOrDefault() ?? "not_found"), cancellationToken);
 
         var finalResponse = new UploadNewNzbCommandResult(
             clientResponse.Value.Adapt<NzbUploadResponse>());

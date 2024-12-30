@@ -26,26 +26,22 @@ internal sealed class SabNzbdClient(
         NzbUploadRequest request,
         CancellationToken cancellationToken = default)
     {
-        var message = new HttpRequestMessage(HttpMethod.Post, _setttings.BasePath)
+        var content = new MultipartFormDataContent
         {
-            Content = new MultipartFormDataContent
-            {
-                { new StringContent(_setttings.Output), "output" },
-                { new StringContent(_setttings.ApiKey), "apikey" },
-                { new StringContent(SabNzbdCommands.AddFile), "mode" },
-                { new StreamContent(new MemoryStream(request.File)), "name" },
-                { new StringContent(request.NzbName), "nzbname" },
-                { new StringContent(request.Priority.ToString()), "priority" },
-                { new StringContent(request.PostProcessing.ToString()), "pp" },
-                { new StringContent(request.Category), "cat" },
-            }
+            { new StringContent(_setttings.Output), "output" },
+            { new StringContent(_setttings.ApiKey), "apikey" },
+            { new StringContent(SabNzbdCommands.AddFile), "mode" },
+            { new StreamContent(new MemoryStream(request.File)), "name", request.NzbName },
+            { new StringContent(request.NzbName), "nzbname" },
+            { new StringContent(request.Priority.ToString()), "priority" },
+            { new StringContent(request.PostProcessing.ToString()), "pp" },
+            { new StringContent(request.Category), "cat" },
         };
 
-        var response = await _httpClient.SendAsync(message, cancellationToken);
+        var response = await _httpClient.PostAsync(_setttings.BasePath, content, cancellationToken);
 
         if (response is null || !response.IsSuccessStatusCode)
-            return Result.Failure<UploadReponse>(
-                SabNzbdClientErrors.UploadFailure(response!.StatusCode.ToString()));
+            return Result.Failure<UploadReponse>(SabNzbdClientErrors.UploadFailure(response!.StatusCode.ToString()));
 
         var contentStream = await response.Content.ReadAsStreamAsync(cancellationToken);
 

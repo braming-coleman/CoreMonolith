@@ -1,15 +1,16 @@
 ﻿using CoreMonolith.Application.Abstractions.Idempotency;
 using CoreMonolith.Application.Abstractions.Messaging;
 using CoreMonolith.SharedKernel.Constants;
+using CoreMonolith.SharedKernel.Helpers;
 using CoreMonolith.SharedKernel.ValueObjects;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.OutputCaching;
 using Microsoft.Extensions.Logging;
 using Modules.DownloadService.Api.Models;
+using Modules.DownloadService.Application.Clients.SabNzbd.Models;
 using Modules.DownloadService.Domain.Abstractions.Repositories;
 using Modules.DownloadService.Domain.Models.DownloadClients;
-using System.Text.Json;
 
 namespace Modules.DownloadService.Application.BusinessLogic.DownloadClients.Create;
 
@@ -33,12 +34,15 @@ internal class CreateDownloadClientCommandValidator : AbstractValidator<CreateDo
 
 internal sealed class CreateDownloadClientCommandHandler(
     IDownloadClientRepository _downloadClientRepo,
-    IDownloadServiceUow _unitOfWork) :
-    ICommandHandler<CreateDownloadClientCommand, Guid>
+    IDownloadServiceUow _unitOfWork)
+    : ICommandHandler<CreateDownloadClientCommand, Guid>
 {
     public async Task<Result<Guid>> Handle(CreateDownloadClientCommand request, CancellationToken cancellationToken)
     {
-        var configString = await GetConfigString(request.ClientType, request.Config, cancellationToken);
+        if (await _downloadClientRepo.ExistsByType(request.ClientType, cancellationToken))
+            return Result.Failure<Guid>(DownloadClientErrors.ConfigExists(request.ClientType.ToString()));
+
+        var configString = await GetConfigString(request.ClientType, request.Config);
         if (configString.IsFailure)
             return Result.Failure<Guid>(configString.Error);
 
@@ -60,23 +64,19 @@ internal sealed class CreateDownloadClientCommandHandler(
         return client.Id;
     }
 
-    private static async Task<Result<string>> GetConfigString(DownloadClientType type, object config, CancellationToken cancellationToken)
+    private static async Task<Result<string>> GetConfigString(DownloadClientType type, object config)
     {
-
-        using var resultStream = new MemoryStream();
-
         if (type == DownloadClientType.SabNzbd)
         {
-            //if (config is not SabNzbdClientSettings)
-            //    return Result.Failure<string>(
-            //        DownloadClientErrors.ConfigNotCorrectType(type.ToString(), nameof(SabNzbdClientSettings)));
+            var settings = await JsonHelper.DeserializeAsync<SabNzbdClientSettings>(config.ToString()!);
 
-            await JsonSerializer.SerializeAsync(resultStream, config, cancellationToken: cancellationToken);
+            if (settings == null || string.IsNullOrEmpty(settings.Host))
+                return Result.Failure<string>(DownloadClientErrors.ConfigFailed(type.ToString()));
+
+            return await JsonHelper.SerializeAsync(settings);
         }
 
-        using var reader = new StreamReader(resultStream);
-
-        return await reader.ReadToEndAsync(cancellationToken);
+        return Result.Failure<string>(DownloadClientErrors.ConfigUnsupported(type.ToString()));
     }
 }
 

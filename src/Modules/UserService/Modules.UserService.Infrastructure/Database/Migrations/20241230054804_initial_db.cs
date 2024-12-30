@@ -8,27 +8,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace Modules.UserService.Infrastructure.Database.Migrations
 {
     /// <inheritdoc />
-    public partial class user_service_module : Migration
+    public partial class initial_db : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.EnsureSchema(
                 name: "user_service");
-
-            migrationBuilder.CreateTable(
-                name: "idempotent_requests",
-                schema: "user_service",
-                columns: table => new
-                {
-                    id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "text", nullable: false),
-                    created = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("pk_idempotent_requests", x => x.id);
-                });
 
             migrationBuilder.CreateTable(
                 name: "permission_groups",
@@ -153,7 +139,9 @@ namespace Modules.UserService.Infrastructure.Database.Migrations
                     { new Guid("0193eb73-d636-79e6-b669-87236dbbaa96"), "Write access to [permission-group] resource", "permission-group:write" },
                     { new Guid("0193eb73-d636-7aed-bbbc-963672568d66"), "Write access to [user] resource", "user:write" },
                     { new Guid("0193ed22-aa79-7cb1-9b74-11345e299d89"), "Read access to [weather] resource", "weather:read" },
-                    { new Guid("0193f4d3-e613-72e7-8917-a9849ec17bc6"), "Access via [api-gateway]", "core-api-gateway-access" }
+                    { new Guid("0193f4d3-e613-72e7-8917-a9849ec17bc6"), "Access via [api-gateway]", "core-api-gateway-access" },
+                    { new Guid("01941328-14ff-7c9a-b8b6-cd2535133d14"), "Read access to [download-client] resource", "download-client:read" },
+                    { new Guid("01941328-14ff-7fe3-b305-296f186c6060"), "Write access to [download-client] resource", "download-client:write" }
                 });
 
             migrationBuilder.InsertData(
@@ -174,7 +162,9 @@ namespace Modules.UserService.Infrastructure.Database.Migrations
                     { new Guid("0193ed22-aa79-7d79-8de1-f4ade9cdfa4d"), new Guid("0193ec1f-35c9-723c-a203-67c5e4e0eb75"), new Guid("0193ed22-aa79-7cb1-9b74-11345e299d89") },
                     { new Guid("0193ed22-aa79-7e19-be3c-504b6c0a244b"), new Guid("0193ec1f-35c9-747a-91f1-5601ca02c36f"), new Guid("0193ed22-aa79-7cb1-9b74-11345e299d89") },
                     { new Guid("0193f4d5-fba9-7010-bd28-fa71072a4950"), new Guid("0193ec1f-35c9-723c-a203-67c5e4e0eb75"), new Guid("0193f4d3-e613-72e7-8917-a9849ec17bc6") },
-                    { new Guid("0193f4d5-fba9-733a-a8ff-3b920656c4db"), new Guid("0193ec1f-35c9-747a-91f1-5601ca02c36f"), new Guid("0193f4d3-e613-72e7-8917-a9849ec17bc6") }
+                    { new Guid("0193f4d5-fba9-733a-a8ff-3b920656c4db"), new Guid("0193ec1f-35c9-747a-91f1-5601ca02c36f"), new Guid("0193f4d3-e613-72e7-8917-a9849ec17bc6") },
+                    { new Guid("0194132b-dce6-72c0-a342-41b0571a1602"), new Guid("0193ec1f-35c9-723c-a203-67c5e4e0eb75"), new Guid("01941328-14ff-7fe3-b305-296f186c6060") },
+                    { new Guid("0194132b-dce6-7329-9d00-aa475e0de8ed"), new Guid("0193ec1f-35c9-723c-a203-67c5e4e0eb75"), new Guid("01941328-14ff-7c9a-b8b6-cd2535133d14") }
                 });
 
             migrationBuilder.CreateIndex(
@@ -235,10 +225,6 @@ namespace Modules.UserService.Infrastructure.Database.Migrations
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropTable(
-                name: "idempotent_requests",
-                schema: "user_service");
-
             migrationBuilder.DropTable(
                 name: "permission_group_permissions",
                 schema: "user_service");

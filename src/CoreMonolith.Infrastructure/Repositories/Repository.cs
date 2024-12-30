@@ -1,10 +1,10 @@
 ﻿using CoreMonolith.Domain.Abstractions.Repositories;
+using CoreMonolith.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
-using Modules.UserService.Infrastructure.Database;
 
-namespace Modules.UserService.Infrastructure.Repositories;
+namespace CoreMonolith.Infrastructure.Repositories;
 
-public class Repository<T>(UserServiceDbContext _dbContext)
+public class Repository<T>(CoreMonolithDbContext _dbContext)
     : IRepository<T> where T : class
 {
     private readonly DbSet<T> _dbSet = _dbContext.Set<T>();

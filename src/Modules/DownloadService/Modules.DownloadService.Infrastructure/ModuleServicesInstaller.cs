@@ -1,6 +1,5 @@
 ﻿using CoreMonolith.Application;
 using CoreMonolith.Application.Abstractions.Modules;
-using CoreMonolith.Domain.Abstractions.Repositories;
 using CoreMonolith.ServiceDefaults.Constants;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -8,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Modules.DownloadService.Api;
 using Modules.DownloadService.Api.Usenet.SabNzbd;
 using Modules.DownloadService.Application;
 using Modules.DownloadService.Application.Abstractions.Data;
@@ -32,8 +32,7 @@ public class ModuleServicesInstaller : IModuleServicesInstaller
 
     public void InstallDatabase(IHostApplicationBuilder builder)
     {
-        string connectionString = builder.Configuration
-    .GetConnectionString(ConnectionNameConstants.DownloadServiceDbName)!;
+        string connectionString = builder.Configuration.GetConnectionString(ConnectionNameConstants.DownloadServiceDbName)!;
 
         builder.Services.AddDbContext<DownloadServiceDbContext>(
             options => options
@@ -59,10 +58,12 @@ public class ModuleServicesInstaller : IModuleServicesInstaller
 
     public void InstallServices(IServiceCollection services, IConfiguration config)
     {
-        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddScoped(typeof(IDownloadServiceRepository<>), typeof(DownloadServiceRepository<>));
+        services.AddScoped<IDownloadServiceUow, DownloadServiceUow>();
 
         services.AddScoped<ISabNzbdServiceApi, SabNzbdServiceApi>();
         services.AddScoped<ISabNzbdClient, SabNzbdClient>();
+        services.AddScoped<IDownloadServiceApi, DownloadServiceApi>();
 
         services.AddScoped<IDownloadClientRepository, DownloadClientRepository>();
 

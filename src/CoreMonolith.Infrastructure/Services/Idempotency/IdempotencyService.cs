@@ -2,7 +2,7 @@
 using CoreMonolith.Domain.Abstractions.Repositories;
 using CoreMonolith.Domain.Models.Idempotency;
 
-namespace Modules.UserService.Infrastructure.Services.Idempotency;
+namespace CoreMonolith.Infrastructure.Services.Idempotency;
 
 public sealed class IdempotencyService(
     IIdempotentRequestRepository _repo,

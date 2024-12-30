@@ -1,6 +1,5 @@
 ﻿using CoreMonolith.Application.Abstractions.Idempotency;
 using CoreMonolith.Application.Abstractions.Messaging;
-using CoreMonolith.Domain.Abstractions.Repositories;
 using CoreMonolith.SharedKernel.Constants;
 using CoreMonolith.SharedKernel.ValueObjects;
 using FluentValidation;
@@ -28,7 +27,7 @@ internal sealed class CreatePermissionCommandValidator : AbstractValidator<Creat
 
 internal sealed class CreatePermissionCommandHandler(
     IPermissionRepository _permRepo,
-    IUnitOfWork _unitOfWork)
+    IUserServiceUow _unitOfWork)
     : ICommandHandler<CreatePermissionCommand, Guid>
 {
     public async Task<Result<Guid>> Handle(CreatePermissionCommand command, CancellationToken cancellationToken)

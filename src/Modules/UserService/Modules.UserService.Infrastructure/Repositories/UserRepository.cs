@@ -6,7 +6,7 @@ using Modules.UserService.Infrastructure.Database;
 namespace Modules.UserService.Infrastructure.Repositories;
 
 public class UserRepository(UserServiceDbContext _dbContext)
-    : Repository<User>(_dbContext), IUserRepository
+    : UserServiceRepository<User>(_dbContext), IUserRepository
 {
     private readonly UserServiceDbContext _dbContext = _dbContext;
 

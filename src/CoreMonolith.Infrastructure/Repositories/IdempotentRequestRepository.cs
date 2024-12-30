@@ -1,14 +1,14 @@
 ﻿using CoreMonolith.Domain.Abstractions.Repositories;
 using CoreMonolith.Domain.Models.Idempotency;
+using CoreMonolith.Infrastructure.Database;
 using Microsoft.EntityFrameworkCore;
-using Modules.UserService.Infrastructure.Database;
 
-namespace Modules.UserService.Infrastructure.Repositories;
+namespace CoreMonolith.Infrastructure.Repositories;
 
-public class IdempotentRequestRepository(UserServiceDbContext _dbContext)
+public class IdempotentRequestRepository(CoreMonolithDbContext _dbContext)
     : Repository<IdempotentRequest>(_dbContext), IIdempotentRequestRepository
 {
-    private readonly UserServiceDbContext _dbContext = _dbContext;
+    private readonly CoreMonolithDbContext _dbContext = _dbContext;
 
     public async Task<bool> RequestExistsAsync(Guid requestId, CancellationToken cancellationToken = default)
     {

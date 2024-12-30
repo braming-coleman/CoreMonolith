@@ -1,7 +1,5 @@
 ﻿using CoreMonolith.Application;
-using CoreMonolith.Application.Abstractions.Idempotency.Services;
 using CoreMonolith.Application.Abstractions.Modules;
-using CoreMonolith.Domain.Abstractions.Repositories;
 using CoreMonolith.ServiceDefaults.Constants;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
@@ -16,7 +14,6 @@ using Modules.UserService.Domain.Abstractions.Repositories;
 using Modules.UserService.Infrastructure.Database;
 using Modules.UserService.Infrastructure.Repositories;
 using Modules.UserService.Infrastructure.Services;
-using Modules.UserService.Infrastructure.Services.Idempotency;
 
 namespace Modules.UserService.Infrastructure;
 
@@ -32,8 +29,7 @@ public class ModuleServicesInstaller : IModuleServicesInstaller
 
     public void InstallDatabase(IHostApplicationBuilder builder)
     {
-        string connectionString = builder.Configuration
-            .GetConnectionString(ConnectionNameConstants.UserServiceDbName)!;
+        string connectionString = builder.Configuration.GetConnectionString(ConnectionNameConstants.UserServiceDbName)!;
 
         builder.Services.AddDbContext<UserServiceDbContext>(
             options => options
@@ -59,16 +55,13 @@ public class ModuleServicesInstaller : IModuleServicesInstaller
 
     public void InstallServices(IServiceCollection services, IConfiguration config)
     {
-        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
-        services.AddScoped<IUnitOfWork, UnitOfWork>();
+        services.AddScoped(typeof(IUserServiceRepository<>), typeof(UserServiceRepository<>));
+        services.AddScoped<IUserServiceUow, UserServiceUow>();
 
         services.AddScoped<IUserRepository, UserRepository>();
         services.AddScoped<IPermissionGroupRepository, PermissionGroupRepository>();
         services.AddScoped<IUserPermissionGroupRepository, UserPermissionGroupRepository>();
         services.AddScoped<IPermissionRepository, PermissionRepository>();
-        services.AddScoped<IIdempotentRequestRepository, IdempotentRequestRepository>();
-
-        services.AddScoped<IIdempotencyService, IdempotencyService>();
 
         services.AddScoped<IUserServiceApi, UserServiceApi>();
 

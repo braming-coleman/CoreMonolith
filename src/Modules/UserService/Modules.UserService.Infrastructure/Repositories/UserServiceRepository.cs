@@ -1,11 +1,11 @@
-﻿using CoreMonolith.Domain.Abstractions.Repositories;
-using Microsoft.EntityFrameworkCore;
-using Modules.DownloadService.Infrastructure.Database;
+﻿using Microsoft.EntityFrameworkCore;
+using Modules.UserService.Domain.Abstractions.Repositories;
+using Modules.UserService.Infrastructure.Database;
 
-namespace Modules.DownloadService.Infrastructure.Repositories;
+namespace Modules.UserService.Infrastructure.Repositories;
 
-public class Repository<T>(DownloadServiceDbContext _dbContext)
-    : IRepository<T> where T : class
+public class UserServiceRepository<T>(UserServiceDbContext _dbContext)
+    : IUserServiceRepository<T> where T : class
 {
     private readonly DbSet<T> _dbSet = _dbContext.Set<T>();
 

@@ -1,8 +1,9 @@
-﻿using Modules.DownloadService.Api.Usenet.SabNzbd.Models;
+﻿using Modules.DownloadService.Api.Abstractions;
+using Modules.DownloadService.Api.Usenet.SabNzbd.Models;
 
 namespace Modules.DownloadService.Application.Clients.SabNzbd.Models;
 
-public class SabNzbdClientSettings
+public class SabNzbdClientSettings : IClientSettings
 {
     public string BasePath => "/sabnzbd/api";
     public string Output => "jsonrpc";

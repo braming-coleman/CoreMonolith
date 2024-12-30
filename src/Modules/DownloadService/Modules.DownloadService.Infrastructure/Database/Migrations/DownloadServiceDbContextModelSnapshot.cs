@@ -23,28 +23,6 @@ namespace Modules.DownloadService.Infrastructure.Database.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CoreMonolith.Domain.Models.Idempotency.IdempotentRequest", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<DateTimeOffset>("Created")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id")
-                        .HasName("pk_idempotent_requests");
-
-                    b.ToTable("idempotent_requests", "public");
-                });
-
             modelBuilder.Entity("Modules.DownloadService.Domain.Models.DownloadClients.DownloadClient", b =>
                 {
                     b.Property<Guid>("Id")

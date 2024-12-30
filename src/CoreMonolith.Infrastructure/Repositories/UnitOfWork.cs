@@ -1,9 +1,9 @@
 ﻿using CoreMonolith.Domain.Abstractions.Repositories;
-using Modules.UserService.Infrastructure.Database;
+using CoreMonolith.Infrastructure.Database;
 
-namespace Modules.UserService.Infrastructure.Repositories;
+namespace CoreMonolith.Infrastructure.Repositories;
 
-internal sealed class UnitOfWork(UserServiceDbContext _dbContext)
+internal sealed class UnitOfWork(CoreMonolithDbContext _dbContext)
     : IUnitOfWork
 {
     public async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)

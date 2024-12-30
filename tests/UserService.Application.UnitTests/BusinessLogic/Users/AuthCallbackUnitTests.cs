@@ -1,5 +1,4 @@
-﻿using CoreMonolith.Domain.Abstractions.Repositories;
-using CoreMonolith.SharedKernel.Constants;
+﻿using CoreMonolith.SharedKernel.Constants;
 using FluentAssertions;
 using FluentValidation.TestHelper;
 using Microsoft.AspNetCore.OutputCaching;
@@ -18,7 +17,7 @@ public class AuthCallbackUnitTests
     private readonly IUserRepository _userRepo = Substitute.For<IUserRepository>();
     private readonly IPermissionGroupRepository _groupRepo = Substitute.For<IPermissionGroupRepository>();
     private readonly IUserPermissionGroupRepository _userGroupRepo = Substitute.For<IUserPermissionGroupRepository>();
-    private readonly IUnitOfWork _unitOfWork = Substitute.For<IUnitOfWork>();
+    private readonly IUserServiceUow _unitOfWork = Substitute.For<IUserServiceUow>();
     private readonly IOutputCacheStore _cacheStore = Substitute.For<IOutputCacheStore>();
     private readonly ILogger<UserPermissionGroupChangedDomainEventHandler> _permissionGroupLogger = Substitute.For<ILogger<UserPermissionGroupChangedDomainEventHandler>>();
     private readonly ILogger<UserRegisteredFromKeycloakDomainEventHandler> _userRegisteredLogger = Substitute.For<ILogger<UserRegisteredFromKeycloakDomainEventHandler>>();

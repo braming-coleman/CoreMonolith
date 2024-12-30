@@ -7,7 +7,7 @@ using Modules.DownloadService.Infrastructure.Database;
 namespace Modules.DownloadService.Infrastructure.Repositories;
 
 public class DownloadClientRepository(DownloadServiceDbContext _dbContext) :
-    Repository<DownloadClient>(_dbContext), IDownloadClientRepository
+    DownloadServiceRepository<DownloadClient>(_dbContext), IDownloadClientRepository
 {
     private readonly DownloadServiceDbContext _dbContext = _dbContext;
 

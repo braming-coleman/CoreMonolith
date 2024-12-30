@@ -2,13 +2,13 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Modules.UserService.Infrastructure.Database.Configs;
+namespace CoreMonolith.Infrastructure.Database.Configs;
 
 internal sealed class IdempotentRequestConfiguration : IEntityTypeConfiguration<IdempotentRequest>
 {
     public void Configure(EntityTypeBuilder<IdempotentRequest> builder)
     {
-        builder.ToTable("idempotent_requests", Schemas.UserService);
+        builder.ToTable("idempotent_requests", Schemas.Default);
 
         builder.HasKey(u => u.Id);
 

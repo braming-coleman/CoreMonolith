@@ -23,28 +23,6 @@ namespace Modules.UserService.Infrastructure.Database.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CoreMonolith.Domain.Models.Idempotency.IdempotentRequest", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<DateTimeOffset>("Created")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id")
-                        .HasName("pk_idempotent_requests");
-
-                    b.ToTable("idempotent_requests", "user_service");
-                });
-
             modelBuilder.Entity("Modules.UserService.Domain.Models.PermissionGroupPermissions.PermissionGroupPermission", b =>
                 {
                     b.Property<Guid>("Id")
@@ -120,6 +98,18 @@ namespace Modules.UserService.Infrastructure.Database.Migrations
                             Id = new Guid("0193f4d5-fba9-7010-bd28-fa71072a4950"),
                             PermissionGroupId = new Guid("0193ec1f-35c9-723c-a203-67c5e4e0eb75"),
                             PermissionId = new Guid("0193f4d3-e613-72e7-8917-a9849ec17bc6")
+                        },
+                        new
+                        {
+                            Id = new Guid("0194132b-dce6-7329-9d00-aa475e0de8ed"),
+                            PermissionGroupId = new Guid("0193ec1f-35c9-723c-a203-67c5e4e0eb75"),
+                            PermissionId = new Guid("01941328-14ff-7c9a-b8b6-cd2535133d14")
+                        },
+                        new
+                        {
+                            Id = new Guid("0194132b-dce6-72c0-a342-41b0571a1602"),
+                            PermissionGroupId = new Guid("0193ec1f-35c9-723c-a203-67c5e4e0eb75"),
+                            PermissionId = new Guid("01941328-14ff-7fe3-b305-296f186c6060")
                         },
                         new
                         {
@@ -268,6 +258,18 @@ namespace Modules.UserService.Infrastructure.Database.Migrations
                             Id = new Guid("0193f4d3-e613-72e7-8917-a9849ec17bc6"),
                             Description = "Access via [api-gateway]",
                             Key = "core-api-gateway-access"
+                        },
+                        new
+                        {
+                            Id = new Guid("01941328-14ff-7c9a-b8b6-cd2535133d14"),
+                            Description = "Read access to [download-client] resource",
+                            Key = "download-client:read"
+                        },
+                        new
+                        {
+                            Id = new Guid("01941328-14ff-7fe3-b305-296f186c6060"),
+                            Description = "Write access to [download-client] resource",
+                            Key = "download-client:write"
                         });
                 });
 

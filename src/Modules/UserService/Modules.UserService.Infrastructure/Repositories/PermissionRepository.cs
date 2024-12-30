@@ -6,7 +6,7 @@ using Modules.UserService.Infrastructure.Database;
 namespace Modules.UserService.Infrastructure.Repositories;
 
 public class PermissionRepository(UserServiceDbContext _dbContext)
-    : Repository<Permission>(_dbContext), IPermissionRepository
+    : UserServiceRepository<Permission>(_dbContext), IPermissionRepository
 {
     private readonly UserServiceDbContext _dbContext = _dbContext;
 

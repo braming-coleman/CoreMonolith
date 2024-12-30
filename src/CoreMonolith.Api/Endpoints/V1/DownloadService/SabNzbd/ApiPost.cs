@@ -42,7 +42,7 @@ public class ApiPost : IEndpoint
     {
         app
             .MapApiVersion("download-service", Versions.V1)
-            .MapPost("/sabnzbd/api", async (
+            .MapPost("/intercept/sabnzbd/api", async (
                 [FromForm] PostRequest formBody,
                 ISabNzbdServiceApi _serviceApi,
                 CancellationToken cancellationToken) =>

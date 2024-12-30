@@ -1,9 +1,15 @@
 ﻿using CoreMonolith.Application.Abstractions.Authentication;
+using CoreMonolith.Application.Abstractions.Data;
+using CoreMonolith.Application.Abstractions.Idempotency.Services;
 using CoreMonolith.Application.Abstractions.Modules;
+using CoreMonolith.Domain.Abstractions.Repositories;
 using CoreMonolith.Infrastructure.Authentication;
 using CoreMonolith.Infrastructure.Authorization;
 using CoreMonolith.Infrastructure.Clients.HttpClients;
 using CoreMonolith.Infrastructure.Clients.HttpClients.UserService;
+using CoreMonolith.Infrastructure.Database;
+using CoreMonolith.Infrastructure.Repositories;
+using CoreMonolith.Infrastructure.Services.Idempotency;
 using CoreMonolith.Infrastructure.Time;
 using CoreMonolith.ServiceDefaults.Constants;
 using CoreMonolith.SharedKernel.Abstractions;
@@ -11,6 +17,9 @@ using CoreMonolith.SharedKernel.OutputCaching;
 using Mapster;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Serilog;
@@ -44,6 +53,8 @@ public static class DependencyInjection
         params Assembly[] assemblies)
     {
         builder.Services.AddApiServices();
+
+        builder.AddDatabase();
 
         builder.InstallModuleInfrastructure(assemblies);
 
@@ -85,6 +96,11 @@ public static class DependencyInjection
         this IApplicationBuilder app,
         params Assembly[] assemblies)
     {
+        using IServiceScope scope = app.ApplicationServices.CreateScope();
+        using CoreMonolithDbContext dbContext = scope.ServiceProvider.GetRequiredService<CoreMonolithDbContext>();
+
+        dbContext.Database.Migrate();
+
         var installers = GetInstallers(assemblies);
 
         foreach (var installer in installers)
@@ -98,6 +114,35 @@ public static class DependencyInjection
             config.WriteTo.Console();
             config.WriteTo.OpenTelemetry();
         });
+
+        return builder;
+    }
+
+    private static WebApplicationBuilder AddDatabase(this WebApplicationBuilder builder)
+    {
+        string connectionString = builder.Configuration
+            .GetConnectionString(ConnectionNameConstants.CoreMonolithDbName)!;
+
+        builder.Services.AddDbContext<CoreMonolithDbContext>(
+            options => options
+                .UseNpgsql(
+                    connectionString,
+                    npgsqlOptions =>
+                    {
+                        npgsqlOptions.MigrationsHistoryTable(HistoryRepository.DefaultTableName, Schemas.Default);
+                    })
+                .UseSnakeCaseNamingConvention());
+
+        builder.Services.AddScoped<ICoreMonolithDbContext>(sp => sp.GetRequiredService<CoreMonolithDbContext>());
+
+        builder.EnrichNpgsqlDbContext<CoreMonolithDbContext>(
+            configureSettings: settings =>
+            {
+                settings.DisableRetry = false;
+                settings.DisableMetrics = false;
+                settings.DisableTracing = false;
+                settings.DisableHealthChecks = false;
+            });
 
         return builder;
     }
@@ -124,6 +169,12 @@ public static class DependencyInjection
 
         services.AddSingleton<IPasswordHasher, PasswordHasher>();
         services.AddSingleton<IDateTimeProvider, DateTimeProvider>();
+
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+        services.AddScoped<IIdempotentRequestRepository, IdempotentRequestRepository>();
+        services.AddScoped<IIdempotencyService, IdempotencyService>();
 
         return services;
     }

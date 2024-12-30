@@ -1,5 +1,4 @@
 ﻿using CoreMonolith.Application.Abstractions.Messaging;
-using CoreMonolith.Domain.Abstractions.Repositories;
 using CoreMonolith.SharedKernel.Constants;
 using CoreMonolith.SharedKernel.ValueObjects;
 using FluentValidation;
@@ -40,7 +39,7 @@ internal sealed class ProcessKeycloakAuthCallbackCommandHandler(
     IUserRepository _userRepo,
     IPermissionGroupRepository _groupRepo,
     IUserPermissionGroupRepository _userGroupRepo,
-    IUnitOfWork _unitOfWork)
+    IUserServiceUow _unitOfWork)
     : ICommandHandler<ProcessKeycloakAuthCallbackCommand, UserResult>
 {
     public async Task<Result<UserResult>> Handle(ProcessKeycloakAuthCallbackCommand request, CancellationToken cancellationToken)

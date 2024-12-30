@@ -11,6 +11,9 @@ public static class ApiPermissions
     public const string PermissionGroupRead = "permission-group:read";
     public const string PermissionGroupWrite = "permission-group:write";
 
+    public const string DownloadClientRead = "download-client:read";
+    public const string DownloadClientWrite = "download-client:write";
+
     public const string WeatherRead = "weather:read";
 
     public const string ApiGatewayAccess = "core-api-gateway-access";

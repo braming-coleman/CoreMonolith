@@ -9,45 +9,45 @@ using Modules.DownloadService.Domain.Abstractions.Repositories;
 
 namespace Modules.DownloadService.Application.BusinessLogic.SabNzbd.GetConfig;
 
-public sealed record GetApiGetConfigQuery(GetRequest Request) : ICommand<GetApiGetConfigQueryResult>;
+public sealed record GetApiConfigQuery(GetRequest Request) : ICommand<GetApiConfigQueryResult>;
 
-internal class GetApiGetConfigQueryValidator : AbstractValidator<GetApiGetConfigQuery>
+internal class GetApiConfigQueryValidator : AbstractValidator<GetApiConfigQuery>
 {
-    public GetApiGetConfigQueryValidator()
+    public GetApiConfigQueryValidator()
     {
         RuleFor(x => x.Request.Mode).NotNull();
         RuleFor(x => x.Request.ApiKey).NotEmpty();
     }
 }
 
-public sealed record GetApiGetConfigQueryResult(ConfigResponse Response);
+public sealed record GetApiConfigQueryResult(ConfigResponse Response);
 
 internal sealed class GetApiVersionQueryHandler(
     IDownloadClientRepository _downloadClientRepo,
     ISabNzbdClient _sabClient)
-    : ICommandHandler<GetApiGetConfigQuery, GetApiGetConfigQueryResult>
+    : ICommandHandler<GetApiConfigQuery, GetApiConfigQueryResult>
 {
-    public async Task<Result<GetApiGetConfigQueryResult>> Handle(GetApiGetConfigQuery request, CancellationToken cancellationToken)
+    public async Task<Result<GetApiConfigQueryResult>> Handle(GetApiConfigQuery request, CancellationToken cancellationToken)
     {
         var clientDetail = await _downloadClientRepo.GetByTypeAsync(DownloadClientType.SabNzbd, cancellationToken);
         if (clientDetail is null)
-            return Result.Failure<GetApiGetConfigQueryResult>(SabNzbdClientErrors.ConfigNotFound);
+            return Result.Failure<GetApiConfigQueryResult>(SabNzbdClientErrors.ConfigNotFound);
 
         var clientSettings = await clientDetail.GetConfigAsync();
         if (clientSettings is null)
-            return Result.Failure<GetApiGetConfigQueryResult>(SabNzbdClientErrors.ConfigNotFound);
+            return Result.Failure<GetApiConfigQueryResult>(SabNzbdClientErrors.ConfigNotFound);
 
         if (request.Request.ApiKey != clientSettings.ApiKey)
-            return Result.Failure<GetApiGetConfigQueryResult>(SabNzbdClientErrors.ApiKeyMismatch);
+            return Result.Failure<GetApiConfigQueryResult>(SabNzbdClientErrors.ApiKeyMismatch);
 
         var clientResponse = await _sabClient.GetAsync<ConfigResponse>(request.Request, clientSettings, cancellationToken);
 
         if (clientResponse.IsFailure)
-            return Result.Failure<GetApiGetConfigQueryResult>(clientResponse.Error);
+            return Result.Failure<GetApiConfigQueryResult>(clientResponse.Error);
 
         if (clientResponse.Value is null)
-            return Result.Failure<GetApiGetConfigQueryResult>(SabNzbdClientErrors.NullClientResponse);
+            return Result.Failure<GetApiConfigQueryResult>(SabNzbdClientErrors.NullClientResponse);
 
-        return new GetApiGetConfigQueryResult(clientResponse.Value);
+        return new GetApiConfigQueryResult(clientResponse.Value);
     }
 }

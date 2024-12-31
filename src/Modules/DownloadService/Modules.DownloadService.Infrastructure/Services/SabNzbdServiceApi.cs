@@ -6,6 +6,7 @@ using Modules.DownloadService.Api.Usenet.SabNzbd;
 using Modules.DownloadService.Api.Usenet.SabNzbd.Models;
 using Modules.DownloadService.Api.Usenet.SabNzbd.Models.Api;
 using Modules.DownloadService.Application.BusinessLogic.SabNzbd.GetConfig;
+using Modules.DownloadService.Application.BusinessLogic.SabNzbd.GetFullStatus;
 using Modules.DownloadService.Application.BusinessLogic.SabNzbd.GetVersion;
 using Modules.DownloadService.Application.BusinessLogic.SabNzbd.UploadNewNzb;
 
@@ -31,12 +32,24 @@ internal sealed class SabNzbdServiceApi(ISender _sender)
         //get_config
         else if (request.Mode == SabNzbdCommands.GetConfig)
         {
-            var query = new GetApiGetConfigQuery(request);
+            var query = new GetApiConfigQuery(request);
 
             var result = await _sender.Send(query, cancellationToken);
 
             if (result.IsFailure)
                 return CustomResults.Problem(Result.Failure<ConfigResponse>(result.Error));
+
+            return Results.Ok(result.Value.Response);
+        }
+        //fullstatus
+        else if (request.Mode == SabNzbdCommands.FullStatus)
+        {
+            var query = new GetApiFullStatusQuery(request);
+
+            var result = await _sender.Send(query, cancellationToken);
+
+            if (result.IsFailure)
+                return CustomResults.Problem(Result.Failure<FullStatusResponse>(result.Error));
 
             return Results.Ok(result.Value.Response);
         }

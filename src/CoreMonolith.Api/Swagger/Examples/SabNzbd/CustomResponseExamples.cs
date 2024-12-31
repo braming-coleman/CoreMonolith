@@ -10,6 +10,8 @@ public class CustomResponseExamples : IMultipleExamplesProvider<object>
         yield return SwaggerExample.Create("mode=version", GetVersionResponse());
 
         yield return SwaggerExample.Create("mode=get_config", GetConfigResponse());
+
+        yield return SwaggerExample.Create("mode=fullstatus", GetFullStatusResponse());
     }
 
     private static object GetVersionResponse()
@@ -336,9 +338,9 @@ public class CustomResponseExamples : IMultipleExamplesProvider<object>
                     NscriptPrioQueueDone: 1,
                     NscriptPrioOther: 1
                 ),
-                Servers: new List<Server>
+                Servers: new List<ConfigServer>
                 {
-                    new Server(
+                    new ConfigServer(
                         Name: "UsenetServer",
                         Displayname: "UsenetServer",
                         Host: "news.usenetserver.com",
@@ -380,6 +382,104 @@ public class CustomResponseExamples : IMultipleExamplesProvider<object>
                         Dir: "",
                         Newzbin: "",
                         Priority: 0
+                    )
+                }
+            )
+        );
+    }
+
+    private static object GetFullStatusResponse()
+    {
+        return new FullStatusResponse(
+            Status: new Status(
+                Uptime: "8D 14H",
+                ColorScheme: "Gold",
+                Confighelpuri: "Config",
+                Pid: 12345,
+                ActiveLang: "en",
+                Rtl: false,
+                MyLcldata: "en_US.UTF-8",
+                MyHome: "/config",
+                Webdir: "/sabnzbd",
+                UrlBase: "/",
+                Windows: false,
+                Macos: false,
+                PowerOptions: true,
+                PpPauseEvent: false,
+                Apikey: Guid.NewGuid().ToString(),
+                NewRelease: null,
+                NewRelUrl: null,
+                Version: "4.2.1",
+                Paused: false,
+                PauseInt: "0",
+                PausedAll: false,
+                Diskspace1: "10.5G",
+                Diskspace2: "500.2G",
+                Diskspace1Norm: "10.5",
+                Diskspace2Norm: "500.2",
+                Diskspacetotal1: "200G",
+                Diskspacetotal2: "1T",
+                Speedlimit: "0",
+                SpeedlimitAbs: "Unlimited",
+                HaveWarnings: "0",
+                Finishaction: null,
+                Quota: "0",
+                HaveQuota: false,
+                LeftQuota: "0",
+                CacheArt: "0",
+                CacheSize: "0",
+                Logfile: "/config/logs/sabnzbd.log",
+                Weblogfile: null,
+                Loglevel: "Info",
+                Folders: new List<string>(),
+                Configfn: "/config/sabnzbd.ini",
+                Warnings: new List<Warning>
+                {
+                    new Warning(
+                        Type: "INFO",
+                        Text: "SABnzbd restarted",
+                        Time: 1708700000,
+                        Origin: "SABnzbd"
+                    )
+                },
+                DelayedAssembler: 0,
+                Loadavg: "",
+                Pystone: 100000,
+                Downloaddir: "/downloads/incomplete",
+                Downloaddirspeed: 10000,
+                Completedir: "/downloads/complete",
+                Completedirspeed: 5000,
+                Internetbandwidth: 100000,
+                ActiveSocks5Proxy: null,
+                Localipv4: "192.168.1.10",
+                Publicipv4: "8.8.8.8",
+                Ipv6: null,
+                Dnslookup: true,
+                Servers: new List<StatusServer>
+                {
+                    new StatusServer(
+                        Servername: "news.example.com",
+                        Serveractive: true,
+                        Serveractiveconn: 1,
+                        Servertotalconn: 20,
+                        Serverconnections: new List<Serverconnection>
+                        {
+                            new Serverconnection(
+                                Thrdnum: 1,
+                                ArtName: "long-article-name.part01.rar",
+                                NzfName: "example.nzf",
+                                NzoName: "example.nzo"
+                            )
+                        },
+                        Serverssl: 1,
+                        Serversslinfo: "TLS 1.3",
+                        Serveripaddress: "192.168.1.20",
+                        Servercanonname: "news.example.com",
+                        Serverwarning: "",
+                        Servererror: "",
+                        Serverpriority: 0,
+                        Serveroptional: 0,
+                        Serverbps: "10M"
                     )
                 }
             )

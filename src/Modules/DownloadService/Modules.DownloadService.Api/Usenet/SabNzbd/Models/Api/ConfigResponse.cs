@@ -74,7 +74,7 @@ public record Config(
     [property: JsonPropertyName("pushbullet")] Pushbullet Pushbullet,
     [property: JsonPropertyName("apprise")] Apprise Apprise,
     [property: JsonPropertyName("nscript")] Nscript Nscript,
-    [property: JsonPropertyName("servers")] IReadOnlyList<Server> Servers,
+    [property: JsonPropertyName("servers")] IReadOnlyList<ConfigServer> Servers,
     [property: JsonPropertyName("categories")] IReadOnlyList<Category> Categories
 );
 
@@ -356,7 +356,7 @@ public record Pushover(
     [property: JsonPropertyName("pushover_prio_other")] int PushoverPrioOther
 );
 
-public record Server(
+public record ConfigServer(
     [property: JsonPropertyName("name")] string Name,
     [property: JsonPropertyName("displayname")] string Displayname,
     [property: JsonPropertyName("host")] string Host,

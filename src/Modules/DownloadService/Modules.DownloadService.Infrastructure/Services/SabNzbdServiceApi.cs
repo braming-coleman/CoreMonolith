@@ -41,18 +41,33 @@ internal sealed class SabNzbdServiceApi(ISender _sender)
             return Results.Ok(result.Value.Response);
         }
 
-        return CustomResults.Problem(Result.Failure<VersionResponse>(SabNzbdClientErrors.ModeUnsupported(request.Mode)));
+        return CustomResults.Problem(Result.Failure<object>(SabNzbdClientErrors.ModeUnsupported(request.Mode)));
     }
 
-    public async Task<Result<NzbUploadResponse>> UploadNzbAsync(NzbUploadRequest request, CancellationToken cancellationToken = default)
+    public async Task<IResult> UploadNzbAsync(PostRequest request, CancellationToken cancellationToken = default)
     {
-        var command = new UploadNewNzbCommand(request);
+        var fileName = string.IsNullOrEmpty(request.NzbName) ? request.Name.FileName : request.NzbName;
+        var priority = string.IsNullOrEmpty(request.Priority) ? SabNzdbDefaults.Priority : Enum.Parse<Priority>(request.Priority);
+        var pp = string.IsNullOrEmpty(request.Pp) ? SabNzdbDefaults.PostProcessingOptions : Enum.Parse<PostProcessingOptions>(request.Pp);
+        var cat = string.IsNullOrEmpty(request.Cat) ? SabNzdbDefaults.Category : request.Cat;
+
+        using MemoryStream stream = new();
+        await request.Name.CopyToAsync(stream, cancellationToken);
+
+        var file = stream.ToArray();
+
+        var uploadRequest = new NzbUploadRequest(
+            request.ApiKey,
+            file,
+            fileName, cat, priority, pp);
+
+        var command = new UploadNewNzbCommand(uploadRequest);
 
         var result = await _sender.Send(command, cancellationToken);
 
         if (result.IsFailure)
-            return Result.Failure<NzbUploadResponse>(result.Error);
+            return CustomResults.Problem(Result.Failure<NzbUploadResponse>(result.Error));
 
-        return result.Value.UploadResult;
+        return Results.Ok(result.Value.UploadResult);
     }
 }

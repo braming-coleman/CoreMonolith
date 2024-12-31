@@ -58,6 +58,8 @@ internal static class DependencyInjection
 
             c.OperationFilter<CustomSecurityRequirementsOperationFilter>();
 
+            c.DocumentFilter<CustomSchemasDocFilter>();
+
             c.ExampleFilters();
         });
 

@@ -9,9 +9,11 @@ public class NzbUploadResponse
 
 
     [JsonPropertyName("nzo_ids")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public List<string> UploadIds { get; set; }
 
 
     [JsonPropertyName("error")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
     public string Error { get; set; }
 }

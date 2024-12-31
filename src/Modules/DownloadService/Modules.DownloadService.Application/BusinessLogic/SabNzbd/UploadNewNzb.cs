@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Modules.DownloadService.Api.Models;
 using Modules.DownloadService.Api.Usenet.SabNzbd;
 using Modules.DownloadService.Api.Usenet.SabNzbd.Models;
+using Modules.DownloadService.Api.Usenet.SabNzbd.Models.Api;
 using Modules.DownloadService.Application.Clients.SabNzbd;
 using Modules.DownloadService.Domain.Abstractions.Repositories;
 using Modules.DownloadService.Domain.Models.DownloadClients;
@@ -22,6 +23,7 @@ internal class UploadNewNzbCommandValidator : AbstractValidator<UploadNewNzbComm
     public UploadNewNzbCommandValidator()
     {
         RuleFor(x => x.UploadRequest.File).NotNull();
+        RuleFor(x => x.UploadRequest.ApiKey).NotEmpty();
     }
 }
 
@@ -46,8 +48,6 @@ internal sealed class UploadNewNzbCommandHandler(
         if (request.UploadRequest.ApiKey != clientSettings.ApiKey)
             return Result.Failure<UploadNewNzbCommandResult>(SabNzbdClientErrors.ApiKeyMismatch);
 
-        await _sabClient.ConfigureAsync(clientSettings);
-
         var uploadRequest = request.UploadRequest;
 
         if (DefaultRequest(request.UploadRequest))
@@ -61,7 +61,7 @@ internal sealed class UploadNewNzbCommandHandler(
                 clientSettings.PostPorcesssing);
         }
 
-        var clientResponse = await _sabClient.UploadNzbAsync(uploadRequest, cancellationToken);
+        var clientResponse = await _sabClient.UploadNzbAsync(uploadRequest, clientSettings, cancellationToken);
 
         if (clientResponse.IsFailure)
             return Result.Failure<UploadNewNzbCommandResult>(clientResponse.Error);

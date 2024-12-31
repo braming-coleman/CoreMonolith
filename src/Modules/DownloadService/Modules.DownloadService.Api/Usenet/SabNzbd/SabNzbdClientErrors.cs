@@ -9,6 +9,11 @@ public static class SabNzbdClientErrors
         $"Upload failed with status: '{status}'.",
         ErrorType.Failure);
 
+    public static Error GetFailure(string status) => new(
+        "SabNzbdClient.GetFailure",
+        $"Get failed with status: '{status}'.",
+        ErrorType.Failure);
+
     public static Error NullClientResponse => new(
         "SabNzbdClient.NullClientResponse",
         $"Null resposne from client.",

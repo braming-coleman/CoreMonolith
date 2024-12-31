@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace Modules.DownloadService.Api.Usenet.SabNzbd.Models;
+namespace Modules.DownloadService.Api.Usenet.SabNzbd.Models.Api;
 
 public class NzbUploadResponse
 {

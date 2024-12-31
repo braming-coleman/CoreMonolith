@@ -70,26 +70,36 @@
       "core-monolith-api-01": {
         "ConnectionStrings__core-monolith-db": "blzaiR6hMkqDU/WIDNmEZqBTUeMBdGz1/Zcnv0oQEthnExo2qCGye4T8ksG3a6iC2X2mUKBCRWTGCMpBEuTs24BG1KfKIaHh6yNiM3s1FRHW3MOOyf/JeHP0dvx81QOaZBnEts7KulnKNT4B9mYnhuF2Yl0TlS9gGyebN2Bc3CHBheXDbtQ4Drtv/VjyFA\u002BxeY\u002BAMsNq0m1/yU2AmU3ggnNH1uJVLjelVio=",
         "ConnectionStrings__core-monolith-mq": "blzaiR6hMkqDU/WIbWon75f8kkir4gTLBB8JLmMSENxgX1onon66OYf8kMevavGam2\u002B2WrtJDDTFNetdQrSaoosb9YDpAYHx8hIeFXIlCF7Z2MuC4a\u002BKZAr2IahS83SKZgXFpIzVsQrcNj4a1AFywbk6LSBt",
-        "ConnectionStrings__core-monolith-redis": "blzaiR6hMkqDU/WIdugqaxIH0HLVpKDzwK/YemEQE8l3HRoqomC2YIK\u002BjM2navbIgD3lDg=="
+        "ConnectionStrings__core-monolith-redis": "blzaiR6hMkqDU/WIdugqaxIH0HLVpKDzwK/YemEQE8l3HRoqomC2YIK\u002BjM2navbIgD3lDg==",
+        "ConnectionStrings__user-service-db": "blzaiR6hMkqDU/WIhdB0BF0hYVrqNI1rgSlUdEoQEthnExo2qCGye4T8ksG3a6iC2X2mUKBCRWTGCMpBEuTs24BG1KfKIaHh6yNiM3s1FRHW3MOOyf/JeHP0dvx81QOaZBnEts7KulnKNT4B9mYnhuF2Yl0TlS9gGyebN2Bc3CHBheXDbtQ4Drtv/VjyFA\u002BxeY\u002BAMsNq0m1/yVucjlrgnHlbz\u002BdfP3LsUA==",
+        "ConnectionStrings__download-service-db": "blzaiR6hMkqDU/WIh4QilGPbcrSPSl02JRtrtEoQEthnExo2qCGye4T8ksG3a6iC2X2mUKBCRWTGCMpBEuTs24BG1KfKIaHh6yNiM3s1FRHW3MOOyf/JeHP0dvx81QOaZBnEts7KulnKNT4B9mYnhuF2Yl0TlS9gGyebN2Bc3CHBheXDbtQ4Drtv/VjyFA\u002BxeY\u002BAMsNq0m1/yUqAnEahgH1NlP1ZKCnhUS1c0WQ="
       },
       "core-monolith-api-02": {
         "ConnectionStrings__core-monolith-db": "blzaiR6hMkqDU/WIDNmEZqBTUeMBdGz1/Zcnv0oQEthnExo2qCGye4T8ksG3a6iC2X2mUKBCRWTGCMpBEuTs24BG1KfKIaHh6yNiM3s1FRHW3MOOyf/JeHP0dvx81QOaZBnEts7KulnKNT4B9mYnhuF2Yl0TlS9gGyebN2Bc3CHBheXDbtQ4Drtv/VjyFA\u002BxeY\u002BAMsNq0m1/yU2AmU3ggnNH1uJVLjelVio=",
         "ConnectionStrings__core-monolith-mq": "blzaiR6hMkqDU/WIbWon75f8kkir4gTLBB8JLmMSENxgX1onon66OYf8kMevavGam2\u002B2WrtJDDTFNetdQrSaoosb9YDpAYHx8hIeFXIlCF7Z2MuC4a\u002BKZAr2IahS83SKZgXFpIzVsQrcNj4a1AFywbk6LSBt",
-        "ConnectionStrings__core-monolith-redis": "blzaiR6hMkqDU/WIdugqaxIH0HLVpKDzwK/YemEQE8l3HRoqomC2YIK\u002BjM2navbIgD3lDg=="
+        "ConnectionStrings__core-monolith-redis": "blzaiR6hMkqDU/WIdugqaxIH0HLVpKDzwK/YemEQE8l3HRoqomC2YIK\u002BjM2navbIgD3lDg==",
+        "ConnectionStrings__user-service-db": "blzaiR6hMkqDU/WIhdB0BF0hYVrqNI1rgSlUdEoQEthnExo2qCGye4T8ksG3a6iC2X2mUKBCRWTGCMpBEuTs24BG1KfKIaHh6yNiM3s1FRHW3MOOyf/JeHP0dvx81QOaZBnEts7KulnKNT4B9mYnhuF2Yl0TlS9gGyebN2Bc3CHBheXDbtQ4Drtv/VjyFA\u002BxeY\u002BAMsNq0m1/yVucjlrgnHlbz\u002BdfP3LsUA==",
+        "ConnectionStrings__download-service-db": "blzaiR6hMkqDU/WIh4QilGPbcrSPSl02JRtrtEoQEthnExo2qCGye4T8ksG3a6iC2X2mUKBCRWTGCMpBEuTs24BG1KfKIaHh6yNiM3s1FRHW3MOOyf/JeHP0dvx81QOaZBnEts7KulnKNT4B9mYnhuF2Yl0TlS9gGyebN2Bc3CHBheXDbtQ4Drtv/VjyFA\u002BxeY\u002BAMsNq0m1/yUqAnEahgH1NlP1ZKCnhUS1c0WQ="
       },
       "core-monolith-api-03": {
         "ConnectionStrings__core-monolith-db": "blzaiR6hMkqDU/WIDNmEZqBTUeMBdGz1/Zcnv0oQEthnExo2qCGye4T8ksG3a6iC2X2mUKBCRWTGCMpBEuTs24BG1KfKIaHh6yNiM3s1FRHW3MOOyf/JeHP0dvx81QOaZBnEts7KulnKNT4B9mYnhuF2Yl0TlS9gGyebN2Bc3CHBheXDbtQ4Drtv/VjyFA\u002BxeY\u002BAMsNq0m1/yU2AmU3ggnNH1uJVLjelVio=",
         "ConnectionStrings__core-monolith-mq": "blzaiR6hMkqDU/WIbWon75f8kkir4gTLBB8JLmMSENxgX1onon66OYf8kMevavGam2\u002B2WrtJDDTFNetdQrSaoosb9YDpAYHx8hIeFXIlCF7Z2MuC4a\u002BKZAr2IahS83SKZgXFpIzVsQrcNj4a1AFywbk6LSBt",
-        "ConnectionStrings__core-monolith-redis": "blzaiR6hMkqDU/WIdugqaxIH0HLVpKDzwK/YemEQE8l3HRoqomC2YIK\u002BjM2navbIgD3lDg=="
+        "ConnectionStrings__core-monolith-redis": "blzaiR6hMkqDU/WIdugqaxIH0HLVpKDzwK/YemEQE8l3HRoqomC2YIK\u002BjM2navbIgD3lDg==",
+        "ConnectionStrings__user-service-db": "blzaiR6hMkqDU/WIhdB0BF0hYVrqNI1rgSlUdEoQEthnExo2qCGye4T8ksG3a6iC2X2mUKBCRWTGCMpBEuTs24BG1KfKIaHh6yNiM3s1FRHW3MOOyf/JeHP0dvx81QOaZBnEts7KulnKNT4B9mYnhuF2Yl0TlS9gGyebN2Bc3CHBheXDbtQ4Drtv/VjyFA\u002BxeY\u002BAMsNq0m1/yVucjlrgnHlbz\u002BdfP3LsUA==",
+        "ConnectionStrings__download-service-db": "blzaiR6hMkqDU/WIh4QilGPbcrSPSl02JRtrtEoQEthnExo2qCGye4T8ksG3a6iC2X2mUKBCRWTGCMpBEuTs24BG1KfKIaHh6yNiM3s1FRHW3MOOyf/JeHP0dvx81QOaZBnEts7KulnKNT4B9mYnhuF2Yl0TlS9gGyebN2Bc3CHBheXDbtQ4Drtv/VjyFA\u002BxeY\u002BAMsNq0m1/yUqAnEahgH1NlP1ZKCnhUS1c0WQ="
       },
       "core-monolith-api-gateway": {
         "ConnectionStrings__core-monolith-db": "blzaiR6hMkqDU/WIDNmEZqBTUeMBdGz1/Zcnv0oQEthnExo2qCGye4T8ksG3a6iC2X2mUKBCRWTGCMpBEuTs24BG1KfKIaHh6yNiM3s1FRHW3MOOyf/JeHP0dvx81QOaZBnEts7KulnKNT4B9mYnhuF2Yl0TlS9gGyebN2Bc3CHBheXDbtQ4Drtv/VjyFA\u002BxeY\u002BAMsNq0m1/yU2AmU3ggnNH1uJVLjelVio=",
         "ConnectionStrings__core-monolith-mq": "blzaiR6hMkqDU/WIbWon75f8kkir4gTLBB8JLmMSENxgX1onon66OYf8kMevavGam2\u002B2WrtJDDTFNetdQrSaoosb9YDpAYHx8hIeFXIlCF7Z2MuC4a\u002BKZAr2IahS83SKZgXFpIzVsQrcNj4a1AFywbk6LSBt",
-        "ConnectionStrings__core-monolith-redis": "blzaiR6hMkqDU/WIdugqaxIH0HLVpKDzwK/YemEQE8l3HRoqomC2YIK\u002BjM2navbIgD3lDg=="
+        "ConnectionStrings__core-monolith-redis": "blzaiR6hMkqDU/WIdugqaxIH0HLVpKDzwK/YemEQE8l3HRoqomC2YIK\u002BjM2navbIgD3lDg==",
+        "ConnectionStrings__user-service-db": "blzaiR6hMkqDU/WIhdB0BF0hYVrqNI1rgSlUdEoQEthnExo2qCGye4T8ksG3a6iC2X2mUKBCRWTGCMpBEuTs24BG1KfKIaHh6yNiM3s1FRHW3MOOyf/JeHP0dvx81QOaZBnEts7KulnKNT4B9mYnhuF2Yl0TlS9gGyebN2Bc3CHBheXDbtQ4Drtv/VjyFA\u002BxeY\u002BAMsNq0m1/yVucjlrgnHlbz\u002BdfP3LsUA==",
+        "ConnectionStrings__download-service-db": "blzaiR6hMkqDU/WIh4QilGPbcrSPSl02JRtrtEoQEthnExo2qCGye4T8ksG3a6iC2X2mUKBCRWTGCMpBEuTs24BG1KfKIaHh6yNiM3s1FRHW3MOOyf/JeHP0dvx81QOaZBnEts7KulnKNT4B9mYnhuF2Yl0TlS9gGyebN2Bc3CHBheXDbtQ4Drtv/VjyFA\u002BxeY\u002BAMsNq0m1/yUqAnEahgH1NlP1ZKCnhUS1c0WQ="
       },
       "core-monolith-keycloak-authority": {
         "value": "blzaiR6hMkqDU/WIYUA9meff8MpNFH/cM6YseWoLFdxgX1oipH\u002Bre5j8nMe3bL/EhTviBf1VUz76CssaTL6qjZ8Q7rrAP6b07g=="
-      }
+      },
+      "user-service-db": {},
+      "download-service-db": {}
     }
   },
   "processAllComponents": true

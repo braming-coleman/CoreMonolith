@@ -35,8 +35,7 @@
         "POSTGRES_HOST_AUTH_METHOD": "scram-sha-256",
         "POSTGRES_INITDB_ARGS": "--auth-host=scram-sha-256 --auth-local=scram-sha-256",
         "POSTGRES_USER": "{core-monolith-db-username.value}",
-        "POSTGRES_PASSWORD": "{core-monolith-db-password.value}",
-        "POSTGRES_DB": "core-monolith-db"
+        "POSTGRES_PASSWORD": "{core-monolith-db-password.value}"
       },
       "bindings": {
         "tcp": {
@@ -52,7 +51,7 @@
       "image": "docker.io/dpage/pgadmin4:8.12",
       "bindMounts": [
         {
-          "source": "C:/Users/faatus/AppData/Local/Temp/tmp1bxp13.tmp",
+          "source": "C:/Users/faatus/AppData/Local/Temp/tmpisz5od.tmp",
           "target": "/pgadmin4/servers.json",
           "readOnly": false
         }
@@ -84,6 +83,14 @@
     "core-monolith-db": {
       "type": "value.v0",
       "connectionString": "{core-monolith-postgres.connectionString};Database=core-monolith-db"
+    },
+    "user-service-db": {
+      "type": "value.v0",
+      "connectionString": "{core-monolith-postgres.connectionString};Database=user-service-db"
+    },
+    "download-service-db": {
+      "type": "value.v0",
+      "connectionString": "{core-monolith-postgres.connectionString};Database=download-service-db"
     },
     "core-monolith-mq-username": {
       "type": "parameter.v0",
@@ -228,6 +235,8 @@
         "HTTP_PORTS": "{core-monolith-api-01.bindings.http.targetPort}",
         "ASPNETCORE_ENVIRONMENT": "{core-monolith-api-env.value}",
         "ConnectionStrings__core-monolith-db": "{core-monolith-db.connectionString}",
+        "ConnectionStrings__user-service-db": "{user-service-db.connectionString}",
+        "ConnectionStrings__download-service-db": "{download-service-db.connectionString}",
         "ConnectionStrings__core-monolith-mq": "{core-monolith-mq.connectionString}",
         "ConnectionStrings__core-monolith-redis": "{core-monolith-redis.connectionString}",
         "services__core-monolith-keycloak__http__0": "{core-monolith-keycloak.bindings.http.url}"
@@ -256,6 +265,8 @@
         "HTTP_PORTS": "{core-monolith-api-02.bindings.http.targetPort}",
         "ASPNETCORE_ENVIRONMENT": "{core-monolith-api-env.value}",
         "ConnectionStrings__core-monolith-db": "{core-monolith-db.connectionString}",
+        "ConnectionStrings__user-service-db": "{user-service-db.connectionString}",
+        "ConnectionStrings__download-service-db": "{download-service-db.connectionString}",
         "ConnectionStrings__core-monolith-mq": "{core-monolith-mq.connectionString}",
         "ConnectionStrings__core-monolith-redis": "{core-monolith-redis.connectionString}",
         "services__core-monolith-keycloak__http__0": "{core-monolith-keycloak.bindings.http.url}"
@@ -284,6 +295,8 @@
         "HTTP_PORTS": "{core-monolith-api-03.bindings.http.targetPort}",
         "ASPNETCORE_ENVIRONMENT": "{core-monolith-api-env.value}",
         "ConnectionStrings__core-monolith-db": "{core-monolith-db.connectionString}",
+        "ConnectionStrings__user-service-db": "{user-service-db.connectionString}",
+        "ConnectionStrings__download-service-db": "{download-service-db.connectionString}",
         "ConnectionStrings__core-monolith-mq": "{core-monolith-mq.connectionString}",
         "ConnectionStrings__core-monolith-redis": "{core-monolith-redis.connectionString}",
         "services__core-monolith-keycloak__http__0": "{core-monolith-keycloak.bindings.http.url}"
@@ -332,6 +345,8 @@
         "ASPNETCORE_ENVIRONMENT": "{core-monolith-api-gateway-env.value}",
         "download-manager-webapp-client-secret": "{download-manager-webapp-client-secret.value}",
         "ConnectionStrings__core-monolith-db": "{core-monolith-db.connectionString}",
+        "ConnectionStrings__user-service-db": "{user-service-db.connectionString}",
+        "ConnectionStrings__download-service-db": "{download-service-db.connectionString}",
         "ConnectionStrings__core-monolith-mq": "{core-monolith-mq.connectionString}",
         "ConnectionStrings__core-monolith-redis": "{core-monolith-redis.connectionString}",
         "services__core-monolith-keycloak__http__0": "{core-monolith-keycloak.bindings.http.url}",

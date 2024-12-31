@@ -3,7 +3,7 @@ using Swashbuckle.AspNetCore.SwaggerGen;
 
 namespace CoreMonolith.Api.Swagger;
 
-public class SecurityRequirementsOperationFilter : IOperationFilter
+public class CustomSecurityRequirementsOperationFilter : IOperationFilter
 {
     public void Apply(OpenApiOperation operation, OperationFilterContext context)
     {

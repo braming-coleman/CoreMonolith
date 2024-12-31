@@ -91,7 +91,7 @@ public class CustomResponseExamples : IMultipleExamplesProvider<object>
                     IgnoreSamples: 0,
                     DeobfuscateFinalFilenames: 1,
                     AutoSort: "0",
-                    DirectUnpack: 0,
+                    DirectUnpack: true,
                     PropagationDelay: 0,
                     FolderRename: 1,
                     ReplaceSpaces: 0,

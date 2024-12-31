@@ -154,7 +154,7 @@ public record Misc(
     [property: JsonPropertyName("ignore_samples")] int IgnoreSamples,
     [property: JsonPropertyName("deobfuscate_final_filenames")] int DeobfuscateFinalFilenames,
     [property: JsonPropertyName("auto_sort")] string AutoSort,
-    [property: JsonPropertyName("direct_unpack")] int DirectUnpack,
+    [property: JsonPropertyName("direct_unpack")] bool DirectUnpack,
     [property: JsonPropertyName("propagation_delay")] int PropagationDelay,
     [property: JsonPropertyName("folder_rename")] int FolderRename,
     [property: JsonPropertyName("replace_spaces")] int ReplaceSpaces,

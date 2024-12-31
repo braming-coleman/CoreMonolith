@@ -1,9 +1,10 @@
-﻿using CoreMonolith.SharedKernel.ValueObjects;
+﻿using CoreMonolith.SharedKernel.Helpers;
+using CoreMonolith.SharedKernel.ValueObjects;
 using Modules.DownloadService.Api.Usenet.SabNzbd;
 using Modules.DownloadService.Api.Usenet.SabNzbd.Models;
+using Modules.DownloadService.Api.Usenet.SabNzbd.Models.Api;
 using Modules.DownloadService.Application.Clients.SabNzbd;
 using Modules.DownloadService.Application.Clients.SabNzbd.Models;
-using System.Text.Json;
 
 namespace Modules.DownloadService.Infrastructure.Clients.SabNzbd;
 
@@ -20,6 +21,26 @@ internal sealed class SabNzbdClient(
         _httpClient.BaseAddress = new(settings.BaseAddress);
 
         return Task.CompletedTask;
+    }
+
+    public async Task<Result<VersionResponse>> GetVerionAsync(GetRequest request, CancellationToken cancellationToken = default)
+    {
+        var requestString =
+            $"{_setttings.BasePath}" +
+            $"?output={_setttings.Output}" +
+            $"&mode={request.Mode}" +
+            $"&apikey={request.ApiKey}";
+
+        var response = await _httpClient.GetAsync(requestString, cancellationToken);
+
+        if (response is null || !response.IsSuccessStatusCode)
+            return Result.Failure<VersionResponse>(SabNzbdClientErrors.GetFailure(response!.StatusCode.ToString()));
+
+        var responseContent = await response.Content.ReadAsStringAsync(cancellationToken);
+
+        var result = await JsonHelper.DeserializeAsync<VersionResponse>(responseContent);
+
+        return result;
     }
 
     public async Task<Result<UploadReponse>> UploadNzbAsync(
@@ -43,12 +64,10 @@ internal sealed class SabNzbdClient(
         if (response is null || !response.IsSuccessStatusCode)
             return Result.Failure<UploadReponse>(SabNzbdClientErrors.UploadFailure(response!.StatusCode.ToString()));
 
-        var contentStream = await response.Content.ReadAsStreamAsync(cancellationToken);
+        var contentString = await response.Content.ReadAsStringAsync(cancellationToken);
 
-        var results = await JsonSerializer.DeserializeAsync<UploadReponse>(
-            utf8Json: contentStream,
-            cancellationToken: cancellationToken);
+        var result = await JsonHelper.DeserializeAsync<UploadReponse>(contentString);
 
-        return results;
+        return result;
     }
 }

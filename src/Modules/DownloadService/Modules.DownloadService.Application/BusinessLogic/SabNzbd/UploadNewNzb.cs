@@ -7,6 +7,7 @@ using Microsoft.Extensions.Logging;
 using Modules.DownloadService.Api.Models;
 using Modules.DownloadService.Api.Usenet.SabNzbd;
 using Modules.DownloadService.Api.Usenet.SabNzbd.Models;
+using Modules.DownloadService.Api.Usenet.SabNzbd.Models.Api;
 using Modules.DownloadService.Application.Clients.SabNzbd;
 using Modules.DownloadService.Domain.Abstractions.Repositories;
 using Modules.DownloadService.Domain.Models.DownloadClients;
@@ -22,6 +23,7 @@ internal class UploadNewNzbCommandValidator : AbstractValidator<UploadNewNzbComm
     public UploadNewNzbCommandValidator()
     {
         RuleFor(x => x.UploadRequest.File).NotNull();
+        RuleFor(x => x.UploadRequest.ApiKey).NotEmpty();
     }
 }
 

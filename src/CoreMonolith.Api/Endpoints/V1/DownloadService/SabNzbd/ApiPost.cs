@@ -6,35 +6,9 @@ using CoreMonolith.SharedKernel.ValueObjects;
 using Microsoft.AspNetCore.Mvc;
 using Modules.DownloadService.Api.Usenet.SabNzbd;
 using Modules.DownloadService.Api.Usenet.SabNzbd.Models;
+using Modules.DownloadService.Api.Usenet.SabNzbd.Models.Api;
 
 namespace CoreMonolith.Api.Endpoints.V1.DownloadService.SabNzbd;
-
-public class PostRequest
-{
-    [FromForm(Name = "output")]
-    public string Output { get; set; }
-
-    [FromForm(Name = "apikey")]
-    public string ApiKey { get; set; }
-
-    [FromForm(Name = "mode")]
-    public string Mode { get; set; }
-
-    [FromForm(Name = "name")]
-    public IFormFile Name { get; set; }
-
-    [FromForm(Name = "nzbname")]
-    public string NzbName { get; set; }
-
-    [FromForm(Name = "pp")]
-    public string Pp { get; set; }
-
-    [FromForm(Name = "priority")]
-    public string Priority { get; set; }
-
-    [FromForm(Name = "cat")]
-    public string Cat { get; set; }
-}
 
 public class ApiPost : IEndpoint
 {

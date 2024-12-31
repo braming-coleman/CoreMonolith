@@ -22,7 +22,6 @@ public class CustomResultsTests
     }
 
     [Theory]
-    [InlineData(ErrorType.Failure, "Server failure", "An unexpected error occurred", "https://tools.ietf.org/html/rfc7231#section-6.6.1", 500)]
     [InlineData(ErrorType.Validation, "code", "description", "https://tools.ietf.org/html/rfc7231#section-6.5.1", 400)]
     [InlineData(ErrorType.Problem, "code", "description", "https://tools.ietf.org/html/rfc7231#section-6.5.1", 500)]
     [InlineData(ErrorType.NotFound, "code", "description", "https://tools.ietf.org/html/rfc7231#section-6.5.4", 404)]

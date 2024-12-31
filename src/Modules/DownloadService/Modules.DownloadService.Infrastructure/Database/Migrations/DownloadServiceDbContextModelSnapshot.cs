@@ -23,28 +23,6 @@ namespace Modules.DownloadService.Infrastructure.Database.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("CoreMonolith.Domain.Models.Idempotency.IdempotentRequest", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid")
-                        .HasColumnName("id");
-
-                    b.Property<DateTimeOffset>("Created")
-                        .HasColumnType("timestamp with time zone")
-                        .HasColumnName("created");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("name");
-
-                    b.HasKey("Id")
-                        .HasName("pk_idempotent_requests");
-
-                    b.ToTable("idempotent_requests", "public");
-                });
-
             modelBuilder.Entity("Modules.DownloadService.Domain.Models.DownloadClients.DownloadClient", b =>
                 {
                     b.Property<Guid>("Id")
@@ -54,7 +32,7 @@ namespace Modules.DownloadService.Infrastructure.Database.Migrations
 
                     b.Property<string>("ConfigString")
                         .IsRequired()
-                        .HasColumnType("text")
+                        .HasColumnType("jsonb")
                         .HasColumnName("config_string");
 
                     b.Property<bool>("Enabled")
@@ -72,6 +50,10 @@ namespace Modules.DownloadService.Infrastructure.Database.Migrations
 
                     b.HasKey("Id")
                         .HasName("pk_download_clients");
+
+                    b.HasIndex("Type")
+                        .IsUnique()
+                        .HasDatabaseName("ix_download_clients_type");
 
                     b.ToTable("download_clients", "download_service");
                 });

@@ -8,6 +8,8 @@ internal static class AccessSeedDataConstants
     public static Guid PermissionId_PermissionGroupWrite => Guid.Parse("0193eb73-d636-79e6-b669-87236dbbaa96");
     public static Guid PermissionId_PermissionRead => Guid.Parse("0193eb73-d636-72c1-b3fb-52c82f3593ac");
     public static Guid PermissionId_PermissionWrite => Guid.Parse("0193eb73-d636-7150-a2bc-13bde0f65734");
+    public static Guid PermissionId_DownloadClientRead => Guid.Parse("01941328-14ff-7c9a-b8b6-cd2535133d14");
+    public static Guid PermissionId_DownloadClientWrite => Guid.Parse("01941328-14ff-7fe3-b305-296f186c6060");
     public static Guid PermissionId_WeatherRead => Guid.Parse("0193ed22-aa79-7cb1-9b74-11345e299d89");
     public static Guid PermissionId_ApiGatewayAccess => Guid.Parse("0193f4d3-e613-72e7-8917-a9849ec17bc6");
 

@@ -1,6 +1,5 @@
 ﻿using CoreMonolith.Domain.Abstractions.Messaging;
 using CoreMonolith.Domain.Models;
-using CoreMonolith.Domain.Models.Idempotency;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Modules.UserService.Application.Abstractions.Data;
@@ -20,8 +19,6 @@ public sealed class UserServiceDbContext(DbContextOptions<UserServiceDbContext> 
     public DbSet<PermissionGroup> PermissionGroups { get; set; }
     public DbSet<PermissionGroupPermission> PermissionGroupPermissions { get; set; }
     public DbSet<Permission> Permissions { get; set; }
-
-    public DbSet<IdempotentRequest> IdempotentRequests { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

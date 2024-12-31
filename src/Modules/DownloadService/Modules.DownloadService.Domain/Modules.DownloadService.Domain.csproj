@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\..\CoreMonolith.Domain\CoreMonolith.Domain.csproj" />
+    <ProjectReference Include="..\Modules.DownloadService.Api\Modules.DownloadService.Api.csproj" />
   </ItemGroup>
 
 </Project>

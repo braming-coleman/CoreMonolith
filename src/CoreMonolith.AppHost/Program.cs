@@ -22,7 +22,7 @@ var postgres = builder.AddPostgres(ResourceNameConstants.DbServerName, postgresU
         .WithLifetime(ContainerLifetime.Persistent);
     });
 
-var loggingDb = postgres.AddDatabase(ConnectionNameConstants.LoggingDbName);
+var coreDb = postgres.AddDatabase(ConnectionNameConstants.CoreMonolithDbName);
 var userServiceDb = postgres.AddDatabase(ConnectionNameConstants.UserServiceDbName);
 var downloadServiceDb = postgres.AddDatabase(ConnectionNameConstants.DownloadServiceDbName);
 //-----------------------------------------------------------------------------------------//
@@ -71,10 +71,10 @@ var coreApiEnv = builder.AddParameter(ConfigKeyConstants.ApiEnvKeyName, secret: 
 
 var api01 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConstants.ApiConnectionName}-01", "core-api-01")
     .WithEnvironment(ConfigKeyConstants.AspCoreEnvVarKeyName, coreApiEnv)
-    .WithReference(loggingDb)
+    .WithReference(coreDb)
     .WithReference(userServiceDb)
     .WithReference(downloadServiceDb)
-    .WaitFor(loggingDb)
+    .WaitFor(coreDb)
     .WaitFor(userServiceDb)
     .WaitFor(downloadServiceDb)
     .WithReference(rabbitMq)
@@ -85,10 +85,10 @@ var api01 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConst
 
 var api02 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConstants.ApiConnectionName}-02", "core-api-02")
     .WithEnvironment(ConfigKeyConstants.AspCoreEnvVarKeyName, coreApiEnv)
-    .WithReference(loggingDb)
+    .WithReference(coreDb)
     .WithReference(userServiceDb)
     .WithReference(downloadServiceDb)
-    .WaitFor(loggingDb)
+    .WaitFor(coreDb)
     .WaitFor(userServiceDb)
     .WaitFor(downloadServiceDb)
     .WithReference(rabbitMq)
@@ -99,10 +99,10 @@ var api02 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConst
 
 var api03 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConstants.ApiConnectionName}-03", "core-api-03")
     .WithEnvironment(ConfigKeyConstants.AspCoreEnvVarKeyName, coreApiEnv)
-    .WithReference(loggingDb)
+    .WithReference(coreDb)
     .WithReference(userServiceDb)
     .WithReference(downloadServiceDb)
-    .WaitFor(loggingDb)
+    .WaitFor(coreDb)
     .WaitFor(userServiceDb)
     .WaitFor(downloadServiceDb)
     .WithReference(rabbitMq)
@@ -121,10 +121,10 @@ var apiGateway = builder.AddProject<Projects.CoreMonolith_ApiGateway>(Connection
     .WithEnvironment(ConfigKeyConstants.AspCoreEnvVarKeyName, coreApiGatewayEnv)
     .WithEnvironment(ConfigKeyConstants.WebAppClientSecret, clientSecret)
     .WithExternalHttpEndpoints()
-    .WithReference(loggingDb)
+    .WithReference(coreDb)
     .WithReference(userServiceDb)
     .WithReference(downloadServiceDb)
-    .WaitFor(loggingDb)
+    .WaitFor(coreDb)
     .WaitFor(userServiceDb)
     .WaitFor(downloadServiceDb)
     .WithReference(rabbitMq)

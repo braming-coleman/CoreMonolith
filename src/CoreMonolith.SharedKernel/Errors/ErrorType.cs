@@ -8,5 +8,6 @@ public enum ErrorType
     NotFound = 3,
     Conflict = 4,
     ArgumentNull = 5,
-    FormatFailure = 6
+    FormatFailure = 6,
+    NullResult = 7
 }

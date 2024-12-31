@@ -28,6 +28,8 @@ internal sealed class PermissionGroupPermissionConfiguration : IEntityTypeConfig
             new PermissionGroupPermission { Id = Guid.Parse("0193ec2f-13a3-70fd-8d28-2b103e51e8ae"), PermissionGroupId = AccessSeedDataConstants.PermissionGroupId_Admin, PermissionId = AccessSeedDataConstants.PermissionId_PermissionWrite },
             new PermissionGroupPermission { Id = Guid.Parse("0193ed22-aa79-7d79-8de1-f4ade9cdfa4d"), PermissionGroupId = AccessSeedDataConstants.PermissionGroupId_Admin, PermissionId = AccessSeedDataConstants.PermissionId_WeatherRead },
             new PermissionGroupPermission { Id = Guid.Parse("0193f4d5-fba9-7010-bd28-fa71072a4950"), PermissionGroupId = AccessSeedDataConstants.PermissionGroupId_Admin, PermissionId = AccessSeedDataConstants.PermissionId_ApiGatewayAccess },
+            new PermissionGroupPermission { Id = Guid.Parse("0194132b-dce6-7329-9d00-aa475e0de8ed"), PermissionGroupId = AccessSeedDataConstants.PermissionGroupId_Admin, PermissionId = AccessSeedDataConstants.PermissionId_DownloadClientRead },
+            new PermissionGroupPermission { Id = Guid.Parse("0194132b-dce6-72c0-a342-41b0571a1602"), PermissionGroupId = AccessSeedDataConstants.PermissionGroupId_Admin, PermissionId = AccessSeedDataConstants.PermissionId_DownloadClientWrite },
 
             new PermissionGroupPermission { Id = Guid.Parse("0193ec2f-13a3-79e7-acd9-861e9bf5d943"), PermissionGroupId = AccessSeedDataConstants.PermissionGroupId_User, PermissionId = AccessSeedDataConstants.PermissionId_UserRead },
             new PermissionGroupPermission { Id = Guid.Parse("0193ec2f-13a3-77e6-9b8b-81e474ef00dc"), PermissionGroupId = AccessSeedDataConstants.PermissionGroupId_User, PermissionId = AccessSeedDataConstants.PermissionId_UserWrite },

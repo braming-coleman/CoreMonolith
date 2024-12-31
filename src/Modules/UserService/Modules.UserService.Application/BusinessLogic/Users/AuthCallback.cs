@@ -1,5 +1,4 @@
 ﻿using CoreMonolith.Application.Abstractions.Messaging;
-using CoreMonolith.Domain.Abstractions.Repositories;
 using CoreMonolith.SharedKernel.Constants;
 using CoreMonolith.SharedKernel.ValueObjects;
 using FluentValidation;
@@ -40,7 +39,7 @@ internal sealed class ProcessKeycloakAuthCallbackCommandHandler(
     IUserRepository _userRepo,
     IPermissionGroupRepository _groupRepo,
     IUserPermissionGroupRepository _userGroupRepo,
-    IUnitOfWork _unitOfWork)
+    IUserServiceUow _unitOfWork)
     : ICommandHandler<ProcessKeycloakAuthCallbackCommand, UserResult>
 {
     public async Task<Result<UserResult>> Handle(ProcessKeycloakAuthCallbackCommand request, CancellationToken cancellationToken)
@@ -88,7 +87,7 @@ internal sealed class ProcessKeycloakAuthCallbackCommandHandler(
             changed = true;
         }
         //update user based on recevied data if it has changed.
-        else if (!Equals(dbUser, request))
+        else if (DetailsChanged(dbUser, request))
         {
             dbUser.ExternalId = request.ExternalId;
             dbUser.Email = request.Email;
@@ -136,9 +135,9 @@ internal sealed class ProcessKeycloakAuthCallbackCommandHandler(
         return new UserResult(dbUser, []);
     }
 
-    private static bool Equals(User user, ProcessKeycloakAuthCallbackCommand request) =>
+    private static bool DetailsChanged(User user, ProcessKeycloakAuthCallbackCommand request) =>
         $"{user.ExternalId}|{user.Email}|{user.FirstName}|{user.LastName}"
-        == $"{request.ExternalId}|{request.Email}|{request.FirstName}|{request.LastName}";
+        != $"{request.ExternalId}|{request.Email}|{request.FirstName}|{request.LastName}";
 }
 
 internal sealed class UserPermissionGroupChangedDomainEventHandler(

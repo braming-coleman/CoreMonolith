@@ -1,6 +1,5 @@
 ﻿using CoreMonolith.Domain.Abstractions.Messaging;
 using CoreMonolith.Domain.Models;
-using CoreMonolith.Domain.Models.Idempotency;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Modules.DownloadService.Application.Abstractions.Data;
@@ -12,8 +11,6 @@ public sealed class DownloadServiceDbContext(DbContextOptions<DownloadServiceDbC
     : DbContext(options), IDownloadServiceDbContext
 {
     public DbSet<DownloadClient> DownloadClients { get; set; }
-
-    public DbSet<IdempotentRequest> IdempotentRequests { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

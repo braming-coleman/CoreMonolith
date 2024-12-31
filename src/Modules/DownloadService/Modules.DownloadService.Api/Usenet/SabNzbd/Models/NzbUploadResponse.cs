@@ -1,3 +1,19 @@
-﻿namespace Modules.DownloadService.Api.Usenet.SabNzbd.Models;
+﻿using System.Text.Json.Serialization;
 
-public sealed record NzbUploadResponse(bool Status, List<string> UploadIds);
+namespace Modules.DownloadService.Api.Usenet.SabNzbd.Models;
+
+public class NzbUploadResponse
+{
+    [JsonPropertyName("status")]
+    public bool Status { get; set; }
+
+
+    [JsonPropertyName("nzo_ids")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public List<string> UploadIds { get; set; }
+
+
+    [JsonPropertyName("error")]
+    [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingNull)]
+    public string Error { get; set; }
+}

@@ -1,5 +1,4 @@
 ﻿using CoreMonolith.Application.Abstractions.Messaging;
-using CoreMonolith.Domain.Abstractions.Repositories;
 using CoreMonolith.SharedKernel.Constants;
 using FluentAssertions;
 using FluentValidation.TestHelper;
@@ -15,7 +14,7 @@ namespace UserService.Application.UnitTests.BusinessLogic.Permissions;
 public class CreateUnitTests
 {
     private readonly IPermissionRepository _permRepo;
-    private readonly IUnitOfWork _unitOfWork;
+    private readonly IUserServiceUow _unitOfWork;
     private readonly ICommandHandler<CreatePermissionCommand, Guid> _handler;
 
     private readonly IOutputCacheStore _cacheStore;
@@ -25,7 +24,7 @@ public class CreateUnitTests
     public CreateUnitTests()
     {
         _permRepo = Substitute.For<IPermissionRepository>();
-        _unitOfWork = Substitute.For<IUnitOfWork>();
+        _unitOfWork = Substitute.For<IUserServiceUow>();
         _handler = new CreatePermissionCommandHandler(_permRepo, _unitOfWork);
 
         _cacheStore = Substitute.For<IOutputCacheStore>();

@@ -1,15 +1,23 @@
 ﻿using CoreMonolith.SharedKernel.ValueObjects;
+using MediatR;
 using Modules.DownloadService.Api.Usenet.SabNzbd;
 using Modules.DownloadService.Api.Usenet.SabNzbd.Models;
-using Modules.DownloadService.Application.Clients.SabNzbd;
+using Modules.DownloadService.Application.BusinessLogic.SabNzbd.UploadNewNzb;
 
 namespace Modules.DownloadService.Infrastructure.Services;
 
-internal sealed class SabNzbdServiceApi(ISabNzbdClient _client)
+internal sealed class SabNzbdServiceApi(ISender _sender)
     : ISabNzbdServiceApi
 {
-    public Task<Result<NzbUploadResponse>> UploadNzbAsync(NzbUploadRequest request, CancellationToken cancellationToken = default)
+    public async Task<Result<NzbUploadResponse>> UploadNzbAsync(NzbUploadRequest request, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var command = new UploadNewNzbCommand(request);
+
+        var result = await _sender.Send(command, cancellationToken);
+
+        if (result.IsFailure)
+            return Result.Failure<NzbUploadResponse>(result.Error);
+
+        return result.Value.UploadResult;
     }
 }

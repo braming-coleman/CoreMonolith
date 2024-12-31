@@ -4,6 +4,7 @@ using CoreMonolith.Infrastructure;
 using CoreMonolith.ServiceDefaults.Constants;
 using CoreMonolith.SharedKernel.Infrastructure;
 using Microsoft.OpenApi.Models;
+using Swashbuckle.AspNetCore.Filters;
 
 namespace CoreMonolith.WebApi;
 
@@ -55,8 +56,12 @@ internal static class DependencyInjection
                 }
             });
 
-            c.OperationFilter<SecurityRequirementsOperationFilter>();
+            c.OperationFilter<CustomSecurityRequirementsOperationFilter>();
+
+            c.ExampleFilters();
         });
+
+        builder.Services.AddSwaggerExamplesFromAssemblyOf<Program>();
 
         return builder;
     }

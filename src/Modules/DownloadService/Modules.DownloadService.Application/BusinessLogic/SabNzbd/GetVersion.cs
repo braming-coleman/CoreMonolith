@@ -40,9 +40,7 @@ internal sealed class GetApiVersionQueryHandler(
         if (request.Request.ApiKey != clientSettings.ApiKey)
             return Result.Failure<GetApiVersionQueryResult>(SabNzbdClientErrors.ApiKeyMismatch);
 
-        await _sabClient.ConfigureAsync(clientSettings);
-
-        var clientResponse = await _sabClient.GetVerionAsync(request.Request, cancellationToken);
+        var clientResponse = await _sabClient.GetAsync<VersionResponse>(request.Request, clientSettings, cancellationToken);
 
         if (clientResponse.IsFailure)
             return Result.Failure<GetApiVersionQueryResult>(clientResponse.Error);

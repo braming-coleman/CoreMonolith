@@ -7,11 +7,13 @@ namespace Modules.DownloadService.Application.Clients.SabNzbd;
 
 public interface ISabNzbdClient
 {
-    Task ConfigureAsync(SabNzbdClientSettings settings);
-
     Task<Result<UploadReponse>> UploadNzbAsync(
-        NzbUploadRequest request, CancellationToken cancellationToken = default);
+        NzbUploadRequest request,
+        SabNzbdClientSettings settings,
+        CancellationToken cancellationToken = default);
 
-    Task<Result<VersionResponse>> GetVerionAsync(
-        GetRequest request, CancellationToken cancellationToken = default);
+    Task<Result<T>> GetAsync<T>(
+        GetRequest request,
+        SabNzbdClientSettings settings,
+        CancellationToken cancellationToken = default);
 }

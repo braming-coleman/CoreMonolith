@@ -128,8 +128,6 @@ var apiGateway = builder.AddProject<Projects.CoreMonolith_ApiGateway>(Connection
     .WaitFor(userServiceDb)
     .WaitFor(downloadServiceDb)
     .WithReference(rabbitMq)
-    .WithReference(redis)
-    .WaitFor(redis)
     .WithReference(keycloak)
     .WaitFor(keycloak)
     .WithReference(api01)

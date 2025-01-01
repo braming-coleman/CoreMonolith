@@ -16,7 +16,7 @@ var assemblies = Directory
 builder
     .AddServiceDefaults()
     .AddAndConfigureSerilog()
-    .AddApiInfrastructure(assemblies);
+    .AddGatewayInfrastructure(assemblies);
 
 // Add services to the container
 builder.Services.AddApplication();
@@ -50,8 +50,7 @@ app
     .UseSerilogRequestLogging()
     .UseExceptionHandler()
     .UseAuthentication()
-    .UseAuthorization()
-    .UseOutputCache();
+    .UseAuthorization();
 
 // Enable YARP
 app.MapReverseProxy();

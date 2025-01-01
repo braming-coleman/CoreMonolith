@@ -26,6 +26,7 @@ public class ApiGet : IEndpoint
             })
             .AllowAnonymous()
             .DisableAntiforgery()
+            .CacheOutput(o => o.NoCache())
             .Produces<VersionResponse>()
             .WithTags(Tags.DownloadService);
     }

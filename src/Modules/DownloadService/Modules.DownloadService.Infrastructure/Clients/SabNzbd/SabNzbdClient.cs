@@ -14,18 +14,9 @@ internal sealed class SabNzbdClient(HttpClient _httpClient)
 {
     public async Task<Result<T>> GetAsync<T>(GetRequest request, SabNzbdClientSettings settings, CancellationToken cancellationToken = default)
     {
-        _httpClient.BaseAddress = new(settings.BaseAddress);
+        var queryPath = BuildClientRequest(request.Mode, settings);
 
-        var queries = new Dictionary<string, string?>
-        {
-            { "output", settings.Output },
-            { "apikey", request.ApiKey },
-            { "mode", request.Mode }
-        };
-
-        var queryString = QueryHelpers.AddQueryString(settings.BasePath, queries);
-
-        var response = await _httpClient.GetAsync(queryString, cancellationToken);
+        var response = await _httpClient.GetAsync(queryPath, cancellationToken);
 
         if (response is null || !response.IsSuccessStatusCode)
             return Result.Failure<T>(SabNzbdClientErrors.GetFailure(response!.StatusCode.ToString()));
@@ -42,21 +33,22 @@ internal sealed class SabNzbdClient(HttpClient _httpClient)
         SabNzbdClientSettings settings,
         CancellationToken cancellationToken = default)
     {
-        _httpClient.BaseAddress = new(settings.BaseAddress);
+        var queries = new Dictionary<string, string?>
+        {
+            { "priority", request.Priority.ToString() },
+            { "pp", request.PostProcessing.ToString() },
+            { "cat", request.Category }
+        };
+
+        var queryPath = BuildClientRequest(SabNzbdCommands.AddFile, settings, queries);
 
         var content = new MultipartFormDataContent
         {
-            { new StringContent(settings.Output), "output" },
-            { new StringContent(settings.ApiKey), "apikey" },
-            { new StringContent(SabNzbdCommands.AddFile), "mode" },
             { new StreamContent(new MemoryStream(request.File)), "name", request.NzbName },
-            { new StringContent(request.NzbName), "nzbname" },
-            { new StringContent(request.Priority.ToString()), "priority" },
-            { new StringContent(request.PostProcessing.ToString()), "pp" },
-            { new StringContent(request.Category), "cat" },
+            { new StringContent(request.NzbName), "nzbname" }
         };
 
-        var response = await _httpClient.PostAsync(settings.BasePath, content, cancellationToken);
+        var response = await _httpClient.PostAsync(queryPath, content, cancellationToken);
 
         if (response is null || !response.IsSuccessStatusCode)
             return Result.Failure<UploadReponse>(SabNzbdClientErrors.UploadFailure(response!.StatusCode.ToString()));
@@ -66,5 +58,23 @@ internal sealed class SabNzbdClient(HttpClient _httpClient)
         var result = await JsonHelper.DeserializeAsync<UploadReponse>(contentString);
 
         return result;
+    }
+
+    private string BuildClientRequest(string mode, SabNzbdClientSettings settings, Dictionary<string, string?>? additionalParams = default)
+    {
+        _httpClient.BaseAddress = new(settings.BaseAddress);
+
+        var queries = new Dictionary<string, string?>
+        {
+            { "output", settings.Output },
+            { "apikey", settings.ApiKey },
+            { "mode", mode }
+        };
+
+        if (additionalParams is not null)
+            foreach (var item in additionalParams)
+                queries.Add(item.Key, item.Value);
+
+        return QueryHelpers.AddQueryString(settings.BasePath, queries);
     }
 }

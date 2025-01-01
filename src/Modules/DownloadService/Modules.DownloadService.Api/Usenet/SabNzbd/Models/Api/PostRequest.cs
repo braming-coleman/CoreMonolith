@@ -5,13 +5,13 @@ namespace Modules.DownloadService.Api.Usenet.SabNzbd.Models.Api;
 
 public class PostRequest
 {
-    [FromForm(Name = "output")]
+    [FromQuery(Name = "output")]
     public string Output { get; set; }
 
-    [FromForm(Name = "apikey")]
+    [FromQuery(Name = "apikey")]
     public string ApiKey { get; set; }
 
-    [FromForm(Name = "mode")]
+    [FromQuery(Name = "mode")]
     public string Mode { get; set; }
 
     [FromForm(Name = "name")]
@@ -20,12 +20,12 @@ public class PostRequest
     [FromForm(Name = "nzbname")]
     public string NzbName { get; set; }
 
-    [FromForm(Name = "pp")]
+    [FromQuery(Name = "pp")]
     public string Pp { get; set; }
 
-    [FromForm(Name = "priority")]
+    [FromQuery(Name = "priority")]
     public string Priority { get; set; }
 
-    [FromForm(Name = "cat")]
+    [FromQuery(Name = "cat")]
     public string Cat { get; set; }
 }

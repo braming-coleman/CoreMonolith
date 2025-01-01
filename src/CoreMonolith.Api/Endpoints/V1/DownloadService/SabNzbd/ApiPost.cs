@@ -11,19 +11,46 @@ namespace CoreMonolith.Api.Endpoints.V1.DownloadService.SabNzbd;
 
 public class ApiPost : IEndpoint
 {
+    public class FormPart
+    {
+        [FromForm(Name = "name")]
+        public IFormFile Name { get; set; }
+
+        [FromForm(Name = "nzbname")]
+        public string NzbName { get; set; }
+    }
+
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
         app
             .MapApiVersion("download-service", Versions.V1)
             .MapPost("/intercept/sabnzbd/api", async (
-                [FromForm] PostRequest formBody,
+                [FromQuery(Name = "output")] string output,
+                [FromQuery(Name = "apikey")] string apiKey,
+                [FromQuery(Name = "mode")] string mode,
+                [FromForm] FormPart formBody,
+                [FromQuery(Name = "pp")] string? pp,
+                [FromQuery(Name = "priority")] string? priority,
+                [FromQuery(Name = "cat")] string? cat,
                 ISabNzbdServiceApi _serviceApi,
                 CancellationToken cancellationToken) =>
             {
-                if (formBody.Mode != SabNzbdCommands.AddFile)
-                    return CustomResults.Problem(Result.Failure<Result<object>>(SabNzbdClientErrors.ModeUnsupported(formBody.Mode)));
+                if (mode != SabNzbdCommands.AddFile)
+                    return CustomResults.Problem(Result.Failure<Result<object>>(SabNzbdClientErrors.ModeUnsupported(mode)));
 
-                return await _serviceApi.UploadNzbAsync(formBody, cancellationToken);
+                var request = new PostRequest
+                {
+                    Mode = mode,
+                    ApiKey = apiKey,
+                    Name = formBody.Name,
+                    Cat = cat,
+                    NzbName = formBody.NzbName,
+                    Output = output,
+                    Pp = pp,
+                    Priority = priority
+                };
+
+                return await _serviceApi.UploadNzbAsync(request, cancellationToken);
             })
             .AllowAnonymous()
             .DisableAntiforgery()

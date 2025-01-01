@@ -12,9 +12,14 @@ namespace Modules.DownloadService.Infrastructure.Clients.SabNzbd;
 internal sealed class SabNzbdClient(HttpClient _httpClient)
     : ISabNzbdClient
 {
-    public async Task<Result<T>> GetAsync<T>(GetRequest request, SabNzbdClientSettings settings, CancellationToken cancellationToken = default)
+    public async Task<Result<T>> GetAsync<T>(
+        GetRequest request,
+        SabNzbdClientSettings settings,
+        Dictionary<string, string?>? additionalParams = default,
+        CancellationToken cancellationToken = default)
+        where T : class
     {
-        var queryPath = BuildClientRequest(request.Mode, settings);
+        var queryPath = BuildClientRequest(request.Mode, settings, additionalParams);
 
         var response = await _httpClient.GetAsync(queryPath, cancellationToken);
 

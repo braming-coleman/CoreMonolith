@@ -15,5 +15,7 @@ public interface ISabNzbdClient
     Task<Result<T>> GetAsync<T>(
         GetRequest request,
         SabNzbdClientSettings settings,
-        CancellationToken cancellationToken = default);
+        Dictionary<string, string?>? additionalParams = default,
+        CancellationToken cancellationToken = default)
+        where T : class;
 }

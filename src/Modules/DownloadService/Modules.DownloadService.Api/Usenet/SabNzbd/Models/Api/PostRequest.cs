@@ -14,18 +14,18 @@ public class PostRequest
     [FromQuery(Name = "mode")]
     public string Mode { get; set; }
 
-    [FromForm(Name = "name")]
+    //[FromForm(Name = "name")]
     public IFormFile Name { get; set; }
 
     [FromForm(Name = "nzbname")]
-    public string NzbName { get; set; }
+    public string? NzbName { get; set; }
 
     [FromQuery(Name = "pp")]
-    public string Pp { get; set; }
+    public string? Pp { get; set; }
 
     [FromQuery(Name = "priority")]
-    public string Priority { get; set; }
+    public string? Priority { get; set; }
 
     [FromQuery(Name = "cat")]
-    public string Cat { get; set; }
+    public string? Cat { get; set; }
 }

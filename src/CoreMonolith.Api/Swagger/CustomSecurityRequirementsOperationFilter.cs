@@ -16,12 +16,12 @@ public class CustomSecurityRequirementsOperationFilter : IOperationFilter
             Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
         };
 
-        operation.Security = new List<OpenApiSecurityRequirement>
+        operation.Security =
+        [
+            new OpenApiSecurityRequirement
             {
-                new OpenApiSecurityRequirement
-                {
-                    [ bearerAuthScheme ] = ["core-api-access"]
-                }
-            };
+                [ bearerAuthScheme ] = ["core-api-access"]
+            }
+        ];
     }
 }

@@ -9,5 +9,7 @@ public class CustomSchemasDocFilter : IDocumentFilter
     public void Apply(OpenApiDocument swaggerDoc, DocumentFilterContext context)
     {
         context.SchemaGenerator.GenerateSchema(typeof(ConfigResponse), context.SchemaRepository);
+        context.SchemaGenerator.GenerateSchema(typeof(FullStatusResponse), context.SchemaRepository);
+        context.SchemaGenerator.GenerateSchema(typeof(QueueResponse), context.SchemaRepository);
     }
 }

@@ -1,10 +1,12 @@
-﻿using CoreMonolith.SharedKernel.Abstractions;
+﻿using CoreMonolith.Api.Swagger.Examples.SabNzbd;
+using CoreMonolith.SharedKernel.Abstractions;
 using CoreMonolith.SharedKernel.Constants;
 using CoreMonolith.SharedKernel.Extensions;
 using CoreMonolith.SharedKernel.Infrastructure;
 using Microsoft.AspNetCore.Mvc;
 using Modules.DownloadService.Api;
 using Modules.DownloadService.Api.Models;
+using Swashbuckle.AspNetCore.Filters;
 using System.ComponentModel.DataAnnotations;
 
 namespace CoreMonolith.Api.Endpoints.V1.DownloadService.DownloadClient;
@@ -30,7 +32,8 @@ public class Create : IEndpoint
     {
         app
             .MapApiVersion("download-service/download-client", Versions.V1)
-            .MapPost("/create", async (
+            .MapPost("/create",
+                [SwaggerRequestExample(typeof(CreateRequest), typeof(CreateDownloadClientResponseExamples))] async (
                 [FromHeader(Name = EndpointConstants.IdempotencyHeaderKeyName)] string requestId,
                 CreateRequest request,
                 IDownloadServiceApi downloadService,

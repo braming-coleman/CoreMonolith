@@ -12,6 +12,8 @@ public class CustomResponseExamples : IMultipleExamplesProvider<object>
         yield return SwaggerExample.Create("mode=get_config", GetConfigResponse());
 
         yield return SwaggerExample.Create("mode=fullstatus", GetFullStatusResponse());
+
+        yield return SwaggerExample.Create("mode=queue", GetQueueResponse());
     }
 
     private static object GetVersionResponse()
@@ -484,5 +486,89 @@ public class CustomResponseExamples : IMultipleExamplesProvider<object>
                 }
             )
         );
+    }
+
+    private static object GetQueueResponse()
+    {
+        return new QueueResponse(
+            new Queue(
+            Version: "4.2.1",
+            Paused: false,
+            PauseInt: "0",
+            PausedAll: false,
+            Diskspace1: "10.5",
+            Diskspace2: "5.2",
+            Diskspace1Norm: "10.5 GB",
+            Diskspace2Norm: "5.2 GB",
+            Diskspacetotal1: "100",
+            Diskspacetotal2: "50",
+            Speedlimit: "100",
+            SpeedlimitAbs: "12500",
+            HaveWarnings: "0",
+            Finishaction: null,
+            Quota: "0",
+            HaveQuota: false,
+            LeftQuota: "0",
+            CacheArt: "0",
+            CacheSize: "0 B",
+            Kbpersec: "10240",
+            Speed: "10 MB/s",
+            Mbleft: "500",
+            Mb: "1000",
+            Sizeleft: "500 MB",
+            Size: "1 GB",
+            NoofslotsTotal: 2,
+            Noofslots: 2,
+            Start: 0,
+            Limit: 0,
+            Finish: 0,
+            Status: "Downloading",
+            Timeleft: "0:00:58",
+            Slots: new List<Slot>
+            {
+                new Slot(
+                    Index: 0,
+                    NzoId: "SABnzbd_nzo_xyz123",
+                    Unpackopts: "1",
+                    Priority: "High",
+                    Script: "None",
+                    Filename: "My.Example.File.Part1.rar",
+                    Labels: new List<string>(),
+                    Password: "",
+                    Cat: "Movies",
+                    Mbleft: "250",
+                    Mb: "500",
+                    Size: "500 MB",
+                    Sizeleft: "250 MB",
+                    Percentage: "50",
+                    Mbmissing: "0",
+                    DirectUnpack: null,
+                    Status: "Downloading",
+                    Timeleft: "0:00:29",
+                    AvgAge: "0s"
+                ),
+                new Slot(
+                    Index: 1,
+                    NzoId: "SABnzbd_nzo_abc456",
+                    Unpackopts: "1",
+                    Priority: "Normal",
+                    Script: "None",
+                    Filename: "My.Example.File.Part2.rar",
+                    Labels: new List<string>(),
+                    Password: "",
+                    Cat: "Movies",
+                    Mbleft: "250",
+                    Mb: "500",
+                    Size: "500 MB",
+                    Sizeleft: "250 MB",
+                    Percentage: "50",
+                    Mbmissing: "0",
+                    DirectUnpack: null,
+                    Status: "Queued",
+                    Timeleft: "0:00:00",
+                    AvgAge: "0s"
+                )
+            }
+        ));
     }
 }

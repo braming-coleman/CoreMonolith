@@ -1,4 +1,5 @@
-﻿using CoreMonolith.Infrastructure;
+﻿using CoreMonolith.ApiGateway.Middleware;
+using CoreMonolith.Infrastructure;
 using CoreMonolith.ServiceDefaults.Constants;
 using CoreMonolith.SharedKernel.Infrastructure;
 
@@ -46,6 +47,13 @@ internal static class DependencyInjection
             c.SwaggerEndpoint($"/core-api/swagger/v1/swagger.json", "V1 Documentation");
             c.SwaggerEndpoint($"/core-api/swagger/v2/swagger.json", "V2 Documentation");
         });
+
+        return app;
+    }
+
+    public static IApplicationBuilder UseRequestContextLogging(this IApplicationBuilder app)
+    {
+        app.UseMiddleware<GatewayRequestLoggingMiddleware>();
 
         return app;
     }

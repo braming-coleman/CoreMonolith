@@ -12,20 +12,17 @@ public class ApiGet : IEndpoint
 {
     public void MapEndpoint(IEndpointRouteBuilder app)
     {
-
-
         app
             .MapApiVersion("download-service", Versions.V1)
             .MapGet("/intercept/sabnzbd/api",
                 [SwaggerResponseExample(200, typeof(CustomResponseExamples))] async (
                 [AsParameters] GetRequest request,
-                ISabNzbdServiceApi _serviceApi,
+                ISabNzbdServiceApi serviceApi,
                 CancellationToken cancellationToken) =>
             {
-                return await _serviceApi.HandGetRequestAsync(request, cancellationToken);
+                return await serviceApi.HandGetRequestAsync(request, cancellationToken);
             })
             .AllowAnonymous()
-            .DisableAntiforgery()
             .CacheOutput(o => o.NoCache())
             .Produces<VersionResponse>()
             .WithTags(Tags.DownloadService);

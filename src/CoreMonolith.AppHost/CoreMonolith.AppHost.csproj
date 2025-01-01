@@ -24,6 +24,7 @@
 		<PackageReference Include="Aspire.Hosting.RabbitMQ" />
 		<PackageReference Include="Aspire.Hosting.Redis" />
 		<PackageReference Include="Microsoft.Extensions.ServiceDiscovery.Yarp" />
+		<PackageReference Include="Serilog" />
 		<PackageReference Include="Serilog.Sinks.OpenTelemetry" />
 		<PackageReference Include="Yarp.ReverseProxy" />
 	</ItemGroup>

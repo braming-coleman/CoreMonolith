@@ -130,6 +130,8 @@ public static class DependencyInjection
     {
         builder.Host.UseSerilog((hostContext, config) =>
         {
+            config.Enrich.FromLogContext();
+
             config.WriteTo.Console();
             config.WriteTo.OpenTelemetry();
         });

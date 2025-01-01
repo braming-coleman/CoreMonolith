@@ -3,6 +3,7 @@ using CoreMonolith.Infrastructure.Clients.HttpClients.UserService;
 using CoreMonolith.ServiceDefaults.Constants;
 using CoreMonolith.SharedKernel.Constants;
 using CoreMonolith.SharedKernel.Infrastructure;
+using DownloadManager.WebApp.Middleware;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication.OpenIdConnect;
@@ -37,7 +38,7 @@ internal static class DependencyInjection
                 authenticationScheme: oidcScheme,
                 configureOptions: options =>
             {
-                //options.Authority = builder.Configuration[ConfigKeyConstants.KeycloakAuthorityKeyName];
+                options.Authority = builder.Configuration[ConfigKeyConstants.KeycloakAuthorityKeyName];
                 options.ClientId = builder.Configuration["OpenIdConnect:ClientId"];
                 options.ClientSecret = builder.Configuration[ConfigKeyConstants.WebAppClientSecret];
                 options.ResponseType = OpenIdConnectResponseType.Code;
@@ -103,6 +104,13 @@ internal static class DependencyInjection
         group.MapPost(pattern: "/logout", OnLogout);
 
         return group;
+    }
+
+    public static IApplicationBuilder UseRequestContextLogging(this IApplicationBuilder app)
+    {
+        app.UseMiddleware<WebAppRequestLoggingMiddleware>();
+
+        return app;
     }
 
     static ChallengeHttpResult OnLogin() =>

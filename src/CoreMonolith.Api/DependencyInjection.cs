@@ -1,4 +1,5 @@
 ﻿using Asp.Versioning;
+using CoreMonolith.Api.Middleware;
 using CoreMonolith.Api.Swagger;
 using CoreMonolith.Infrastructure;
 using CoreMonolith.ServiceDefaults.Constants;
@@ -107,6 +108,13 @@ internal static class DependencyInjection
             c.SwaggerEndpoint("/swagger/v1/swagger.json", "V1 Definition");
             c.SwaggerEndpoint("/swagger/v2/swagger.json", "V2 Definition");
         });
+
+        return app;
+    }
+
+    public static IApplicationBuilder UseRequestContextLogging(this IApplicationBuilder app)
+    {
+        app.UseMiddleware<ApiRequestLoggingMiddleware>();
 
         return app;
     }

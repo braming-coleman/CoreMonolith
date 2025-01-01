@@ -2,6 +2,7 @@
 using CoreMonolith.SharedKernel.ValueObjects;
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using Modules.DownloadService.Api.Usenet.SabNzbd;
 using Modules.DownloadService.Api.Usenet.SabNzbd.Models;
 using Modules.DownloadService.Api.Usenet.SabNzbd.Models.Api;
@@ -14,11 +15,15 @@ using Modules.DownloadService.Application.BusinessLogic.SabNzbd.UploadNewNzb;
 
 namespace Modules.DownloadService.Infrastructure.Services;
 
-internal sealed class SabNzbdServiceApi(ISender _sender)
+internal sealed class SabNzbdServiceApi(
+    ISender _sender,
+    ILogger<SabNzbdServiceApi> _logger)
     : ISabNzbdServiceApi
 {
     public async Task<IResult> HandGetRequestAsync(GetRequest request, CancellationToken cancellationToken = default)
     {
+        _logger.LogInformation("GET request recieved: {@Request}", request);
+
         //version
         if (request.Mode == SabNzbdCommands.Version)
         {

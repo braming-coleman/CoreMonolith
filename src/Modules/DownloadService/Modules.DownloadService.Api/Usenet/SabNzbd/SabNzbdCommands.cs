@@ -6,4 +6,5 @@ public static class SabNzbdCommands
     public const string GetConfig = "get_config";
     public const string FullStatus = "fullstatus";
     public const string Queue = "queue";
+    public const string History = "history";
 }

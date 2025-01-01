@@ -11,5 +11,6 @@ public class CustomSchemasDocFilter : IDocumentFilter
         context.SchemaGenerator.GenerateSchema(typeof(ConfigResponse), context.SchemaRepository);
         context.SchemaGenerator.GenerateSchema(typeof(FullStatusResponse), context.SchemaRepository);
         context.SchemaGenerator.GenerateSchema(typeof(QueueResponse), context.SchemaRepository);
+        context.SchemaGenerator.GenerateSchema(typeof(HistoryResponse), context.SchemaRepository);
     }
 }

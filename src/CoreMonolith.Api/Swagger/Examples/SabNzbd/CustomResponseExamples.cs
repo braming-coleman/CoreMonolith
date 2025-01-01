@@ -14,6 +14,8 @@ public class CustomResponseExamples : IMultipleExamplesProvider<object>
         yield return SwaggerExample.Create("mode=fullstatus", GetFullStatusResponse());
 
         yield return SwaggerExample.Create("mode=queue", GetQueueResponse());
+
+        yield return SwaggerExample.Create("mode=history", GetHistoryResponse());
     }
 
     private static object GetVersionResponse()
@@ -524,9 +526,9 @@ public class CustomResponseExamples : IMultipleExamplesProvider<object>
             Finish: 0,
             Status: "Downloading",
             Timeleft: "0:00:58",
-            Slots: new List<Slot>
+            Slots: new List<QueueSlot>
             {
-                new Slot(
+                new QueueSlot(
                     Index: 0,
                     NzoId: "SABnzbd_nzo_xyz123",
                     Unpackopts: "1",
@@ -547,7 +549,7 @@ public class CustomResponseExamples : IMultipleExamplesProvider<object>
                     Timeleft: "0:00:29",
                     AvgAge: "0s"
                 ),
-                new Slot(
+                new QueueSlot(
                     Index: 1,
                     NzoId: "SABnzbd_nzo_abc456",
                     Unpackopts: "1",
@@ -570,5 +572,110 @@ public class CustomResponseExamples : IMultipleExamplesProvider<object>
                 )
             }
         ));
+    }
+
+    private static object GetHistoryResponse()
+    {
+        var history = new History(
+            TotalSize: "100 GB",
+            MonthSize: "20 GB",
+            WeekSize: "5 GB",
+            DaySize: "1 GB",
+            Slots: new List<HistorySlot>
+            {
+                new HistorySlot(
+                    Completed: 1678886400,
+                    Name: "My.Example.Movie.2023.1080p.WEB-DL.x264-GROUP",
+                    NzbName: "My.Example.Movie.2023.1080p.WEB-DL.x264-GROUP.nzb",
+                    Category: "Movies",
+                    Pp: "0",
+                    Script: "None",
+                    Report: "",
+                    Url: null,
+                    Status: "Completed",
+                    NzoId: "SABnzbd_nzo_xyz123",
+                    Storage: "completed/Movies",
+                    Path: "/downloads/completed/Movies/My.Example.Movie.2023.1080p.WEB-DL.x264-GROUP",
+                    ScriptLine: "",
+                    DownloadTime: 600,
+                    PostprocTime: 120,
+                    StageLog: new List<StageLog>
+                    {
+                        new StageLog(
+                            Name: "Download",
+                            Actions: new List<string> { "Downloading", "Verifying" }
+                        ),
+                        new StageLog(
+                            Name: "Repair",
+                            Actions: new List<string> { "Checking", "Repairing" }
+                        ),
+                        new StageLog(
+                            Name: "Unpack",
+                            Actions: new List<string> { "Unpacking", "Deleting" }
+                        ),
+                    },
+                    Downloaded: 2147483648,
+                    Completeness: null,
+                    FailMessage: "",
+                    UrlInfo: "",
+                    Bytes: 2147483648,
+                    Meta: null,
+                    Series: null,
+                    Md5sum: "",
+                    Password: null,
+                    DuplicateKey: "",
+                    Archive: true,
+                    Size: "2 GB",
+                    ActionLine: "",
+                    Loaded: false,
+                    Retry: false
+                ),
+                new HistorySlot(
+                    Completed: 1678799900,
+                    Name: "My.Example.TV.Show.S01E01.1080p.WEB-DL.x264-GROUP",
+                    NzbName: "My.Example.TV.Show.S01E01.1080p.WEB-DL.x264-GROUP.nzb",
+                    Category: "TV",
+                    Pp: "0",
+                    Script: "None",
+                    Report: "",
+                    Url: null,
+                    Status: "Failed",
+                    NzoId: "SABnzbd_nzo_abc456",
+                    Storage: "failed",
+                    Path: "",
+                    ScriptLine: "",
+                    DownloadTime: 300,
+                    PostprocTime: 0,
+                    StageLog: new List<StageLog>
+                    {
+                        new StageLog(
+                            Name: "Download",
+                            Actions: new List<string> { "Downloading", "Verifying" }
+                        )
+                    },
+                    Downloaded: 1000000000,
+                    Completeness: null,
+                    FailMessage: "Verification failed",
+                    UrlInfo: "",
+                    Bytes: 1073741824,
+                    Meta: null,
+                    Series: null,
+                    Md5sum: "",
+                    Password: null,
+                    DuplicateKey: "",
+                    Archive: false,
+                    Size: "1 GB",
+                    ActionLine: "",
+                    Loaded: false,
+                    Retry: true
+                )
+            },
+            Ppslots: 0,
+            Noofslots: 2,
+            LastHistoryUpdate: 1678886400,
+            Version: "4.2.1"
+        );
+
+        return new HistoryResponse(History: history);
     }
 }

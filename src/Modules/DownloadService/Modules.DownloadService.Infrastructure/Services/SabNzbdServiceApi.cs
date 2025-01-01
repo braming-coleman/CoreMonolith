@@ -7,6 +7,7 @@ using Modules.DownloadService.Api.Usenet.SabNzbd.Models;
 using Modules.DownloadService.Api.Usenet.SabNzbd.Models.Api;
 using Modules.DownloadService.Application.BusinessLogic.SabNzbd.GetConfig;
 using Modules.DownloadService.Application.BusinessLogic.SabNzbd.GetFullStatus;
+using Modules.DownloadService.Application.BusinessLogic.SabNzbd.GetHistory;
 using Modules.DownloadService.Application.BusinessLogic.SabNzbd.GetQueue;
 using Modules.DownloadService.Application.BusinessLogic.SabNzbd.GetVersion;
 using Modules.DownloadService.Application.BusinessLogic.SabNzbd.UploadNewNzb;
@@ -21,9 +22,7 @@ internal sealed class SabNzbdServiceApi(ISender _sender)
         //version
         if (request.Mode == SabNzbdCommands.Version)
         {
-            var query = new GetApiVersionQuery(request);
-
-            var result = await _sender.Send(query, cancellationToken);
+            var result = await _sender.Send(new GetApiVersionQuery(request), cancellationToken);
 
             if (result.IsFailure)
                 return CustomResults.Problem(Result.Failure<VersionResponse>(result.Error));
@@ -33,9 +32,7 @@ internal sealed class SabNzbdServiceApi(ISender _sender)
         //get_config
         else if (request.Mode == SabNzbdCommands.GetConfig)
         {
-            var query = new GetApiConfigQuery(request);
-
-            var result = await _sender.Send(query, cancellationToken);
+            var result = await _sender.Send(new GetApiConfigQuery(request), cancellationToken);
 
             if (result.IsFailure)
                 return CustomResults.Problem(Result.Failure<ConfigResponse>(result.Error));
@@ -45,9 +42,7 @@ internal sealed class SabNzbdServiceApi(ISender _sender)
         //fullstatus
         else if (request.Mode == SabNzbdCommands.FullStatus)
         {
-            var query = new GetApiFullStatusQuery(request);
-
-            var result = await _sender.Send(query, cancellationToken);
+            var result = await _sender.Send(new GetApiFullStatusQuery(request), cancellationToken);
 
             if (result.IsFailure)
                 return CustomResults.Problem(Result.Failure<FullStatusResponse>(result.Error));
@@ -57,12 +52,20 @@ internal sealed class SabNzbdServiceApi(ISender _sender)
         //queue
         else if (request.Mode == SabNzbdCommands.Queue)
         {
-            var query = new GetApiQueueQuery(request);
-
-            var result = await _sender.Send(query, cancellationToken);
+            var result = await _sender.Send(new GetApiQueueQuery(request), cancellationToken);
 
             if (result.IsFailure)
                 return CustomResults.Problem(Result.Failure<QueueResponse>(result.Error));
+
+            return Results.Ok(result.Value.Response);
+        }
+        //history
+        else if (request.Mode == SabNzbdCommands.History)
+        {
+            var result = await _sender.Send(new GetApiHistoryQuery(request), cancellationToken);
+
+            if (result.IsFailure)
+                return CustomResults.Problem(Result.Failure<HistoryResponse>(result.Error));
 
             return Results.Ok(result.Value.Response);
         }

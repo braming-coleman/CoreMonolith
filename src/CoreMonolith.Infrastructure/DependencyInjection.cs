@@ -67,6 +67,25 @@ public static class DependencyInjection
         return builder;
     }
 
+    public static WebApplicationBuilder AddGatewayInfrastructure(
+        this WebApplicationBuilder builder,
+        params Assembly[] assemblies)
+    {
+        builder.Services.AddApiServices();
+
+        builder.AddDatabase();
+
+        builder.InstallModuleInfrastructure(assemblies);
+
+        builder.AddHealthChecks();
+
+        builder.AddRabbitMqClient();
+
+        builder.Services.AddOutputCache();
+
+        return builder;
+    }
+
     public static WebApplicationBuilder AddWebInfrastructure(this WebApplicationBuilder builder)
     {
         builder.AddRedisClients();
@@ -212,7 +231,6 @@ public static class DependencyInjection
             options.AddBasePolicy(b => b.AddPolicy<CustomPolicy>().SetCacheKeyPrefix("custom-"), true);
         });
 
-        builder.Services.AddOutputCache();
 
         builder.AddRedisOutputCache(connectionName: ConnectionNameConstants.RedisConnectionName, options =>
         {

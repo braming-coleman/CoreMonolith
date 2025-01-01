@@ -39,10 +39,10 @@ public record Queue(
     [property: JsonPropertyName("finish")] int Finish,
     [property: JsonPropertyName("status")] string Status,
     [property: JsonPropertyName("timeleft")] string Timeleft,
-    [property: JsonPropertyName("slots")] IReadOnlyList<Slot> Slots
+    [property: JsonPropertyName("slots")] IReadOnlyList<QueueSlot> Slots
 );
 
-public record Slot(
+public record QueueSlot(
     [property: JsonPropertyName("index")] int Index,
     [property: JsonPropertyName("nzo_id")] string NzoId,
     [property: JsonPropertyName("unpackopts")] string Unpackopts,

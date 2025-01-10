@@ -6,4 +6,8 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\CoreMonolith.SharedKernel\CoreMonolith.SharedKernel.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,14 +1,13 @@
 using CoreMonolith.Infrastructure;
-using CoreMonolith.SharedKernel.Extensions;
 using DownloadManager.WebApp;
 using DownloadManager.WebApp.Components;
 using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddServiceDefaults();
-
-builder.AddAndConfigureSerilog();
+builder
+    .AddServiceDefaults("DownloadManager.WebApp")
+    .AddAndConfigureSerilog();
 
 // Add services to the container.
 builder.Services

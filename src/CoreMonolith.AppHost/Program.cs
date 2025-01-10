@@ -28,6 +28,16 @@ var downloadServiceDb = postgres.AddDatabase(ConnectionNameConstants.DownloadSer
 //-----------------------------------------------------------------------------------------//
 
 
+//Seq
+var seqHostPort = int.TryParse(builder.Configuration["AppConfig:SeqHostPort"], out int seqPort) ? seqPort : 9145;
+
+var seq = builder.AddSeq(ConnectionNameConstants.SeqConnectionName, seqHostPort)
+    .WithVolume($"{ConnectionNameConstants.SeqConnectionName}-volume", @"/data")
+    .WithLifetime(ContainerLifetime.Persistent)
+    .WithEnvironment("ACCEPT_EULA", "Y");
+//-----------------------------------------------------------------------------------------//
+
+
 //Core RabbitMQ
 var rabbitMqUser = builder.AddParameter(ConfigKeyConstants.RabbitMqUsernameKeyName, secret: false);
 var rabbitMqPassword = builder.AddParameter(ConfigKeyConstants.RabbitMqPasswordKeyName, secret: true);
@@ -81,7 +91,9 @@ var api01 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConst
     .WithReference(redis)
     .WaitFor(redis)
     .WithReference(keycloak)
-    .WaitFor(keycloak);
+    .WaitFor(keycloak)
+    .WithReference(seq)
+    .WaitFor(seq);
 
 var api02 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConstants.ApiConnectionName}-02", "core-api-02")
     .WithEnvironment(ConfigKeyConstants.AspCoreEnvVarKeyName, coreApiEnv)
@@ -95,7 +107,9 @@ var api02 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConst
     .WithReference(redis)
     .WaitFor(redis)
     .WithReference(keycloak)
-    .WaitFor(keycloak);
+    .WaitFor(keycloak)
+    .WithReference(seq)
+    .WaitFor(seq);
 
 var api03 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConstants.ApiConnectionName}-03", "core-api-03")
     .WithEnvironment(ConfigKeyConstants.AspCoreEnvVarKeyName, coreApiEnv)
@@ -109,7 +123,9 @@ var api03 = builder.AddProject<Projects.CoreMonolith_Api>($"{ConnectionNameConst
     .WithReference(redis)
     .WaitFor(redis)
     .WithReference(keycloak)
-    .WaitFor(keycloak);
+    .WaitFor(keycloak)
+    .WithReference(seq)
+    .WaitFor(seq);
 //-----------------------------------------------------------------------------------------//
 
 
@@ -135,7 +151,9 @@ var apiGateway = builder.AddProject<Projects.CoreMonolith_ApiGateway>(Connection
     .WithReference(api03)
     .WaitFor(api02)
     .WaitFor(api01)
-    .WaitFor(api03);
+    .WaitFor(api03)
+    .WithReference(seq)
+    .WaitFor(seq);
 //-----------------------------------------------------------------------------------------//
 
 
@@ -154,7 +172,9 @@ builder.AddProject<Projects.DownloadManager_WebApp>(ConnectionNameConstants.WebA
     .WaitFor(keycloak)
     .WithReference(apiGateway)
     .WaitFor(apiGateway)
-    .WaitFor(keycloak);
+    .WaitFor(keycloak)
+    .WithReference(seq)
+    .WaitFor(seq);
 //-----------------------------------------------------------------------------------------//
 
 

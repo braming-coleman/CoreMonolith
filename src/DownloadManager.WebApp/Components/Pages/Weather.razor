@@ -49,10 +49,6 @@ else
 
     protected override async Task OnInitializedAsync()
     {
-        var result = await AccessApi.PermissionCreateAsync(new CreatePermissionRequest(
-            "Test", "Test Description"
-        ));
-
         forecasts = await WeatherApi.GetWeatherAsync();
     }
 }

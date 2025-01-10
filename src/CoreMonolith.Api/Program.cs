@@ -14,7 +14,7 @@ var assemblies = Directory
     .ToArray();
 
 builder
-    .AddServiceDefaults()
+    .AddServiceDefaults("CoreMonolith.Api")
     .AddAndConfigureSerilog()
     .AddApiInfrastructure(assemblies);
 

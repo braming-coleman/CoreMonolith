@@ -128,16 +128,29 @@ public static class DependencyInjection
 
     public static WebApplicationBuilder AddAndConfigureSerilog(this WebApplicationBuilder builder)
     {
-        builder.Host.UseSerilog((hostContext, config) =>
-        {
-            config.Enrich.FromLogContext();
+        builder.Services.AddSerilog();
 
-            config.WriteTo.Console();
+        builder.Host.UseSerilog((context, config) =>
+        {
+            config.MinimumLevel.Information();
+
+            if (context.HostingEnvironment.IsDevelopment())
+                config.WriteTo.Console();
+
             config.WriteTo.OpenTelemetry();
+
+            config.Enrich.FromLogContext();
+            config.Enrich.WithMachineName();
+            config.Enrich.WithEnvironmentName();
+            config.Enrich.WithEnvironmentUserName();
         });
+
+        builder.AddSeqEndpoint(connectionName: ConnectionNameConstants.SeqConnectionName,
+            config => config.DisableHealthChecks = false);
 
         return builder;
     }
+
 
     private static WebApplicationBuilder AddDatabase(this WebApplicationBuilder builder)
     {

@@ -14,7 +14,7 @@ var assemblies = Directory
     .ToArray();
 
 builder
-    .AddServiceDefaults()
+    .AddServiceDefaults("CoreMonolith.ApiGateway")
     .AddAndConfigureSerilog()
     .AddGatewayInfrastructure(assemblies);
 

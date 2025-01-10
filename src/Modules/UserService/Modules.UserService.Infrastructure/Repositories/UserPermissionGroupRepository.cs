@@ -12,20 +12,18 @@ public class UserPermissionGroupRepository(UserServiceDbContext _dbContext)
 
     public async Task<HashSet<string>> GetPermissionsByExternalId(Guid externalId, CancellationToken cancellationToken = default)
     {
-        var groupIds = await _dbContext
-            .UserPermissionGroups.AsNoTracking()
-            .Include(i => i.PermissionGroup).AsNoTracking()
-            .Include(i => i.User).AsNoTracking()
-            .Where(p => p.User!.ExternalId == externalId)
-            .Select(s => s.PermissionGroupId)
-            .ToListAsync(cancellationToken);
-
-        var results = await _dbContext
-            .PermissionGroupPermissions.AsNoTracking()
-            .Include(i => i.Permission).AsNoTracking()
-            .Where(p => groupIds.Contains(p.PermissionGroupId))
-            .Select(s => s.Permission!.Key)
-            .Distinct()
+        var results = await _dbContext.Database
+            .SqlQuery<string>($@"
+                SELECT 
+                    p.key
+                FROM user_service.permissions p
+                    INNER JOIN user_service.permission_group_permissions pgp 
+                        ON p.Id = pgp.permission_id
+                    INNER JOIN user_service.user_permission_groups upg 
+                        ON pgp.permission_group_id = upg.permission_group_id
+                    INNER JOIN user_service.users u 
+                        ON upg.user_id = u.id
+                WHERE u.external_id = {externalId}")
             .ToHashSetAsync(cancellationToken);
 
         HashSet<string> permissions = [];
@@ -38,19 +36,16 @@ public class UserPermissionGroupRepository(UserServiceDbContext _dbContext)
 
     public async Task<HashSet<string>> GetPermissionsByUserId(Guid userId, CancellationToken cancellationToken = default)
     {
-        var groupIds = await _dbContext
-            .UserPermissionGroups.AsNoTracking()
-            .Include(i => i.PermissionGroup).AsNoTracking()
-            .Where(p => p.UserId == userId)
-            .Select(s => s.PermissionGroupId)
-            .ToListAsync(cancellationToken);
-
-        var results = await _dbContext
-            .PermissionGroupPermissions.AsNoTracking()
-            .Include(i => i.Permission).AsNoTracking()
-            .Where(p => groupIds.Contains(p.PermissionGroupId))
-            .Select(s => s.Permission!.Key)
-            .Distinct()
+        var results = await _dbContext.Database
+            .SqlQuery<string>($@"
+                SELECT 
+                    p.key
+                FROM user_service.permissions p
+                    INNER JOIN user_service.permission_group_permissions pgp 
+                        ON p.Id = pgp.permission_id
+                    INNER JOIN user_service.user_permission_groups upg 
+                        ON pgp.permission_group_id = upg.permission_group_id
+                WHERE upg.user_id = {userId}")
             .ToHashSetAsync(cancellationToken);
 
         HashSet<string> permissions = [];

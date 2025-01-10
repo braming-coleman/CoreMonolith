@@ -12,7 +12,7 @@ public static class EndpointExtensions
     public static RouteGroupBuilder MapApiVersion(this IEndpointRouteBuilder builder, string resource, int version)
     {
         return builder
-            .NewVersionedApi()
+            .NewVersionedApi(resource)
             .MapGroup("/v{version:apiVersion}/" + resource)
             .HasApiVersion(version);
     }

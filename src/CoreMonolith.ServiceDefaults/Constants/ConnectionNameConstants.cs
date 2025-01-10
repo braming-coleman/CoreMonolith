@@ -5,6 +5,7 @@ public static class ConnectionNameConstants
     public static string CoreMonolithDbName => "core-monolith-db";
     public static string UserServiceDbName => "user-service-db";
     public static string DownloadServiceDbName => "download-service-db";
+    public static string SeqConnectionName => "core-monolith-seq";
     public static string RedisConnectionName => "core-monolith-redis";
     public static string KeycloakConnectionName => "core-monolith-keycloak";
     public static string RabbitMqConnectionName => "core-monolith-mq";

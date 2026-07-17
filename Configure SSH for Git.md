@@ -14,7 +14,7 @@ ssh-keygen -t rsa -b 4096 -C "your_email@example.com"
 
 ## 2. Add key to ``ssh-agent``
 
-To have the key handshake handled in the background you need the ``ssh-agent``, you'll also how to configure your passphrase so you don't have to type it in every time.
+To have the key handshake handled in the background you need the ``ssh-agent``.
 
 1. Make sure the ``shh-agent`` is running by executing the below **in a new admin elevated PowerShell window:**
 

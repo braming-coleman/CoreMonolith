@@ -37,7 +37,6 @@ This is to make sure your SSH connection works and to add the server to your kno
 ```PowerShell
 ssh -T git@github.com
 ```
-
 ------
 
 ### Resources:

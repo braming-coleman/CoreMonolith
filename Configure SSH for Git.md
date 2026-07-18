@@ -29,3 +29,16 @@ Start-Service ssh-agent
 ```PowerShell
 ssh-add "[Full path to your SSH private key]"
 ```
+
+## 3. Test SSH connection
+
+This is to make sure your SSH connection works and to add the server to your known hosts list.
+
+```PowerShell
+ssh -T git@github.com
+```
+------
+
+### Resources:
+ - https://learn.microsoft.com/en-us/azure/devops/repos/git/use-ssh-keys-to-authenticate?view=azure-devops
+ - https://docs.github.com/en/authentication/connecting-to-github-with-ssh
